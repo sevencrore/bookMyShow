@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+
 
 function AdminRegister() {
-    const navigate = useNavigate();
+    
   return (
     <div>
       <h2>Admin Registration</h2>
