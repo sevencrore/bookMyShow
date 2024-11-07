@@ -8,7 +8,7 @@ BookMyShow offers showtimes, movie tickets, reviews, trailers, concert tickets a
 
 
 ## Go to project directory:-
-https://github.com/ashwanikpankaj/bookmyshow_clone
+https://github.com/sevencrore/bookMyShow
 ## Tech Stack :-
 - HTML
 - CSS
@@ -27,11 +27,6 @@ https://github.com/ashwanikpankaj/bookmyshow_clone
 - After choosing Movie slot timing and number of seats user will redirect to choose their seats.
 - After clicking proceed button user will redirect to final summary of ticket booking.
 - After confirming their ticket user will again redirect to home page.
-## Contributers :-
-- [Akhil KAMSALA](https://github.com/akhilsdeportfolio)
-- [Ashwani Kumar Pankaj](https://github.com/ashwanikpankaj)
-- [Shikha Mishra](https://github.com/sHikha06-max)
-- [Sumit Kumar](https://github.com/sumit-krk)
 
 
 
