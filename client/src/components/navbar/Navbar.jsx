@@ -45,6 +45,7 @@ export default function ({ toggle }) {
 
         <Link to={`/admin/login`}><p className="menubar-item" >Admin Login</p></Link>
         <Link to={`/admin/register`}><p className="menubar-item" >Admin Register</p></Link>
+        <Link to={`/admin/dashboard`}><p className="menubar-item" >Admin Dashboard</p></Link>
 
 
         <div className="container-fluid navbar">

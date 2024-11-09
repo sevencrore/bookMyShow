@@ -38,7 +38,7 @@ router.post("/",async(req,res)=>{
     console.log(req.body)
     let theater = await Theater.create(req.body);
 
-    res.status(201).send(theater);
+    res.status(201).json({ message: "Theater created succesfully"});
 })
 
 router.get('/:movieId/:location',async(req,res)=>{

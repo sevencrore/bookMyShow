@@ -18,8 +18,9 @@ import Footer from './components/footer/Footer';
 import Login from './components/Login/Login';
 import AdminLogin from './components/Login/AdminLogin';
 import AdminRegister from './components/Login/AdminRegister';
-
-
+import AdminDashboard from './components/admin/Admindashboard';
+import Movies from './components/admin/Add_Movies';
+import Theaters from './components/admin/Add_Theater';
 
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
         <Route path = "/summary/:id"><Summary/></Route>  
         <Route path="/admin/login"><AdminLogin /></Route>
         <Route path="/admin/register"><AdminRegister /></Route>
+        <Route path="/admin/dashboard"><AdminDashboard /></Route>
+        <Route path="/admin/Movies"><Movies /></Route>
+        <Route path="/admin/Theaters"><Theaters /></Route>
         
     </Switch>
     

@@ -17,8 +17,7 @@ router.get("/shikha",async (req,res)=>{
 router.post("/create",async(req,res)=>{
 
     const movie = await Movie.create(req.body);
-    return res.status(200).send(movie)
-
+    return res.status(200).json({ message: "Movie Added succesfully"});
 });
 
 router.get("/:id",async(req,res)=>{
