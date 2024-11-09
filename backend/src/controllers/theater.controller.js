@@ -1,5 +1,5 @@
 const express = require('express');
-
+const getRoleByEmail =require('../middleware/AdminAuthMiddleware');
 const router = express.Router();
 const Theater = require('../models/theater.model');
 
@@ -34,7 +34,7 @@ router.get("/getTheaters/:movieId/:filter",async (req,res)=>{
 
 })
 
-router.post("/",async(req,res)=>{
+router.post("/",getRoleByEmail,async(req,res)=>{
     console.log(req.body)
     let theater = await Theater.create(req.body);
 

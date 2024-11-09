@@ -19,6 +19,7 @@ app.use((req,res,next)=>{
 const userController = require('./controllers/user.controller');
 const movieController = require('./controllers/movie.controller');
 const bookController = require('./controllers/book.controller');
+const eventController = require('./controllers/event.controller');
 const slotPriceController = require("./controllers/slotPrice.controller")
 app.use("/users",userController);
 app.use("/movies",movieController);
@@ -29,6 +30,7 @@ app.use("/users",userController);
 app.use("/movies",movieController);
 app.use("/book",bookController);
 app.use("/theater",theaterController);
+app.use("/event",eventController);
 
 
 module.exports=app;

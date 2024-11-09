@@ -5,6 +5,8 @@ import axios from 'axios';
 const Theaters = () => {
     const history = useHistory();
     const [movies, setMovies] = useState([]); // State to hold movies list
+    const userEmail = localStorage.getItem('username');
+    console.log(userEmail);
     const [input, setInput] = useState({
         name: "",
         screenType: "",
@@ -14,6 +16,7 @@ const Theaters = () => {
         prices: [],
         facilities: [],
         address: "",
+        email: userEmail,
     });
 
     // Fetch movies from the database

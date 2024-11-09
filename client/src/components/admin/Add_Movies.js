@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const Movies = () => {
-    const history = useHistory(); // Updated to use `useHistory` from react-router-dom v5
+    const history = useHistory();
+    const userEmail = localStorage.getItem('username'); // Updated to use `useHistory` from react-router-dom v5
     const [input, setInput] = useState({
         title: "",
         img_url: "",
@@ -13,6 +14,7 @@ const Movies = () => {
         genre: [],
         bg_img: "",
         cast: "",
+        email: userEmail,
     });
 
     const handleSubmit = async (e) => {

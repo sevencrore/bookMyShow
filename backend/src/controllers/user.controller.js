@@ -12,6 +12,29 @@ router.get('/',async (req,res)=>{
     res.send(users);
 })
 
+// api to check the admin role for admin dashboard
+router.post('/checkrole',async (req,res)=>{
+    const { email } = req.body;
+    try {
+        // Find user by email and only select the 'role' field
+        const user = await User.findOne({ email }).select('role');
+        console.log(user);
+        const userObject = user.toObject();
+        if (user && userObject.role == 'admin') {
+            return res.status(200).json({ message: "admin" });
+        } else {
+            console.log('Unauthorized User');
+            return res.status(200).json({ message: "Unauthorized User" });
+        }
+    } catch (error) {
+        console.error('Error fetching user role:', error);
+        return res.status(500).json({ message: "Server Error" });
+    }
+    
+    
+   
+})
+
 router.post('/createUser',async(req,res)=>{
     const {firstname,lastname,email , password } = req.body;
         console.log("request is ",req.body);
@@ -61,12 +84,22 @@ router.post('/login',async(req,res)=>{
                 const isEmail = await User.findOne({email : email});
                 if(isEmail){
                     if(isEmail.email=== email && (await bcrypt.compare(password,isEmail.password)) ){
+                        
+                        const user = await User.findOne({ email }).select('role');
+                        if (user) {
+                            console.log(`Role for user ${email}: ${user}`);
+                        } else {
+                        console.log('role not found');
+                        }
+    
+                        
                         // generate Token
                         const token = jwt.sign({userID : isEmail._id},"Secreat key",{ expiresIn:"2d",});
                         return res.status(200).json({
                             message: "Login Successfully",
                             token,
-                            name : isEmail.username,
+                            name : isEmail.email,
+                            
                         });
                     }
                     else{

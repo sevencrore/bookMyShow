@@ -1,6 +1,7 @@
 const express = require('express');
 const Movie = require('../models/movie.model');
 const router = express.Router();
+const getRoleByEmail =require('../middleware/AdminAuthMiddleware');
 
 router.get("/",async (req,res)=>{
     const allMovies = await Movie.find({});
@@ -14,7 +15,7 @@ router.get("/shikha",async (req,res)=>{
 
 })
 
-router.post("/create",async(req,res)=>{
+router.post("/create",getRoleByEmail,async(req,res)=>{
 
     const movie = await Movie.create(req.body);
     return res.status(200).json({ message: "Movie Added succesfully"});
