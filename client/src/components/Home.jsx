@@ -42,7 +42,8 @@ const CategoryList = ({ categories }) => {
                 <Link key={index} to={`/category/${category._id}`}>
                     <MovieCard 
                         title={category.category_name} 
-                        image={category.image} 
+                        // image={category.image} 
+                        image={`http://localhost:5000${category.image}`}
                         description={category.description} 
                         headingColor="white" 
                         subHeadColor="white" 

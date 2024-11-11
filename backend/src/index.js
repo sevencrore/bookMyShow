@@ -35,7 +35,13 @@ app.use("/theater",theaterController);
 app.use("/event",eventController);
 app.use("/eventCategory",eventCategoryController);
 app.use("/vendor",vendorController);
-app.use(express.static("../public/upload"));
+const path = require('path');
+
+
+// app.use('../uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads'));
+// app.use(express.static("../uploads"));
+
 
 
 module.exports=app;

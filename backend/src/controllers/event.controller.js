@@ -2,8 +2,19 @@ const express = require('express');
 const getRoleByEmail =require('../middleware/AdminAuthMiddleware');
 const router = express.Router();
 const Event = require('../models/event.model');
+const multer = require('multer');
+const path = require('path'); 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/event/');  // Define the folder to store images
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));  // Rename file with timestamp
+    }
+});
 
+const upload = multer({ storage });
 
 router.get('/',async(req,res)=>{
 
@@ -47,10 +58,35 @@ router.get('/vendor/:vendorId', async (req, res) => {
 
 
 
-router.post("/create",async(req,res)=>{
+router.post("/create", upload.fields([
+    { name: "img", maxCount: 1 },
+    { name: "bg_img", maxCount: 1 }
+]), async (req, res) => {
+    console.log(req.body);
+    try {
+        // Extract data from the request
+        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description } = req.body;
 
-    const movie = await Event.create(req.body);
-    return res.status(200).json({ message: "Event Added succesfully"});
+        // Construct the image paths
+        const imgPath = req.files["img"] ? `/uploads/${req.files["img"][0].filename}` : null;
+        const bgImgPath = req.files["bg_img"] ? `/uploads/${req.files["bg_img"][0].filename}` : null;
+
+        // Save the event with img and bg_img paths
+        const newEvent = new Category({
+            category_id,vendor_id,location_description,location_lat,location_lang,title, description,
+            img: imgPath,
+            bg_img: bgImgPath
+        });
+
+        await newEvent.save();
+
+        res.status(200).json({ message: 'Event saved successfully!', event: newEvent });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error saving event.', error });
+    }
 });
+
+
 
 module.exports=router;
