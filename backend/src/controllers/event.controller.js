@@ -68,8 +68,8 @@ router.post("/create", upload.fields([
         const { category_id,vendor_id,location_description,location_lat,location_lang,title, description } = req.body;
 
         // Construct the image paths
-        const imgPath = req.files["img"] ? `/uploads/${req.files["img"][0].filename}` : null;
-        const bgImgPath = req.files["bg_img"] ? `/uploads/${req.files["bg_img"][0].filename}` : null;
+        const imgPath = req.files["img"] ? `/uploads/event${req.files["img"][0].filename}` : null;
+        const bgImgPath = req.files["bg_img"] ? `/uploads/event${req.files["bg_img"][0].filename}` : null;
 
         // Save the event with img and bg_img paths
         const newEvent = new Category({
