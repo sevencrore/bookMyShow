@@ -3,6 +3,7 @@ const getRoleByEmail =require('../middleware/AdminAuthMiddleware');
 const router = express.Router();
 const Category = require('../models/eventCategory.model');
 const multer = require('multer');
+const path = require('path'); 
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,18 +23,19 @@ router.get('/',async(req,res)=>{
     res.status(200).send(allEvents);
 })
 
-router.post("/create",upload.single("img"),async(req,res)=>{
-
+router.post("/create", upload.single("image"), async (req, res) => {
+    console.log(req.body);
+    const {category_name } = req.body;
     try {
         // Extract data and image path from the request
-        const { title, description } = req.body;
+        const { title, description } = req.body;  // Assuming 'title' refers to the category name
         const imagePath = `/uploads/${req.file.filename}`;  // Construct the URL path for the image
-
+        console.log(imagePath);
         // Save the event with the image path
         const newEvent = new Category({
-            title,
+            category_name: category_name,  // Use 'title' as 'category_name'
             description,
-            img: imagePath
+            image: imagePath
         });
 
         await newEvent.save();
