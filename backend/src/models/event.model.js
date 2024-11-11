@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    time: [{ type: String, required: true }],  // Array of dates for the event timings
-    place: { type: String, required: true },  // Location or venue of the event
-    price: { type: String, required: true },  // Price for attending the event
-    host: { type: String, required: true },  // Host or organizer of the event
-    img_url: { type: String },  // URL for the event image
-    bg_url: { type: String },  // URL for the event background image
+    category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'EventCategory', required: true },  // Foreign key to EventCategory
+    title: { type: String, required: true },
+    host_name: { type: String, required: true },  // Title of the event
+    description: { type: String, required: true },  // Description of the event
+    img: { type: String, required: true },  // URL for the event image
+    bg_img: { type: String, required: true },  // URL for the event background image
+    location_description: { type: String },  // Additional details about the location
+
+    // New Fields
+    location_lat: { type: mongoose.Types.Decimal128 },  // Latitude of the event location
+    location_lang: { type: mongoose.Types.Decimal128 },  // Longitude of the event location
+    vendor_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Vendor', required: true }  // Foreign key to Vendor
+
 }, {
     versionKey: false,
     timestamps: true  // Automatically adds createdAt and updatedAt fields
