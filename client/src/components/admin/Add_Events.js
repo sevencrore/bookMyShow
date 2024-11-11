@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { Form, Row, Col, Card, Button } from 'react-bootstrap';
 
 const Event = () => {
     const history = useHistory();
     const userEmail = localStorage.getItem('username'); // User email stored in local storage
+
     const [input, setInput] = useState({
         vendor_id: "",
         category_id: "",
@@ -18,6 +20,22 @@ const Event = () => {
         email: userEmail, // Include user email in the input
     });
 
+    const [categories, setCategories] = useState([]); // To store category data
+    const [vendors, setVendors] = useState([]); // To store vendor data
+
+    // Fetch categories and vendors on component mount
+    useEffect(() => {
+        // Fetch categories from 'eventCategory' endpoint
+        axios.get('http://localhost:5000/eventCategory')
+            .then(response => setCategories(response.data))
+            .catch(error => console.error("Error fetching categories:", error));
+
+        // Fetch vendors from 'vendor' endpoint
+        axios.get('http://localhost:5000/vendor')
+            .then(response => setVendors(response.data))
+            .catch(error => console.error("Error fetching vendors:", error));
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -29,45 +47,73 @@ const Event = () => {
         }
     };
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setInput((prevInput) => ({
+            ...prevInput,
+            [name]: value,
+        }));
+    };
+
     return (
         <div className="container shadow">
             <h2 className="text-center my-3">Add New Event</h2>
             <div className="col-md-12 my-3 d-flex items-center justify-content-center">
                 <div className="row">
                     <form onSubmit={handleSubmit}>
-                        {/* Vendor ID */}
-                        <div className="mb-3">
-                            <label htmlFor="vendor_id" className="form-label">
-                                Vendor ID
-                            </label>
-                            <input
-                                type="text"
-                                name="vendor_id"
-                                value={input.vendor_id}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
-                                className="form-control"
-                                id="vendor_id"
-                                placeholder="Enter Vendor ID"
-                            />
-                        </div>
+                        {/* Vendor ID Dropdown */}
+                        <Row className="g-3">
+                            <Col lg="6">
+                                <Form.Group className="form-group">
+                                    <Form.Label>
+                                        Vendor ID <span className="text-danger">*</span>
+                                    </Form.Label>
+                                    <div className="form-control-wrap">
+                                        <Form.Select
+                                            name="vendor_id"
+                                            value={input.vendor_id}
+                                            onChange={handleInputChange}
+                                            required
+                                            isInvalid={input.vendor_id === ""}
+                                        >
+                                            <option value="">Select Vendor</option>
+                                            {vendors.map((vendor) => (
+                                                <option key={vendor.id} value={vendor.id}>
+                                                    {vendor.name}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </div>
+                                </Form.Group>
+                            </Col>
 
-                        {/* Category ID */}
-                        <div className="mb-3">
-                            <label htmlFor="category_id" className="form-label">
-                                Category ID
-                            </label>
-                            <input
-                                type="text"
-                                name="category_id"
-                                value={input.category_id}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
-                                className="form-control"
-                                id="category_id"
-                                placeholder="Enter Category ID"
-                            />
-                        </div>
+                            {/* Category ID Dropdown */}
+                            <Col lg="6">
+                                <Form.Group className="form-group">
+                                    <Form.Label>
+                                        Category ID <span className="text-danger">*</span>
+                                    </Form.Label>
+                                    <div className="form-control-wrap">
+                                        <Form.Select
+                                            name="category_id"
+                                            value={input.category_id}
+                                            onChange={handleInputChange}
+                                            required
+                                            isInvalid={input.category_id === ""}
+                                        >
+                                            <option value="">Select Category</option>
+                                            {categories.map((category) => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.category_name}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </div>
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
-                        {/* Title */}
+                        {/* Event Title */}
                         <div className="mb-3">
                             <label htmlFor="title" className="form-label">
                                 Title
@@ -76,7 +122,7 @@ const Event = () => {
                                 type="text"
                                 name="title"
                                 value={input.title}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="title"
                                 placeholder="Enter Event Title"
@@ -92,7 +138,7 @@ const Event = () => {
                                 type="text"
                                 name="host_name"
                                 value={input.host_name}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="host_name"
                                 placeholder="Enter Host Name"
@@ -108,7 +154,7 @@ const Event = () => {
                                 type="text"
                                 name="img"
                                 value={input.img}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="img"
                                 placeholder="Enter Event Image URL"
@@ -124,7 +170,7 @@ const Event = () => {
                                 type="text"
                                 name="bg_img"
                                 value={input.bg_img}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="bg_img"
                                 placeholder="Enter Background Image URL"
@@ -140,7 +186,7 @@ const Event = () => {
                                 type="text"
                                 name="location_description"
                                 value={input.location_description}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="location_description"
                                 placeholder="Enter Location Description"
@@ -156,7 +202,7 @@ const Event = () => {
                                 type="text"
                                 name="location_lat"
                                 value={input.location_lat}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="location_lat"
                                 placeholder="Enter Latitude"
@@ -172,7 +218,7 @@ const Event = () => {
                                 type="text"
                                 name="location_lang"
                                 value={input.location_lang}
-                                onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                onChange={handleInputChange}
                                 className="form-control"
                                 id="location_lang"
                                 placeholder="Enter Longitude"
@@ -181,9 +227,9 @@ const Event = () => {
 
                         {/* Submit Button */}
                         <div className="mb-3">
-                            <button type="submit" className="btn btn-primary btn-block">
+                            <Button type="submit" variant="primary" className="btn-block">
                                 Add Event
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>
