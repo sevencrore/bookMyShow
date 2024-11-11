@@ -21,13 +21,14 @@
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.14",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-  "build": "react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
