@@ -21,6 +21,9 @@ import AdminRegister from './components/Login/AdminRegister';
 import AdminDashboard from './components/admin/Admindashboard';
 import Movies from './components/admin/Add_Movies';
 import Theaters from './components/admin/Add_Theater';
+import Events from './components/admin/Add_Events';
+import Category from './components/admin/Add_Category';
+import Vendor from './components/admin/Add_Vendor';
 
 
 function App() {
@@ -55,6 +58,9 @@ function App() {
         <Route path="/admin/register"><AdminRegister /></Route>
         <Route path="/admin/dashboard"><AdminDashboard /></Route>
         <Route path="/admin/Movies"><Movies /></Route>
+        <Route path="/admin/Events"><Events /></Route>
+        <Route path="/admin/category"><Category /></Route>
+        <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>
         
     </Switch>
