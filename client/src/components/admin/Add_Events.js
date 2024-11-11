@@ -46,6 +46,7 @@ const Event = () => {
     formData.append("category_id", input.category_id);
     formData.append("title", input.title);
     formData.append("host_name", input.host_name);
+    formData.append("description", input.description);
     formData.append("location_description", input.location_description);
     formData.append("location_lat", input.location_lat);
     formData.append("location_lang", input.location_lang);
@@ -116,7 +117,7 @@ const Event = () => {
                     >
                       <option value="">Select Vendor</option>
                       {vendors.map((vendor) => (
-                        <option key={vendor.id} value={vendor.id}>
+                        <option key={vendor.id} value={vendor._id}>
                           {vendor.name}
                         </option>
                       ))}
@@ -141,7 +142,7 @@ const Event = () => {
                     >
                       <option value="">Select Category</option>
                       {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
+                        <option key={category.id} value={category._id}>
                           {category.category_name}
                         </option>
                       ))}
@@ -163,6 +164,22 @@ const Event = () => {
                 onChange={handleInputChange}
                 className="form-control"
                 id="title"
+                placeholder="Enter Event Title"
+              />
+            </div>
+
+             {/* Event Description */}
+             <div className="mb-3">
+              <label htmlFor="description" className="form-label">
+                Description
+              </label>
+              <input
+                type="text"
+                name="description"
+                value={input.description}
+                onChange={handleInputChange}
+                className="form-control"
+                id="description"
                 placeholder="Enter Event Title"
               />
             </div>

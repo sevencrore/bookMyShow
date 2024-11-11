@@ -65,15 +65,15 @@ router.post("/create", upload.fields([
     console.log(req.body);
     try {
         // Extract data from the request
-        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description } = req.body;
+        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name } = req.body;
 
         // Construct the image paths
         const imgPath = req.files["img"] ? `/uploads/event${req.files["img"][0].filename}` : null;
         const bgImgPath = req.files["bg_img"] ? `/uploads/event${req.files["bg_img"][0].filename}` : null;
 
         // Save the event with img and bg_img paths
-        const newEvent = new Category({
-            category_id,vendor_id,location_description,location_lat,location_lang,title, description,
+        const newEvent = new Event({
+            category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,
             img: imgPath,
             bg_img: bgImgPath
         });
