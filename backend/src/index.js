@@ -35,6 +35,7 @@ app.use("/theater",theaterController);
 app.use("/event",eventController);
 app.use("/eventCategory",eventCategoryController);
 app.use("/vendor",vendorController);
+app.use(express.static("../public/upload"));
 
 
 module.exports=app;

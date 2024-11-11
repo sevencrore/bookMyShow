@@ -23,7 +23,7 @@ const Category = () => {
         formData.append("email", input.email);
 
         try {
-            const res = await axios.post("http://localhost:5000/category/create", formData, {
+            const res = await axios.post("http://localhost:5000/eventCategory/create", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Needed for file upload
                 },
