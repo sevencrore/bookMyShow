@@ -37,11 +37,6 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 24px;
-    /* identical to box height, or 150% */
-    
-    
-    /* Neutral/Light Grey005 */
-    
     color: #717171;
     flex: none;
     order: 1;
@@ -55,3 +50,87 @@
      text-decoration: none;
      color: black;
  }
+
+ 
+
+/* 
+.thumbnail {
+    border-radius: 8px;
+    width: 100%;
+    height: auto;
+    max-height: 465px;
+    object-fit: cover;
+}
+
+
+.holder {
+    width: 100%; 
+    max-width: 249px; 
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+
+.text_sub_2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    width: 100%; 
+    max-width: 249px;
+    margin: 8px 0;
+}
+
+
+.body1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #717171;
+    text-align: center;
+    width: 100%;
+    max-width: 249px;
+    margin: 2px 0;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+
+@media (max-width: 768px) {
+    .text_sub_2 {
+        font-size: 16px;
+        line-height: 22px;
+    }
+    
+    .body1 {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .holder, .thumbnail {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .text_sub_2 {
+        font-size: 14px;
+    }
+    
+    .body1 {
+        font-size: 12px;
+    }
+    
+    .holder, .thumbnail {
+        max-width: 150px;
+    }
+} */
