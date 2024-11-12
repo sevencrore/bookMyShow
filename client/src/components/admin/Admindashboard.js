@@ -60,7 +60,10 @@ const Dashboard = () => {
           Movies
         </Link>
         <Link to="/admin/Events" className="btn btn-primary mx-3">
-          Events
+          Create Events
+        </Link>
+        <Link to="/admin/ListEvents" className="btn btn-primary mx-3">
+          List Events
         </Link>
         <Link to="/admin/Category" className="btn btn-primary mx-3">
           Category
