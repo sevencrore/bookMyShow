@@ -23,6 +23,7 @@ const eventController = require('./controllers/event.controller');
 const slotPriceController = require("./controllers/slotPrice.controller");
 const eventCategoryController = require("./controllers/category.controller");
 const vendorController = require("./controllers/vendor.controller");
+const cityController = require("./controllers/city.controller");
 app.use("/users",userController);
 app.use("/movies",movieController);
 app.use("/book",bookController);
@@ -35,6 +36,7 @@ app.use("/theater",theaterController);
 app.use("/event",eventController);
 app.use("/eventCategory",eventCategoryController);
 app.use("/vendor",vendorController);
+app.use("/city",cityController);
 const path = require('path');
 
 
