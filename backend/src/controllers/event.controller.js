@@ -7,7 +7,9 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../uploads/event/');  // Define the folder to store images
+        // Join the current directory (__dirname) with a file or folder name
+        const fullPath = path.join(__dirname, '../../uploads/event/');
+        cb(null, fullPath);  // Define the folder to store images
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));  // Rename file with timestamp
