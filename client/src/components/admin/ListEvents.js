@@ -50,6 +50,8 @@ const ListEvent = () => {
     e.preventDefault();
     // Perform the edit submission logic, e.g., PUT request to update event
     // For now, just log the edited event
+    axios
+      .post(`http://localhost:5000/event/edit/${selectedEvent._id}`,selectedEvent)
     console.log("Edited Event: ", selectedEvent);
     // After submission, you might want to reset or update the state
     setIsEditing(false); // Reset to view mode after editing
