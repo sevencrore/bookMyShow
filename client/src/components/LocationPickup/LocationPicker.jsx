@@ -1,95 +1,74 @@
-import { useContext } from 'react'
-import { AppContext } from '../../contexts/AppContext'
-import '../../style/locationpicker.css'
+import React, { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../contexts/AppContext'; // Assuming the context is defined here
+import axios from 'axios';
+import '../../style/locationpicker.css';
 
-export default function({handleClose})
-{
+const Locationpicker = () => {
+    const { location, setLocation } = useContext(AppContext); // Getting the context value
+    const [search, setSearch] = useState(''); // Local state for the search input
+    const [locations, setLocations] = useState([]); // Local state for the fetched locations
+    const [loading, setLoading] = useState(false); // To handle loading state
+    const [error, setError] = useState(''); // To handle any error during fetch
 
-    const {city,handleChange}=useContext(AppContext);
-    
+    useEffect(() => {
+        // Fetch location suggestions only when the search term is at least 3 characters
+        if (search.length === 0) {
+            setLocations([]);
+            return;
+        }
 
-    return(<>
-        <div className="container-fluid box" style={{width:'100%'}}>
-        <div className="input-group mb-3">            
-            <input type="text" className="form-control" aria-label="Text input with checkbox" placeholder='Search Cities'/>
+        const fetchSuggestions = async () => {
+            setLoading(true);
+            setError('');
+
+            try {
+                // Assuming you're fetching from an API that gives a list of locations
+                const response = await axios.get(`http://localhost:5000/city/`);
+                setLocations(response.data); // Save the fetched locations
+            } catch (err) {
+                setError('Failed to fetch city suggestions');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSuggestions();
+    }, [search]); // Fetch suggestions whenever the search term changes
+
+    const handleSelectLocation = (event) => {
+        const selectedCityId = event.target.value;
+        const selectedCity = locations.find(city => city._id === selectedCityId);
+
+        if (selectedCity) {
+            setLocation(selectedCity); // Set the selected city to the global context
+            setSearch(selectedCity.name); // Update the search term with the selected city's name
+        }
+    };
+
+    return (
+        <div className="location-picker">
+            <h3>Select a Location</h3>
+            <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)} // Update search state on input change
+                placeholder="Search for a city"
+            />
+            {loading && <div className="loading">Loading...</div>}
+            {error && <div className="error">{error}</div>}
+
+            {locations.length > 0 && (
+                <select onChange={handleSelectLocation} value={location?._id || ''}>
+                    <option value="" disabled>Select a city</option>
+                    {locations.map((city) => (
+                        <option key={city._id} value={city._id}>
+                            {city.name} - {city.description}
+                        </option>
+                    ))}
+                </select>
+            )}
         </div>
-        <p style={{textAlign:'center'}}>Popular Cities</p>
-        <div className="flex">
-            <div className='grow' onClick={(e)=>{
-                handleChange("ahamedabad")   
-                handleClose()
-            }}>
-                <img src="ah.png" alt="ahamedabad" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Ahamedabad</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("bangalore")   
-                handleClose()
-            }}>
-                <img src="bang.png" alt="Bangalore" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Bangalore</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("Chandigarh")   
-                handleClose()
-            }}>
-                <img src="chandigarh.png" alt="Chandigarh" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Chandigarh</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("chennai")   
-                handleClose()
-            }}>
-                <img src="chennai.png" alt="Chennai" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Chennai</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("Hyderabad")   
-                handleClose()
-            }}>
-                <img src="hyd.png" alt="Hyderabad" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Hyderabad</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("kolkata")   
-                handleClose()
-            }}>
-                <img src="kolkata.png" alt="Kolkata" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Kolkata</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("Kochi")   
-                handleClose()
-            }}>
-                <img src="kochi.png" alt="Kolkata" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Kochi</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("Mumbai")   
-                handleClose()
-            }}>
-                <img src="mumbai.png" alt="Kolkata" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>Mumbai</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("NCR")   
-                handleClose()
-            }}>
-                <img src="ncr.png" alt="Kolkata" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>NCR</p>
-            </div>
-            <div className='grow' onClick={(e)=>{
-                handleChange("Pune")   
-                handleClose()
-            }}>
-                <img src="pune.png" alt="Pune" className='img-fluid'/>
-                <p style={{textAlign:'center'}}>PUNE</p>
-            </div>
-            
-            
-        </div>
+    );
+};
 
-        </div>
-        
-    </>)
-}
+export default Locationpicker;
