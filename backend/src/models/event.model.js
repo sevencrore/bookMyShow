@@ -13,6 +13,7 @@ const eventSchema = new mongoose.Schema({
     location_lat: { type: mongoose.Types.Decimal128 },  // Latitude of the event location
     location_lang: { type: mongoose.Types.Decimal128 },  // Longitude of the event location
     vendor_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Vendor', required: true },  // Foreign key to Vendor
+    city_id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true },  // Foreign key to Vendor
     is_active: { type: String, default: '1' },  // '1' for active, '0' for inactive
     is_deleted : {type : String,default : '0'},
     created_by : {type: mongoose.Schema.Types.ObjectId, ref: 'User' },

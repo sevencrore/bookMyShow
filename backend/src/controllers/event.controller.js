@@ -30,6 +30,40 @@ router.get('/',async(req,res)=>{
     res.status(200).send(allEvents);
 });
 
+// to get the events for selected city and category
+router.get('/get/:categoryId/:cityId', async (req, res) => {
+    const { categoryId, cityId } = req.params;
+
+    // Check if both categoryId and cityId are provided
+    if (!categoryId || !cityId) {
+        return res.status(400).json({ message: "Both categoryId and cityId are required." });
+    }
+
+    try {
+        // Find events matching category, city, is_active = '1', and is_deleted = '0'
+        const events = await Event.find({
+            category_id: categoryId,
+            city_id: cityId,
+            is_active: '1',
+            is_deleted: '0'
+        }).select("-is_active -is_deleted -updated_at"); // Exclude is_active and is_deleted from the response
+
+        if (events.length === 0) {
+            return res.status(404).json({ message: "No events found for the specified category and city." });
+        }
+
+        res.status(200).json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error retrieving events.", error });
+    }
+});
+
+
+
+
+
+
 router.get('/:categoryId', async (req, res) => {
     try {
         const { categoryId } = req.params;  // Get categoryId from URL parameter
@@ -45,6 +79,7 @@ router.get('/:categoryId', async (req, res) => {
         res.status(500).json({ message: 'An error occurred while retrieving events.', error });
     }
 });
+
 
 router.get('/vendor/:vendorId', async (req, res) => {
     try {
@@ -72,7 +107,7 @@ router.post("/create", upload.fields([
     console.log(req.body);
     try {
         // Extract data from the request
-        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name } = req.body;
+        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city } = req.body;
 
         // Construct the image paths
         const imgPath = req.files["img"] ? `/uploads/event/${req.files["img"][0].filename}` : null;
@@ -80,7 +115,7 @@ router.post("/create", upload.fields([
 
         // Save the event with img and bg_img paths
         const newEvent = new Event({
-            category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,
+            category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city,
             img: imgPath,
             bg_img: bgImgPath
         });
@@ -101,7 +136,7 @@ router.post("/edit/:id", upload.fields([
 ]), async (req, res) => {
     try {
         const { id } = req.params; // Extract the event ID from the route parameters
-        const { category_id, vendor_id, location_description, location_lat, location_lang, title, description, host_name,is_active } = req.body;
+        const { category_id, vendor_id, location_description, location_lat, location_lang, title, description, host_name,is_active ,city} = req.body;
 
         // Safely construct the image paths if files are uploaded
         const imgPath = req.files && req.files["img"] ? `/uploads/event${req.files["img"][0].filename}` : null;
@@ -118,6 +153,7 @@ router.post("/edit/:id", upload.fields([
             description,
             host_name,
             is_active,
+            city,
             ...(imgPath && { img: imgPath }),       // Only update if a new image is uploaded
             ...(bgImgPath && { bg_img: bgImgPath }) // Only update if a new background image is uploaded
         }, { new: true });
