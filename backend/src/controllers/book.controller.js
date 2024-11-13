@@ -70,11 +70,11 @@ router.get('/download-bill/:bookingId', async (req, res) => {
                     .bill-details div { margin: 5px 0; }
                 </style>
             </head>
-            <body>
+            <body style=" background-color: lightblue;">
                 <h1>Booking Bill</h1>
                 <div class="bill-details">
                     <div><strong>Booking ID:</strong> ${booking._id}</div>
-                    <div><strong>Name:</strong> ${booking.name}</div>
+                    <div style="color:blue;text-align:center;" ><strong>Name:</strong> ${booking.name}</div>
                     <div><strong>Email:</strong> ${booking.email}</div>
                     <div><strong>Seats:</strong> ${booking.seats.join(', ')}</div>
                     

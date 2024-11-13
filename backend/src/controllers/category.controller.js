@@ -52,15 +52,15 @@ router.post("/create", upload.single("image"), async (req, res) => {
 router.post("/edit/:id", async (req, res) => {
     try {
         const { id } = req.params; // Extract category ID from URL parameter
-        const { name, description,is_active } = req.body; // Get the name and description from the request body
+        const { category_name, description,is_active } = req.body; // Get the name and description from the request body
 
         // Validate that name is provided
-        if (!name) {
+        if (!category_name) {
             return res.status(400).json({ message: "Category name is required." });
         }
 
         // Build the update object. Only include description if it's provided.
-        const updateData = { name ,is_active};
+        const updateData = { category_name ,is_active};
         if (description) {
             updateData.description = description;
         }
