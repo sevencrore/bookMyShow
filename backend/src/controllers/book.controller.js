@@ -84,7 +84,7 @@ router.get('/download-bill/:bookingId', async (req, res) => {
         `;
 
         // Pass the HTML content to the pdfconverter controller to generate and send PDF
-        generatePDF(htmlContent, res);
+        generatePDF(htmlContent, res,booking._id);
     } catch (error) {
         console.error('Error fetching booking:', error);
         res.status(500).json({ message: 'Error generating bill PDF', error: error.message });
