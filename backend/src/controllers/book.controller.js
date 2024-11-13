@@ -5,6 +5,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
 const Movie = require('../models/movie.model');
+const { generatePDF } = require('./generatePDF.controller');
 
 
 
@@ -48,63 +49,49 @@ router.patch("/update/:id",async(req,res)=>{
 
 
 router.get('/download-bill/:bookingId', async (req, res) => {
-    const { bookingId } = req.params;
-
     try {
-        // Find the booking by its ID
-        const booking = await Book.findById(bookingId);
-        
+        const { bookingId } = req.params;
+
+        // Fetch booking data from the database using the bookingId
+        const booking = await Book.findById(bookingId); // Assuming you need to populate movie data
+
         if (!booking) {
-            return res.status(404).json({ message: "Booking not found." });
+            return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Fetch the user's name and email using the user_id in the booking
-        // const user = await User.findById(booking.user_id);
-        // const userName = user ? user.name : "Unknown User";
-        // const userEmail = user ? user.email : "Unknown Email";
+        // Create the HTML template for the bill
+        const htmlContent = `
+        <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1 { text-align: center; }
+                    .bill-details { margin-top: 20px; }
+                    .bill-details div { margin: 5px 0; }
+                </style>
+            </head>
+            <body>
+                <h1>Booking Bill</h1>
+                <div class="bill-details">
+                    <div><strong>Booking ID:</strong> ${booking._id}</div>
+                    <div><strong>Name:</strong> ${booking.name}</div>
+                    <div><strong>Email:</strong> ${booking.email}</div>
+                    <div><strong>Seats:</strong> ${booking.seats.join(', ')}</div>
+                    
+                </div>
+            </body>
+        </html>
+        `;
 
-        // Fetch the movie name using movieid in the booking
-        const movie = await Movie.findById(booking.movieid);
-        const movieName = movie ? movie.name : "Unknown Movie";
-
-        // Get seats (assuming it's an array of seat numbers)
-        const seats = booking.seats ? booking.seats.join(', ') : "No seats selected";
-
-        // Get the booking date
-        // const bookingDate = booking.dateOfBooking ? booking.dateOfBooking.toLocaleDateString() : "Unknown Date";
-
-        // Create a new PDF document
-        const doc = new PDFDocument();
-
-        // Set the response header for PDF download
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=bill_${bookingId}.pdf`);
-
-        // Pipe the PDF output directly to the response
-        doc.pipe(res);
-
-        // Add content to the PDF
-        doc.fontSize(20).text("Booking Bill", { align: 'center' });
-        doc.moveDown();
-
-        doc.fontSize(12).text(`Booking ID: ${booking._id}`);
-        doc.text(`User Name: ${booking.email}`);
-        // doc.text(`User Email: ${userEmail}`);
-        doc.text(`Seats: ${seats}`);
-        doc.text(`Movie: ${movieName}`);
-        doc.text(`Date of Booking: ${booking.dateOfBooking}`);
-        doc.moveDown();
-
-        doc.fontSize(10).text(`Generated on: ${new Date().toLocaleString()}`, { align: 'right' });
-
-        // Finalize the PDF and send it to the response
-        doc.end();
-
+        // Pass the HTML content to the pdfconverter controller to generate and send PDF
+        generatePDF(htmlContent, res);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error generating bill.", error });
+        console.error('Error fetching booking:', error);
+        res.status(500).json({ message: 'Error generating bill PDF', error: error.message });
     }
 });
+
+
 
 
 module.exports=router;
