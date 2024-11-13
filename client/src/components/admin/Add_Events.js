@@ -17,13 +17,15 @@ const Event = () => {
     location_description: "",
     location_lat: "",
     location_lang: "",
+    city_id: "", // city_id is part of the state
     email: userEmail, // Include user email in the input
   });
 
   const [categories, setCategories] = useState([]); // To store category data
   const [vendors, setVendors] = useState([]); // To store vendor data
+  const [cities, setCities] = useState([]); // To store city data
 
-  // Fetch categories and vendors on component mount
+  // Fetch categories, vendors, and cities on component mount
   useEffect(() => {
     // Fetch categories from 'eventCategory' endpoint
     axios
@@ -36,10 +38,22 @@ const Event = () => {
       .get("http://localhost:5000/vendor")
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
+
+    // Fetch cities from 'city' endpoint
+    axios
+      .get("http://localhost:5000/city")
+      .then((response) => setCities(response.data)) // Update state with cities data
+      .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure city_id is selected before submitting
+    if (!input.city_id) {
+      alert("Please select a city.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("vendor_id", input.vendor_id);
@@ -50,6 +64,7 @@ const Event = () => {
     formData.append("location_description", input.location_description);
     formData.append("location_lat", input.location_lat);
     formData.append("location_lang", input.location_lang);
+    formData.append("city_id", input.city_id);
     formData.append("email", input.email);
 
     // Append the image files if they exist
@@ -59,6 +74,9 @@ const Event = () => {
     if (input.bg_img) {
       formData.append("bg_img", input.bg_img);
     }
+
+    // Log the form data to check if city_id is included
+    console.log("Form Data being sent:", formData);
 
     try {
       const res = await axios.post(
@@ -102,7 +120,7 @@ const Event = () => {
           <form onSubmit={handleSubmit}>
             {/* Vendor ID Dropdown */}
             <Row className="g-3">
-              <Col lg="6">
+              <Col lg="4">
                 <Form.Group className="form-group">
                   <Form.Label>
                     Select Vendor <span className="text-danger">*</span>
@@ -127,7 +145,7 @@ const Event = () => {
               </Col>
 
               {/* Category ID Dropdown */}
-              <Col lg="6">
+              <Col lg="4">
                 <Form.Group className="form-group">
                   <Form.Label>
                     Select Category <span className="text-danger">*</span>
@@ -144,6 +162,31 @@ const Event = () => {
                       {categories.map((category) => (
                         <option key={category.id} value={category._id}>
                           {category.category_name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </div>
+                </Form.Group>
+              </Col>
+
+              {/* City ID Dropdown */}
+              <Col lg="4">
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    Select City <span className="text-danger">*</span>
+                  </Form.Label>
+                  <div className="form-control-wrap">
+                    <Form.Select
+                      name="city_id"
+                      value={input.city_id}
+                      onChange={handleInputChange}
+                      required
+                      isInvalid={input.city_id === ""}
+                    >
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option key={city._id} value={city._id}>
+                          {city.name}
                         </option>
                       ))}
                     </Form.Select>
@@ -168,8 +211,8 @@ const Event = () => {
               />
             </div>
 
-             {/* Event Description */}
-             <div className="mb-3">
+            {/* Event Description */}
+            <div className="mb-3">
               <label htmlFor="description" className="form-label">
                 Description
               </label>
