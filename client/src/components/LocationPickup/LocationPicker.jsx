@@ -10,6 +10,7 @@ const Locationpicker = ({ handleClose }) => {
     const [loading, setLoading] = useState(false); // To handle loading state
     const [error, setError] = useState(''); // To handle any error during fetch
 
+    // Fetch locations from the API and set default city in localStorage if not already set
     useEffect(() => {
         const fetchLocations = async () => {
             setLoading(true);
@@ -17,8 +18,28 @@ const Locationpicker = ({ handleClose }) => {
 
             try {
                 const response = await axios.get('http://localhost:5000/city/');
-                console.log(response.data);
-                setLocations(response.data); // Save the fetched locations
+                const fetchedLocations = response.data;
+
+                // Sort locations by the 'createdAt' field (earliest created city first)
+                const sortedLocations = fetchedLocations.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+                setLocations(sortedLocations); // Save the sorted locations
+
+                // Check if there's a selected city in localStorage
+                const storedCityId = localStorage.getItem('selectedCityId');
+
+                if (storedCityId) {
+                    // Set the selected city from localStorage if it exists
+                    const selectedCity = sortedLocations.find(city => city._id === storedCityId);
+                    if (selectedCity) {
+                        handleChange(selectedCity.name); // Set it in the context
+                    }
+                } else if (sortedLocations.length > 0) {
+                    // If no city is selected, set the first city (earliest created) as default
+                    const defaultCity = sortedLocations[0];
+                    handleChange(defaultCity.name); // Set it in the context
+                    localStorage.setItem('selectedCityId', defaultCity._id); // Save the default city ID in localStorage
+                }
             } catch (err) {
                 setError('Failed to fetch city data');
             } finally {
@@ -34,8 +55,9 @@ const Locationpicker = ({ handleClose }) => {
         city.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handleSelectLocation = (cityName) => {
+    const handleSelectLocation = (cityName, cityId) => {
         handleChange(cityName); // Set the selected city using handleChange function
+        localStorage.setItem('selectedCityId', cityId); // Save the selected city ID in localStorage
         handleClose(); // Close the picker after selection
     };
 
@@ -59,7 +81,7 @@ const Locationpicker = ({ handleClose }) => {
                         <div
                             key={city._id}
                             className="location-item"
-                            onClick={() => handleSelectLocation(city.name)} // Handle click event
+                            onClick={() => handleSelectLocation(city.name, city._id)} // Handle click event
                         >
                             <div className="city-name">{city.name}</div>
                             {/* <div className="city-description">{city.description}</div> */}
