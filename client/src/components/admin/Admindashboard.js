@@ -74,6 +74,9 @@ const Dashboard = () => {
         <Link to="/admin/vendor" className="btn btn-primary mx-3">
           Vendor
         </Link>
+        <Link to="/admin/ListVendor" className="btn btn-primary mx-3">
+          Vendor List
+        </Link>
         <Link to="/admin/theaters" className="btn btn-secondary mx-3">
           Theater
         </Link>
