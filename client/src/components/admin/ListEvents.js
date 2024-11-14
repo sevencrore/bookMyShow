@@ -7,10 +7,11 @@ const ListEvent = () => {
   const [events, setEvents] = useState([]); // To store events data
   const [vendors, setVendors] = useState([]); // To store vendor data
   const [categories, setCategories] = useState([]); // To store category data
+  const [cities, setCities] = useState([]); // To store city data
   const [selectedEvent, setSelectedEvent] = useState(null); // To store selected event for view/edit
   const [isEditing, setIsEditing] = useState(false); // To toggle between view/edit modes
 
-  // Fetch events, vendors, and categories when component mounts
+  // Fetch events, vendors, categories, and cities when component mounts
   useEffect(() => {
     // Fetch events
     axios
@@ -29,6 +30,12 @@ const ListEvent = () => {
       .get("http://localhost:5000/eventCategory/")
       .then((response) => setCategories(response.data))
       .catch((error) => console.error("Error fetching categories:", error));
+
+    // Fetch cities
+    axios
+      .get("http://localhost:5000/city/")
+      .then((response) => setCities(response.data)) // Corrected this to setCities instead of setCategories
+      .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
   // Handle View action
@@ -50,8 +57,10 @@ const ListEvent = () => {
     e.preventDefault();
     // Perform the edit submission logic, e.g., PUT request to update event
     // For now, just log the edited event
-    axios
-      .post(`http://localhost:5000/event/edit/${selectedEvent._id}`,selectedEvent)
+    axios.post(
+      `http://localhost:5000/event/edit/${selectedEvent._id}`,
+      selectedEvent
+    );
     console.log("Edited Event: ", selectedEvent);
     // After submission, you might want to reset or update the state
     setIsEditing(false); // Reset to view mode after editing
@@ -71,6 +80,7 @@ const ListEvent = () => {
                 <th>Vendor</th>
                 <th>Host Name</th>
                 <th>Location</th>
+                <th>City</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -80,14 +90,22 @@ const ListEvent = () => {
                   <td>{event.title}</td>
                   <td>
                     {/* Display category name */}
-                    {categories.find((category) => category._id === event.category_id)?.category_name || "N/A"}
+                    {categories.find(
+                      (category) => category._id === event.category_id
+                    )?.category_name || "N/A"}
                   </td>
                   <td>
                     {/* Display vendor name */}
-                    {vendors.find((vendor) => vendor._id === event.vendor_id)?.name || "N/A"}
+                    {vendors.find((vendor) => vendor._id === event.vendor_id)
+                      ?.name || "N/A"}
                   </td>
                   <td>{event.host_name}</td>
                   <td>{event.location_description}</td>
+                  <td>
+                    {/* Display city name */}
+                    {cities.find((city) => city._id === event.city_id)?.name ||
+                      "N/A"}
+                  </td>
                   <td>
                     <Button
                       variant="info"
@@ -192,6 +210,28 @@ const ListEvent = () => {
                           </Form.Control>
                         </Form.Group>
                       </Col>
+                      <Col md={6}>
+                        <Form.Group controlId="city">
+                          <Form.Label>City</Form.Label>
+                          <Form.Control
+                            as="select"
+                            value={selectedEvent.city_id}
+                            onChange={(e) =>
+                              setSelectedEvent({
+                                ...selectedEvent,
+                                city_id: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Select City</option>
+                            {cities.map((city) => (
+                              <option key={city._id} value={city._id}>
+                                {city.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Form.Group>
+                      </Col>
                     </Row>
                     <Form.Group controlId="location">
                       <Form.Label>Location Description</Form.Label>
@@ -215,11 +255,33 @@ const ListEvent = () => {
               ) : (
                 <div>
                   <h3>Event Details</h3>
-                  <p><strong>Event Title:</strong> {selectedEvent.title}</p>
-                  <p><strong>Host Name:</strong> {selectedEvent.host_name}</p>
-                  <p><strong>Category:</strong> {categories.find((category) => category._id === selectedEvent.category_id)?.category_name || "N/A"}</p>
-                  <p><strong>Vendor:</strong> {vendors.find((vendor) => vendor._id === selectedEvent.vendor_id)?.name || "N/A"}</p>
-                  <p><strong>Location:</strong> {selectedEvent.location_description}</p>
+                  <p>
+                    <strong>Event Title:</strong> {selectedEvent.title}
+                  </p>
+                  <p>
+                    <strong>Host Name:</strong> {selectedEvent.host_name}
+                  </p>
+                  <p>
+                    <strong>Category:</strong>{" "}
+                    {categories.find(
+                      (category) => category._id === selectedEvent.category_id
+                    )?.category_name || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Vendor:</strong>{" "}
+                    {vendors.find(
+                      (vendor) => vendor._id === selectedEvent.vendor_id
+                    )?.name || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {selectedEvent.location_description}
+                  </p>
+                  <p>
+                    <strong>City:</strong>{" "}
+                    {cities.find((city) => city._id === selectedEvent.city_id)
+                      ?.name || "N/A"}
+                  </p>
                 </div>
               )}
             </div>
