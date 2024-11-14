@@ -24,6 +24,7 @@ const slotPriceController = require("./controllers/slotPrice.controller");
 const eventCategoryController = require("./controllers/category.controller");
 const vendorController = require("./controllers/vendor.controller");
 const cityController = require("./controllers/city.controller");
+const EventDeatilsController = require('./controllers/eventDetails.controller');
 app.use("/users",userController);
 app.use("/movies",movieController);
 app.use("/book",bookController);
@@ -37,13 +38,14 @@ app.use("/event",eventController);
 app.use("/eventCategory",eventCategoryController);
 app.use("/vendor",vendorController);
 app.use("/city",cityController);
+app.use("/eventDetails/",EventDeatilsController);
 const path = require('path');
 
 
-// app.use('../uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/uploads', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads'));
-app.use('/uploads/event', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads\\event'));
-// app.use(express.static("../uploads"));
+ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// app.use('/uploads', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads'));
+// app.use('/uploads/event', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads\\event'));
+// // app.use(express.static("../uploads"));
 
 
 
