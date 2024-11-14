@@ -64,7 +64,7 @@ const Event = () => {
     formData.append("location_description", input.location_description);
     formData.append("location_lat", input.location_lat);
     formData.append("location_lang", input.location_lang);
-    formData.append("city_id", input.city_id);
+    formData.append("city_id", input.city_id); // Ensure city_id is included
     formData.append("email", input.email);
 
     // Append the image files if they exist
@@ -185,7 +185,7 @@ const Event = () => {
                     >
                       <option value="">Select City</option>
                       {cities.map((city) => (
-                        <option key={city._id} value={city._id}>
+                        <option key={city.city_id} value={city._id}>
                           {city.name}
                         </option>
                       ))}

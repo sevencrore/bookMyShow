@@ -107,7 +107,7 @@ router.post("/create", upload.fields([
     console.log(req.body);
     try {
         // Extract data from the request
-        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city } = req.body;
+        const { category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city_id } = req.body;
 
         // Construct the image paths
         const imgPath = req.files["img"] ? `/uploads/event/${req.files["img"][0].filename}` : null;
@@ -115,7 +115,7 @@ router.post("/create", upload.fields([
 
         // Save the event with img and bg_img paths
         const newEvent = new Event({
-            category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city,
+            category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city_id,
             img: imgPath,
             bg_img: bgImgPath
         });
@@ -136,11 +136,12 @@ router.post("/edit/:id", upload.fields([
 ]), async (req, res) => {
     try {
         const { id } = req.params; // Extract the event ID from the route parameters
-        const { category_id, vendor_id, location_description, location_lat, location_lang, title, description, host_name,is_active ,city} = req.body;
+        const { category_id, vendor_id, location_description, location_lat, location_lang, title, description, host_name,is_active ,city_id} = req.body;
 
         // Safely construct the image paths if files are uploaded
         const imgPath = req.files && req.files["img"] ? `/uploads/event${req.files["img"][0].filename}` : null;
         const bgImgPath = req.files && req.files["bg_img"] ? `/uploads/event${req.files["bg_img"][0].filename}` : null;
+        console.log(req.body);
 
         // Find the event by ID and update it with the new data
         const updatedEvent = await Event.findByIdAndUpdate(id, {
@@ -153,7 +154,7 @@ router.post("/edit/:id", upload.fields([
             description,
             host_name,
             is_active,
-            city,
+            city_id,
             ...(imgPath && { img: imgPath }),       // Only update if a new image is uploaded
             ...(bgImgPath && { bg_img: bgImgPath }) // Only update if a new background image is uploaded
         }, { new: true });
