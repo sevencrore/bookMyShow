@@ -27,6 +27,7 @@ import Vendor from './components/admin/Add_Vendor';
 import ListEvent from './components/admin/ListEvents';
 import ListCategory from './components/admin/ListCategory';
 import ListVendor from './components/admin/ListVendor';
+import EventDetails from './components/admin/Event_Details';
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
         <Route path="/admin/Movies"><Movies /></Route>
         <Route path="/admin/Events"><Events /></Route>
         <Route path="/admin/ListEvents"><ListEvent /></Route>
+        <Route path="/admin/EventDetails"><EventDetails /></Route>
         <Route path="/admin/ListCategory"><ListCategory /></Route>
         <Route path="/admin/ListVendor"><ListVendor /></Route>
         <Route path="/admin/category"><Category /></Route>

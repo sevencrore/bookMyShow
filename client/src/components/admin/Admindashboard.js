@@ -65,6 +65,9 @@ const Dashboard = () => {
         <Link to="/admin/ListEvents" className="btn btn-primary mx-3">
           List Events
         </Link>
+        <Link to="/admin/EventDetails" className="btn btn-primary mx-3">
+          Event Details
+        </Link>
         <Link to="/admin/Category" className="btn btn-primary mx-3">
           Category
         </Link>
