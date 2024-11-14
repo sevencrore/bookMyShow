@@ -66,11 +66,11 @@ router.get('/get/:categoryId/:cityId', async (req, res) => {
 
 router.get('/:categoryId', async (req, res) => {
     try {
-        const { categoryId } = req.params;  // Get categoryId from URL parameter
-        const events = await Event.find({ category_id: categoryId }).populate('category_id');  // Fetch events by categoryId
+        const { Id } = req.params;  // Get Id from URL parameter
+        const events = await Event.find({ _id: Id });  // Fetch events by Id
 
         if (!events || events.length === 0) {
-            return res.status(404).json({ message: 'No events found for this category.' });
+            return res.status(404).json({ message: 'No events found for this Id.' });
         }
 
         res.status(200).json(events);
