@@ -7,15 +7,15 @@ const eventDetailsSchema = new mongoose.Schema({
         required: true 
     },  // Foreign key referencing Event model
     date: { 
-        type: [Date], 
+        type: Date, 
         required: true 
     },  // Date and time of the event
     price: { 
-        type: [Number], 
+        type: Number, 
         required: true 
     },  // Array of price options
     slots: { 
-        type: [String], 
+        type: String, 
         required: true 
     },  // Array of slots available for the event
     is_active: { type: String, default: '1' },  // '1' for active, '0' for inactive
