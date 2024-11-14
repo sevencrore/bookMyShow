@@ -4,17 +4,38 @@ import { Table, Button, Form, Row, Col } from "react-bootstrap";
 
 const Event_Details = () => {
   const userEmail = localStorage.getItem("username"); // User email stored in local storage
-  const [events, setEvents] = useState([]); // To store events data
+  const [events, setEvents] = useState([]); // To store event details data
+  const [activeEvents, setActiveEvents] = useState([]); // To store active events (with titles)
   const [selectedEvent, setSelectedEvent] = useState(null); // To store selected event for view/edit
   const [isEditing, setIsEditing] = useState(false); // To toggle between view/edit modes
 
-  // Fetch events when the component mounts
+  // Fetch event details and active events when the component mounts
   useEffect(() => {
+    // Fetch event details (eventdetails)
     axios
       .get("http://localhost:5000/eventdetails/")
       .then((response) => setEvents(response.data))
       .catch((error) => console.error("Error fetching events:", error));
+
+    // Fetch active events (these are the actual events with titles)
+    axios
+      .get("http://localhost:5000/event/")
+      .then((response) => setActiveEvents(response.data))
+      .catch((error) => console.error("Error fetching active events:", error));
   }, []);
+
+  // Helper function to get event title by matching event_id from eventdetails with _id from activeEvents
+  const getEventTitle = (eventId) => {
+    const event = activeEvents.find((e) => e._id === eventId); // Match event_id with _id in activeEvents
+    return event ? event.title : "Unknown Event"; // Return the event title or 'Unknown Event' if not found
+  };
+
+  // Format date from dd-mm-yyyy to yyyy-mm-dd
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [day, month, year] = dateString.split("-"); // Split date into parts
+    return `${year}-${month}-${day}`; // Return in yyyy-mm-dd format
+  };
 
   // Handle View action
   const handleView = (eventId) => {
@@ -40,9 +61,9 @@ const Event_Details = () => {
       .post(`http://localhost:5000/eventdetails/edit/${_id}`, {
         event_id,
         title,
-        date,
+        date,  // Send date as a single value
         price,
-        slots,
+        slots, // Send slots as a single value
       })
       .then((response) => {
         console.log("Edited Event: ", response.data);
@@ -78,7 +99,7 @@ const Event_Details = () => {
             <thead>
               <tr>
                 <th>Event ID</th>
-                <th>Event Name</th>
+                <th>Event Title</th>
                 <th>Date</th>
                 <th>Price</th>
                 <th>Slots</th>
@@ -89,7 +110,7 @@ const Event_Details = () => {
               {events.map((event) => (
                 <tr key={event._id}>
                   <td>{event.event_id}</td>
-                  <td>{event.title}</td> {/* Display title */}
+                  <td>{getEventTitle(event.event_id)}</td> {/* Display event title by matching event_id */}
                   <td>{event.date}</td>
                   <td>{event.price}</td>
                   <td>{event.slots}</td>
@@ -130,32 +151,12 @@ const Event_Details = () => {
                   <Form onSubmit={handleSubmitEdit}>
                     <Row>
                       <Col md={6}>
-                        <Form.Group controlId="event_id">
-                          <Form.Label>Event ID</Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={selectedEvent.event_id}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                event_id: e.target.value,
-                              })
-                            }
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
                         <Form.Group controlId="title">
                           <Form.Label>Event Name</Form.Label>
                           <Form.Control
                             type="text"
-                            value={selectedEvent.title}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                title: e.target.value,
-                              })
-                            }
+                            value={getEventTitle(selectedEvent.event_id)} // Display event name (title) from active events
+                            readOnly
                           />
                         </Form.Group>
                       </Col>
@@ -166,11 +167,11 @@ const Event_Details = () => {
                           <Form.Label>Date</Form.Label>
                           <Form.Control
                             type="date"
-                            value={selectedEvent.date}
+                            value={selectedEvent.date} // Use formatDate to convert to yyyy-mm-dd
                             onChange={(e) =>
                               setSelectedEvent({
                                 ...selectedEvent,
-                                date: e.target.value,
+                                date: e.target.value, // Update the date
                               })
                             }
                           />
@@ -197,8 +198,8 @@ const Event_Details = () => {
                         <Form.Group controlId="slots">
                           <Form.Label>Slots</Form.Label>
                           <Form.Control
-                            type="number"
-                            value={selectedEvent.slots}
+                            type="text" // Editable field for slots
+                            value={selectedEvent.slots} // Display the current slot value
                             onChange={(e) =>
                               setSelectedEvent({
                                 ...selectedEvent,
@@ -221,7 +222,7 @@ const Event_Details = () => {
                     <strong>Event ID:</strong> {selectedEvent.event_id}
                   </p>
                   <p>
-                    <strong>Event Name:</strong> {selectedEvent.title} {/* Display title */}
+                    <strong>Event Name:</strong> {getEventTitle(selectedEvent.event_id)} {/* Display event title */}
                   </p>
                   <p>
                     <strong>Date:</strong> {selectedEvent.date}
