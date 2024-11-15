@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const Movie = require('../models/movie.model');
 const { generatePDF } = require('./generatePDF.controller');
+const { sendEmail } = require('./emailSender.controller');
 
 
 
@@ -85,6 +86,41 @@ router.get('/download-bill/:bookingId', async (req, res) => {
 
         // Pass the HTML content to the pdfconverter controller to generate and send PDF
         generatePDF(htmlContent, res,booking._id);
+
+        // const sendInvoiceEmail = async (req, res) => {
+            
+        
+        //     // Define the email content
+        //     const htmlContent = `
+        //         <h1>Invoice</h1>
+        //         <p>Please find attached your invoice.</p>
+        //     `;
+        
+        //     // Define the path to the attachment file
+        //     const attachmentPath = path.join(__dirname, '../../uploads/pdfs', `bill_${booking._id}.pdf`);
+        
+        //     // Call sendEmail with the attachment
+        //     const result = await sendEmail({
+        //         to: booking.email,
+        //         subject: 'Your Invoice',
+        //         htmlContent,
+        //         attachments: [
+        //             {
+        //                 filename: 'invoice_12345.pdf',
+        //                 path: attachmentPath
+        //             }
+        //         ]
+        //     });
+        
+        //     if (result.success) {
+        //         res.status(200).json({ message: 'Invoice email sent successfully!' });
+        //     } else {
+        //         res.status(500).json({ message: 'Failed to send invoice email.', error: result.error });
+        //     }
+        // };
+
+        // sendEmail();
+
     } catch (error) {
         console.error('Error fetching booking:', error);
         res.status(500).json({ message: 'Error generating bill PDF', error: error.message });
