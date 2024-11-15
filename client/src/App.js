@@ -72,7 +72,7 @@ function App() {
         <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>
         <Route path = "/events/:categoryId/:cityId"><EventHome/></Route>
-        <Route path = "/events/:eventId"><EventDetailsHome/></Route>
+        <Route path = "/event/:eventId"><EventDetailsHome/></Route>
         
     </Switch>
     

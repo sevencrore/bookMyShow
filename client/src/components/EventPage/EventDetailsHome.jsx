@@ -1,66 +1,43 @@
 import { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom"; // Import useHistory for React Router v5
 import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
 
 const EventDetailsHome = () => {
     const { eventId } = useParams(); // Get the eventId from the URL
-    const history = useHistory(); // Get the useHistory hook for navigation
-
-    const [event, setEvent] = useState(null);
-    const [members, setMembers] = useState(1); // Default members to 1
-    const [selectedSlot, setSelectedSlot] = useState(null); // Store the selected slot
-    const [bookingStatus, setBookingStatus] = useState(null);
+    const history = useHistory(); // Use history hook for navigation
+    const [event, setEvent] = useState(null); // Initialize state to null, since event is an object
 
     // Fetch event details using eventId from URL
     useEffect(() => {
-        const fetchEventData = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/eventDetails/${eventId}`);
-                const data = await response.json();
-                setEvent(data);
-            } catch (error) {
-                console.error("Error fetching event details:", error);
-            }
-        };
-
-        fetchEventData();
+        console.log(`Fetching data for event ID: ${eventId}`); // Debugging log
+        fetch(`http://localhost:5000/event/${eventId}`, { mode: 'cors' })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data && data._id) {
+                    console.log("Fetched event data:", data); // Debugging log
+                    setEvent(data); // Update state with the fetched event data
+                } else {
+                    console.error("Invalid data received:", data); // Debugging log
+                }
+            })
+            .catch((e) => {
+                console.error("Error fetching event details:", e);
+            });
     }, [eventId]);
 
-    // Handle booking
-    const handleBooking = async () => {
-        if (!selectedSlot || !members) {
-            setBookingStatus("Please select a slot and number of members.");
-            return;
-        }
-
-        // Prepare booking data
-        const bookingData = {
-            eventId,
-            slot: selectedSlot,
-            members,
-        };
-
-        try {
-            const response = await fetch("http://localhost:5000/book/create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(bookingData),
-            });
-            const data = await response.json();
-            setBookingStatus("Booking successful!");
-            // Navigate to the confirmation page using history
-            history.push(`/confirmation/${data.bookingId}`);
-        } catch (error) {
-            setBookingStatus("Booking failed. Try again.");
-            console.error("Error booking event:", error);
-        }
-    };
-
+    // If event data is not available, show loading message
     if (!event) {
         return <div>Loading...</div>;
     }
+
+    // Convert MongoDB Decimal128 values to regular numbers
+    const locationLat = event.location_lat?.$numberDecimal || 0;
+    const locationLng = event.location_lang?.$numberDecimal || 0;
+
+    // Build full URLs for images
+    const imageUrl = `http://localhost:5000${event.img}`;
+    const bgImageUrl = `http://localhost:5000${event.bg_img}`;
 
     return (
         <div className="container my-5">
@@ -69,7 +46,7 @@ const EventDetailsHome = () => {
                 <div
                     className="col-12"
                     style={{
-                        backgroundImage: `url(http://localhost:5000${event.bg_img})`,
+                        backgroundImage: `url(${bgImageUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         height: "400px",
@@ -78,7 +55,7 @@ const EventDetailsHome = () => {
                 >
                     {/* Small image on top of background */}
                     <img
-                        src={`http://localhost:5000${event.img}`}
+                        src={imageUrl}
                         alt={event.title}
                         className="position-absolute top-0 start-0 m-3"
                         style={{
@@ -94,63 +71,55 @@ const EventDetailsHome = () => {
             {/* Event Details */}
             <div className="card mt-4 p-3 shadow-sm">
                 <h2>{event.title}</h2>
+                <p><strong>Host:</strong> {event.host_name}</p>
                 <p>{event.description}</p>
 
-                {/* Number of members dropdown */}
-                <div className="mb-3">
-                    <label htmlFor="members" className="form-label">
-                        Number of Members
-                    </label>
-                    <select
-                        id="members"
-                        className="form-select"
-                        value={members}
-                        onChange={(e) => setMembers(Number(e.target.value))}
-                    >
-                        {[...Array(10).keys()].map((n) => (
-                            <option key={n} value={n + 1}>
-                                {n + 1}
-                            </option>
-                        ))}
-                    </select>
+                {/* Category */}
+                <div>
+                    <h5>Category ID:</h5>
+                    <p>{event.category_id}</p>
                 </div>
 
-                {/* Slots Dropdown */}
-                <div className="mb-3">
-                    <label htmlFor="slots" className="form-label">
-                        Select a Slot
-                    </label>
-                    <select
-                        id="slots"
-                        className="form-select"
-                        value={selectedSlot}
-                        onChange={(e) => setSelectedSlot(e.target.value)}
-                    >
-                        <option value="" disabled>
-                            Select a slot
-                        </option>
-                        {event.slots?.map((slot, index) => (
-                            <option key={index} value={slot}>
-                                {slot}
-                            </option>
-                        ))}
-                    </select>
+                {/* Vendor */}
+                <div>
+                    <h5>Vendor ID:</h5>
+                    <p>{event.vendor_id}</p>
                 </div>
 
-                {/* Booking status message */}
-                {bookingStatus && (
-                    <div className="mb-3" style={{ color: "#ff4d4f" }}>
-                        {bookingStatus}
+                {/* Event Location */}
+                {event.location_description && (
+                    <div>
+                        <h5>Location Description:</h5>
+                        <p>{event.location_description}</p>
                     </div>
                 )}
 
-                {/* Book Button */}
+                {/* Coordinates */}
+                <div>
+                    <h5>Location Coordinates:</h5>
+                    <p>Latitude: {locationLat}, Longitude: {locationLng}</p>
+                </div>
+
+                {/* City */}
+                <div>
+                    <h5>City ID:</h5>
+                    <p>{event.city_id}</p>
+                </div>
+
+                {/* Event Status */}
+                {event.is_active === '0' && (
+                    <div className="alert alert-warning mt-3" role="alert">
+                        This event is currently inactive.
+                    </div>
+                )}
+
+                {/* Button to go back to events list */}
                 <button
-                    onClick={handleBooking}
-                    className="btn btn-success mt-3"
+                    onClick={() => history.push("/events")} // Navigate back to event list
+                    className="btn btn-primary mt-3"
                     style={{ padding: "10px 20px" }}
                 >
-                    Book Now
+                    Back to Events
                 </button>
             </div>
         </div>
