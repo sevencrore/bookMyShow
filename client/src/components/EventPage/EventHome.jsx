@@ -9,7 +9,7 @@ const EventList = ({ events }) => {
             <div><a href="http://localhost:3000/">Hubli >> </a> <a href="http://localhost:3000/">Pubs >> </a></div>
             <div className="container-fluid categories-list" style={styles.categoriesList}>
                 {events.map((event, index) => (
-                    <Link key={index} to={`/eventdetails/${event._id}`} style={styles.link}>
+                    <Link key={index} to={`/event/${event._id}`} style={styles.link}>
                         <div style={styles.categoryCard}>
                             {/* Image Container with fixed size 204x336 */}
                             <div className="image-container" style={styles.imageContainer}>
