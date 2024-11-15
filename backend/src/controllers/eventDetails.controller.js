@@ -33,9 +33,11 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const eventDetail = await EventDetails.findOne(
-            { _id: id, is_active: '1', is_deleted: '0',event_id :id }, // Filters by ID, active, and not deleted
+        const allEventDetails = await EventDetails.find(
+            { is_active: '1', is_deleted: '0',event_id :id }, // Filters
         ).select("-is_active -is_deleted -updated_at");
+        
+        res.status(200).send(allEventDetails);
 
         if (!eventDetail) {
             return res.status(404).json({ message: "Event details not found or inactive/deleted." });
