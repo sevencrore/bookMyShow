@@ -64,10 +64,10 @@ router.get('/get/:categoryId/:cityId', async (req, res) => {
 
 
 
-router.get('/:categoryId', async (req, res) => {
+router.get('/:Id', async (req, res) => {
     try {
         const { Id } = req.params;  // Get Id from URL parameter
-        const events = await Event.find({ _id: Id });  // Fetch events by Id
+        const events = await Event.find({ _id: Id,  }).select("-is_deleted -created_at -is_active -updated_at");;  // Fetch events by Id
 
         if (!events || events.length === 0) {
             return res.status(404).json({ message: 'No events found for this Id.' });

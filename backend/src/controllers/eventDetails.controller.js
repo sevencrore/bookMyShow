@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const EventDetails = require('../models/eventDetails.model');
+const Event = require('../models/event.model');
 
 // Get all event details
 router.get('/', async (req, res) => {
@@ -37,9 +38,19 @@ router.get('/event/:id', async (req, res) => {
             { is_active: '1', is_deleted: '0',event_id :id }, // Filters
         ).select("-is_active -is_deleted -updated_at");
 
+        // const events = await Event.find({ _id: id,
+        //     is_active: '1',
+        //     is_deleted: '0'
+        // }).select("-is_active -is_deleted -updated_at"); 
+
         if (!eventDetail) {
             return res.status(404).json({ message: "Event details not found or inactive/deleted." });
         }
+
+        // const Data = {
+        //     eventDetail: eventDetail,
+        //     events: events,
+        // };
 
         res.status(200).send(eventDetail);
 
