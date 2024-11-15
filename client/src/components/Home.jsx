@@ -11,41 +11,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
 
-// Category List Component (Updated to show name/description below the image)
-const CategoryList = ({ categories }) => {
-    // TODO
-    
-    return (
-        <div className="container-fluid categories-list" style={styles.categoriesList}>
-            {categories.map((category, index) => (
-                <Link key={index} to={`/events/${category._id}/1`} style={styles.link}>
-                    <div style={styles.categoryCard}>
-                        {/* Image Container with fixed size 204x336 */}
-                        <div className="image-container" style={styles.imageContainer}>
-                            <img
-                                src={`http://localhost:5000${category.image}`}
-                                alt={category.category_name}
-                                style={styles.image}
-                            />
-                        </div>
 
-                        {/* Name and Description below the image */}
-                        <div className="content-container" style={styles.contentContainer}>
-                            <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
-                            <p className="category-description" style={styles.description}>{category.description}</p>
-                        </div>
-                    </div>
-                </Link>
-            ))}
-        </div>
-    );
-};
 
 // HomePage Component
 function HomePage() {
     const [categories, setCategories] = useState([]);
     const [showModal, setShowModal] = useState(false);
     let { city, handleChange } = useContext(AppContext);
+
+    const city_id = localStorage.getItem('selectedCityId');
 
     const settings = {
         dots: true,
@@ -82,6 +56,41 @@ function HomePage() {
                 console.error(e);
             });
     }, []);
+
+
+
+
+// Category List Component (Updated to show name/description below the image)
+const CategoryList = ({ categories }) => {
+    // TODO
+    
+    return (
+        <div className="container-fluid categories-list" style={styles.categoriesList}>
+            {categories.map((category, index) => (
+                <Link key={index} to={`/events/${category._id}/${city_id}`} style={styles.link}>
+                    <div style={styles.categoryCard}>
+                        {/* Image Container with fixed size 204x336 */}
+                        <div className="image-container" style={styles.imageContainer}>
+                            <img
+                                src={`http://localhost:5000${category.image}`}
+                                alt={category.category_name}
+                                style={styles.image}
+                            />
+                        </div>
+
+                        {/* Name and Description below the image */}
+                        <div className="content-container" style={styles.contentContainer}>
+                            <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
+                            <p className="category-description" style={styles.description}>{category.description}</p>
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </div>
+    );
+};
+
+
 
     return (
         <>

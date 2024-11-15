@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
         const { id } = req.params;
 
         const eventDetail = await EventDetails.findOne(
-            { _id: id, is_active: '1', is_deleted: '0' }, // Filters by ID, active, and not deleted
+            { _id: id, is_active: '1', is_deleted: '0',event_id :id }, // Filters by ID, active, and not deleted
         ).select("-is_active -is_deleted -updated_at");
 
         if (!eventDetail) {

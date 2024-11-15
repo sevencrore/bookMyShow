@@ -29,6 +29,7 @@ import ListCategory from './components/admin/ListCategory';
 import ListVendor from './components/admin/ListVendor';
 import EventDetails from './components/admin/Event_Details';
 import EventHome from './components/EventPage/EventHome';
+import EventDetailsHome from './components/EventPage/EventDetailsHome';
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
         <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>
         <Route path = "/events/:categoryId/:cityId"><EventHome/></Route>
+        <Route path = "/events/:eventId"><EventDetailsHome/></Route>
         
     </Switch>
     
