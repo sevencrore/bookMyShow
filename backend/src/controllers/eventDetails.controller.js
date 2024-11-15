@@ -28,22 +28,21 @@ router.post('/create', async (req, res) => {
     }
 });
 
-// Get a single event detail by ID, only if active and not deleted, excluding `created_at`
-router.get('/:id', async (req, res) => {
+// Get a single event detail by EventID, only if active and not deleted, 
+router.get('/event/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const allEventDetails = await EventDetails.find(
+        const eventDetail = await EventDetails.find(
             { is_active: '1', is_deleted: '0',event_id :id }, // Filters
         ).select("-is_active -is_deleted -updated_at");
-        
-        res.status(200).send(allEventDetails);
 
         if (!eventDetail) {
             return res.status(404).json({ message: "Event details not found or inactive/deleted." });
         }
 
         res.status(200).send(eventDetail);
+
     } catch (error) {
         console.error("Error fetching event detail:", error);
         res.status(500).json({ message: "Error fetching event detail.", error });
