@@ -1,77 +1,51 @@
-import { useContext, useEffect, useState } from "react"
-import axios from 'axios';
-import MovieCard from "./movie_card/MovieCard";
-import '../style/home.css'
+import { useContext, useEffect, useState } from "react";
 import Menubar from "./menubar/Menubar";
 import PrivacyNote from "./privacyNote/PrivacyNote";
 import Footer from "./footer/Footer";
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button'
 import LocationPicker from "./LocationPickup/LocationPicker";
 import { AppContext } from "../contexts/AppContext";
 import Navbar from "./navbar/Navbar";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import { Link } from 'react-router-dom';
 
-const MovieList = ({ movies }) => {
-    return (
-        <div className="container-fluid movies-list">
-            {movies.map((el, index) => (
-                <Link key={index} to={`/movie/${el._id}`}>
-                    <MovieCard 
-                        title={el.title} 
-                        image={el.img_url} 
-                        tag={el.genre[0]} 
-                        headingColor="white" 
-                        subHeadColor="white" 
-                    />
-                </Link>
-            ))}
-        </div>
-    );
-};
-
-
+// Category List Component (Updated to show name/description below the image)
 const CategoryList = ({ categories }) => {
+    // TODO
+    
     return (
-        <div className="container-fluid categories-list">
+        <div className="container-fluid categories-list" style={styles.categoriesList}>
             {categories.map((category, index) => (
-                <Link key={index} to={`/category/${category._id}`}>
-                    <MovieCard 
-                        title={category.category_name} 
-                        // image={category.image} 
-                        image={`http://localhost:5000${category.image}`}
-                        description={category.description} 
-                        headingColor="white" 
-                        subHeadColor="white" 
-                    />
+                <Link key={index} to={`/events/${category._id}/1`} style={styles.link}>
+                    <div style={styles.categoryCard}>
+                        {/* Image Container with fixed size 204x336 */}
+                        <div className="image-container" style={styles.imageContainer}>
+                            <img
+                                src={`http://localhost:5000${category.image}`}
+                                alt={category.category_name}
+                                style={styles.image}
+                            />
+                        </div>
+
+                        {/* Name and Description below the image */}
+                        <div className="content-container" style={styles.contentContainer}>
+                            <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
+                            <p className="category-description" style={styles.description}>{category.description}</p>
+                        </div>
+                    </div>
                 </Link>
             ))}
         </div>
     );
 };
 
-
-
-// Define a named function for your main component
+// HomePage Component
 function HomePage() {
-    const [movies, setMovies] = useState([]);
     const [categories, setCategories] = useState([]);
-    const imagesCard = [
-        "https://in.bmscdn.com/discovery-catalog/collections/tr:w-800,h-800:ote-MTcwKyBFdmVudHM%3D,otc-FFFFFF,otf-Roboto,ots-64,ox-48,oy-320,ott-b:w-300/workshops-collection-202007231330.png", 
-        "https://in.bmscdn.com/discovery-catalog/collections/tr:w-800,h-800:ote-MTAgRXZlbnRz,otc-FFFFFF,otf-Roboto,ots-64,ox-48,oy-320,ott-b:w-300/fitness-collection-2020081150.png", 
-        "https://in.bmscdn.com/discovery-catalog/collections/tr:w-800,h-800:ote-NDArIEV2ZW50cw%3D%3D,otc-FFFFFF,otf-Roboto,ots-64,ox-48,oy-320,ott-b:w-300/kids-collection-202007220710.png", 
-        "https://in.bmscdn.com/discovery-catalog/collections/tr:w-800,h-800:ote-MTUwKyBFdmVudHM%3D,otc-FFFFFF,otf-Roboto,ots-64,ox-48,oy-320,ott-b:w-300/comedy-shows-collection-202007220710.png", 
-        "https://in.bmscdn.com/discovery-catalog/collections/tr:w-800,h-800:ote-MzUrIEV2ZW50cw%3D%3D,otc-FFFFFF,otf-Roboto,ots-64,ox-48,oy-320,ott-b:w-300/music-shows-collection-202007220710.png"
-    ];
-
     const [showModal, setShowModal] = useState(false);
     let { city, handleChange } = useContext(AppContext);
-
-    console.log(city, handleChange);
 
     const settings = {
         dots: true,
@@ -89,7 +63,6 @@ function HomePage() {
     }
 
     function toggleLocationPickup(e) {
-        console.log(e);
         let set = !showModal;
         setShowModal(set);
     }
@@ -99,20 +72,10 @@ function HomePage() {
             setShowModal(true);
         });
 
-        fetch('http://localhost:5000/movies', { mode: 'cors' })
+        // Fetch categories
+        fetch('http://localhost:5000/eventCategory/', { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
-                console.log("data", data);
-                setMovies(data);
-            })
-            .catch((e) => {
-                console.error(e);
-            });
-
-            fetch('http://localhost:5000/eventCategory/', { mode: 'cors' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("data", data);
                 setCategories(data);
             })
             .catch((e) => {
@@ -132,15 +95,15 @@ function HomePage() {
             <Navbar toggle={toggleLocationPickup} />
             <Menubar />
 
-            <Slider {...settings} style={{ maxWidth: '100%', maxHeight: '324px', marginRight: '20px', marginLeft: '20px', marginTop: '20px' }}>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639378314392_revisedbanner2.jpg" style={{ objectFit: 'cover', width: '100%' }} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639051788302_sunburn.jpg" style={{ objectFit: 'cover', width: '100%' }} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1637323134871_divinepunyapaaptour_webshowcase_1240x300.jpg" style={{ objectFit: 'cover', width: '100%' }} /></div>
+            <Slider {...settings} style={styles.slider}>
+                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639378314392_revisedbanner2.jpg" style={styles.sliderImage} /></div>
+                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639051788302_sunburn.jpg" style={styles.sliderImage} /></div>
+                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1637323134871_divinepunyapaaptour_webshowcase_1240x300.jpg" style={styles.sliderImage} /></div>
             </Slider>
 
             <div className="container-fluid padd">
                 <div className="left">
-                    <p className="heading-4">Recommended Movies</p>
+                    <p className="heading-4">Categories</p>
                 </div>
                 <div className="right">
                     <p className="heading-3">see all &#8594;</p>
@@ -148,31 +111,18 @@ function HomePage() {
                 <div className="clear"></div>
             </div>
 
-            <MovieList movies={movies} />
-
             <CategoryList categories={categories} />
 
-
             <br />
-            <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" />
-            <br />
-
-            <p className="heading-4">The Best Of Entertainment</p>
-
-            <div className="image-flex">
-                <br />
-                {imagesCard.map((el, index) => (
-                    <img key={index} src={el} />
-                ))}
-            </div>
-
-            <br />
+            <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
 
             <div className="premier-container">
-                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" />
+                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Promo Banner" />
                 <br />
                 <br />
-                <MovieList movies={movies} />
+                <div className="container">
+                    <CategoryList categories={categories} />
+                </div>
             </div>
 
             <PrivacyNote />
@@ -180,5 +130,87 @@ function HomePage() {
         </>
     );
 }
+
+const styles = {
+    categoriesList: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)', // 4 cards per row
+        gap: '20px', // Space between cards
+        marginTop: '20px',
+        padding: '0 20px', // Padding for the container
+    },
+    link: {
+        textDecoration: 'none', // No underline for the link
+    },
+    categoryCard: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between', // Distribute content evenly
+        width: '100%',
+        height: 'auto', // Auto height for the card
+        borderRadius: '8px',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#fff',
+        overflow: 'hidden',
+        transition: 'transform 0.3s ease-in-out',
+        cursor: 'pointer',
+    },
+    imageContainer: {
+        display: 'flex',
+        justifyContent: 'center', // Center the image horizontally
+        alignItems: 'center', // Center the image vertically
+        width: '204px', // Fixed width of 204px
+        height: '336px', // Fixed height of 336px
+        overflow: 'hidden',
+    },
+    image: {
+        width: '204px',  // Fixed width for image
+        height: '336px', // Fixed height for image
+        objectFit: 'cover',  // Ensure image covers the container and doesn't stretch
+        display: 'block',
+    },
+    contentContainer: {
+        padding: '8px 16px',
+        backgroundColor: '#fff',
+        flexGrow: 1, // Allow content to take available space
+        marginTop: '10px', // Add margin-top for space between image and text
+    },
+    title: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        margin: '8px 0',
+        color: '#333',
+    },
+    description: {
+        fontSize: '14px',
+        color: '#666',
+        marginBottom: '8px',
+    },
+    slider: {
+        maxWidth: '100%',
+        maxHeight: '324px',
+        marginRight: '20px',
+        marginLeft: '20px',
+        marginTop: '20px'
+    },
+    sliderImage: {
+        objectFit: 'cover',
+        width: '100%',
+    },
+};
+
+// Media Query for Responsiveness
+const mediaQueryStyles = {
+    '@media (max-width: 1024px)': {
+        categoriesList: {
+            gridTemplateColumns: 'repeat(2, 1fr)', // 2 columns for medium screens
+        },
+    },
+    '@media (max-width: 768px)': {
+        categoriesList: {
+            gridTemplateColumns: '1fr', // 1 column for smaller screens
+        },
+    },
+};
 
 export default HomePage;
