@@ -1,96 +1,81 @@
-import { Button } from "react-bootstrap"
-import {FaGoogle} from 'react-icons/fa';
-
 import { useEffect } from "react";
-
-
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import '../../style/login.css';
-export default function({hide})
-{   
 
-    useEffect(()=>{
-        
+export default function({ hide }) {
+  useEffect(() => {
+    // Optionally, add any setup or cleanup code here
+  }, []);
 
+  function googleLogin() {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
 
-    },[])
+    // Sign in with Google
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Extract the Google Access Token (optional)
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user; // Firebase user object
 
+        console.log("Logged in user:", user);
 
-    function googleLogin()
-    {
+        // Send user data to your backend
+        fetch('http://localhost:5000/users/createUser', {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+          body: JSON.stringify({
+            email: user.email,
+            displayName: user.displayName,
+            uid: user.uid, // You can send any relevant data here
+          }),
+        })
+        .then(async (res) => {
+          const data = await res.json();
+          console.log("Created User:", data);
 
+          // Assuming the response contains the _id of the created user
+          const userId = data.user._id; // Adjust according to your backend response
 
-        const provider= new GoogleAuthProvider();
-const auth = getAuth();
-signInWithPopup(auth, provider)
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
+          // Store user info and user_id in localStorage
+          localStorage.setItem('user', JSON.stringify(user)); // Store entire user object
+          localStorage.setItem('user_id', userId); // Store only the user _id
 
-    console.log(user);
+          // Hide the login modal or screen
+          hide(false);
 
-     fetch('http://localhost:5000/users/createUser',{
-      method: 'POST', 
-    mode: 'cors', 
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer', 
-      body:JSON.stringify(user)
-    }).then(async(res)=>{
-        let data=await res.json();
-        console.log("Created User",data);
-    }).catch((e)=>{
-      console.log(e);
-    }); 
+          // Optionally, scroll to the top
+          window.scroll({ top: 0, behavior: 'smooth' });
+        })
+        .catch((e) => {
+          console.log("Error during user creation:", e);
+        });
 
-    localStorage.setItem('user',JSON.stringify(user));
-    hide(false);
+      })
+      .catch((error) => {
+        // Handle Errors here
+        console.error("Google login error:", error.message);
+      });
+  }
 
-    window.scroll({top:0,behavior:'smooth'})
+  return (
+    <div className="container" style={{ textAlign: 'center', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <p className="sub-pop">Get Started</p>
 
-
-
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-
-
-    }
-
-    return(<>
-
-            <div className="container" style={{textAlign:'center',padding:'20px',display:'flex',flexDirection:'column',gap:'20px'}}>
-
-                <p className="sub-pop">Get Started</p>
-
-
-
-                <div class="google-btn" onClick={googleLogin}>
-                <div class="google-icon-wrapper">
-                    <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
-                    <p class="btn-text text"><b>Sign in with google</b></p>
-                </div>                
-                </div>
-    
-
-                
-            </div>
-
-    </>)
-
+      <div className="google-btn" onClick={googleLogin}>
+        <div className="google-icon-wrapper">
+          <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
+          <p className="btn-text text"><b>Sign in with Google</b></p>
+        </div>
+      </div>
+    </div>
+  );
 }

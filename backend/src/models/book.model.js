@@ -5,8 +5,10 @@ const bookSchema = new mongoose.Schema({
     name: { type: String},   // Name of the person making the booking
     user: { type: String},  // User's email or ID (event-specific user)
     number_of_members: { type: Number, required: true },  // Number of members for the booking
-    eventDetailsID: { type: String, required: true },  // Event ID linked to the booking
-    event_id: { type: String, required: true },  // Event ID for specific event
+    eventDetailsID: {type: mongoose.Schema.Types.ObjectId, ref: 'EventDetails', required: true },  // Event ID linked to the booking
+    event_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true  },  // Event ID for specific event
+    uid: { type: String, required: true,ref: 'User' },
+    displayName :{ type: String, required: true },
 }, {
     versionKey: false,  // Disable the version key (_v)
     timestamps: true,  // Enable automatic creation of createdAt and updatedAt fields

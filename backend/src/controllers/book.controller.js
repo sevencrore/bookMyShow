@@ -32,8 +32,8 @@ router.post("/create", async (req, res) => {
         console.log(req.body);
 
         // Validate input data (basic validation)
-        const { number_of_members, eventDetailsID, email, event_id } = req.body;
-        if (!number_of_members || !eventDetailsID || !email || !event_id) {
+        const { number_of_members, eventDetailsID, email, event_id,uid,displayName } = req.body;
+        if (!number_of_members || !eventDetailsID || !email || !event_id || !uid || !displayName) {
             return res.status(400).send({ error: 'Missing required fields' });
         }
 
@@ -42,7 +42,9 @@ router.post("/create", async (req, res) => {
             number_of_members,
             eventDetailsID,
             email,
-            event_id
+            event_id,
+            uid,
+            displayName,
         });
 
         // Send the response with the created booking

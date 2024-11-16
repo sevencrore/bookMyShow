@@ -55,12 +55,16 @@ const BookEvent = () => {
             // Get the user's email from localStorage
             const user = JSON.parse(localStorage.getItem('user'));
             const email = user ? user.email : '';
+            const uid = user ? user.uid : '';
+            const displayName = user ? user.displayName : '';
 
             const bookingData = {
                 number_of_members: numberOfMembers, // Convert members to a number
                 eventDetailsID, // Event details ID (_id)
                 email: email, // User's email
                 event_id: eventDetails.event_id, // Event ID
+                uid:uid,
+                displayName:displayName,
             };
 
             console.log("Booking Data:", bookingData); // Log the data to verify it's correct
