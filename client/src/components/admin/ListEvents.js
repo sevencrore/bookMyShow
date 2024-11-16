@@ -9,7 +9,13 @@ const ListEvent = () => {
   const [categories, setCategories] = useState([]); // To store category data
   const [cities, setCities] = useState([]); // To store city data
   const [selectedEvent, setSelectedEvent] = useState(null); // To store selected event for view/edit
-  const [isEditing, setIsEditing] = useState(false); // To toggle between view/edit modes
+  const [eventDetails, setEventDetails] = useState({
+    email: userEmail,
+    date: "",
+    price: "",
+    slots: "",
+    event_id: "", // The event ID will be set when an event is selected
+  });
 
   // Fetch events, vendors, categories, and cities when component mounts
   useEffect(() => {
@@ -34,7 +40,7 @@ const ListEvent = () => {
     // Fetch cities
     axios
       .get("http://localhost:5000/city/")
-      .then((response) => setCities(response.data)) // Corrected this to setCities instead of setCategories
+      .then((response) => setCities(response.data))
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
@@ -42,28 +48,45 @@ const ListEvent = () => {
   const handleView = (eventId) => {
     const event = events.find((e) => e._id === eventId);
     setSelectedEvent(event);
-    setIsEditing(false); // Set view mode
   };
 
-  // Handle Edit action
-  const handleEdit = (eventId) => {
+  // Handle Add Event Details action
+  const handleCreateEventDetails = (eventId) => {
     const event = events.find((e) => e._id === eventId);
-    setSelectedEvent(event);
-    setIsEditing(true); // Set edit mode
+    setSelectedEvent(event); // Set selected event for reference in the form
+
+    // Pre-fill the form with event details
+    setEventDetails({
+      email: userEmail,
+      date: "",
+      price: "",
+      slots: "",
+      event_id: eventId, // Attach event ID to the event details
+    });
   };
 
-  // Handle form submit for editing
-  const handleSubmitEdit = (e) => {
+  // Handle form submit for creating event details
+  const handleSubmitEventDetails = (e) => {
     e.preventDefault();
-    // Perform the edit submission logic, e.g., PUT request to update event
-    // For now, just log the edited event
-    axios.post(
-      `http://localhost:5000/event/edit/${selectedEvent._id}`,
-      selectedEvent
-    );
-    console.log("Edited Event: ", selectedEvent);
-    // After submission, you might want to reset or update the state
-    setIsEditing(false); // Reset to view mode after editing
+
+    // Create the event details using the API
+    axios
+      .post("http://localhost:5000/eventDetails/create", eventDetails)
+      .then((response) => {
+        console.log("Event details created:", response.data);
+        // Reset the form after successful creation
+        setEventDetails({
+          email: userEmail,
+          date: "",
+          price: "",
+          slots: "",
+          event_id: eventDetails.event_id,
+        });
+        alert("Event Details Created Successfully!");
+      })
+      .catch((error) => {
+        console.error("Error creating event details:", error);
+      });
   };
 
   return (
@@ -115,10 +138,11 @@ const ListEvent = () => {
                       View
                     </Button>
                     <Button
-                      variant="warning"
-                      onClick={() => handleEdit(event._id)}
+                      className="me-2"
+                      variant="success"
+                      onClick={() => handleCreateEventDetails(event._id)}
                     >
-                      Edit
+                      Add Event Details
                     </Button>
                   </td>
                 </tr>
@@ -126,164 +150,67 @@ const ListEvent = () => {
             </tbody>
           </Table>
 
-          {/* Event Details or Edit Form Below the Table */}
+          {/* Event Details or Add Event Details Form Below the Table */}
           {selectedEvent && (
             <div className="my-3">
-              {isEditing ? (
-                <div>
-                  <h3>Edit Event</h3>
-                  <Form onSubmit={handleSubmitEdit}>
-                    <Row>
-                      <Col md={6}>
-                        <Form.Group controlId="title">
-                          <Form.Label>Event Title</Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={selectedEvent.title}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                title: e.target.value,
-                              })
-                            }
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group controlId="host_name">
-                          <Form.Label>Host Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={selectedEvent.host_name}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                host_name: e.target.value,
-                              })
-                            }
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md={6}>
-                        <Form.Group controlId="category">
-                          <Form.Label>Category</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={selectedEvent.category_id}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                category_id: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="">Select Category</option>
-                            {categories.map((category) => (
-                              <option key={category._id} value={category._id}>
-                                {category.category_name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group controlId="vendor">
-                          <Form.Label>Vendor</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={selectedEvent.vendor_id}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                vendor_id: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="">Select Vendor</option>
-                            {vendors.map((vendor) => (
-                              <option key={vendor._id} value={vendor._id}>
-                                {vendor.name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group controlId="city">
-                          <Form.Label>City</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={selectedEvent.city_id}
-                            onChange={(e) =>
-                              setSelectedEvent({
-                                ...selectedEvent,
-                                city_id: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="">Select City</option>
-                            {cities.map((city) => (
-                              <option key={city._id} value={city._id}>
-                                {city.name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Form.Group controlId="location">
-                      <Form.Label>Location Description</Form.Label>
+              <h3>Create Event Details for "{selectedEvent.title}"</h3>
+              <Form onSubmit={handleSubmitEventDetails}>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group controlId="date">
+                      <Form.Label>Date</Form.Label>
                       <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={selectedEvent.location_description}
+                        type="datetime-local"
+                        value={eventDetails.date}
                         onChange={(e) =>
-                          setSelectedEvent({
-                            ...selectedEvent,
-                            location_description: e.target.value,
+                          setEventDetails({
+                            ...eventDetails,
+                            date: e.target.value,
                           })
                         }
+                        required
                       />
                     </Form.Group>
-                    <Button type="submit" variant="primary" className="my-3">
-                      Save Changes
-                    </Button>
-                  </Form>
-                </div>
-              ) : (
-                <div>
-                  <h3>Event Details</h3>
-                  <p>
-                    <strong>Event Title:</strong> {selectedEvent.title}
-                  </p>
-                  <p>
-                    <strong>Host Name:</strong> {selectedEvent.host_name}
-                  </p>
-                  <p>
-                    <strong>Category:</strong>{" "}
-                    {categories.find(
-                      (category) => category._id === selectedEvent.category_id
-                    )?.category_name || "N/A"}
-                  </p>
-                  <p>
-                    <strong>Vendor:</strong>{" "}
-                    {vendors.find(
-                      (vendor) => vendor._id === selectedEvent.vendor_id
-                    )?.name || "N/A"}
-                  </p>
-                  <p>
-                    <strong>Location:</strong>{" "}
-                    {selectedEvent.location_description}
-                  </p>
-                  <p>
-                    <strong>City:</strong>{" "}
-                    {cities.find((city) => city._id === selectedEvent.city_id)
-                      ?.name || "N/A"}
-                  </p>
-                </div>
-              )}
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group controlId="price">
+                      <Form.Label>Price</Form.Label>
+                      <Form.Control
+                        type="number"
+                        value={eventDetails.price}
+                        onChange={(e) =>
+                          setEventDetails({
+                            ...eventDetails,
+                            price: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group controlId="slots">
+                      <Form.Label>Available Slots</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={eventDetails.slots}
+                        onChange={(e) =>
+                          setEventDetails({
+                            ...eventDetails,
+                            slots: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Button type="submit" variant="primary" className="my-3">
+                  Create Event Details
+                </Button>
+              </Form>
             </div>
           )}
         </div>
