@@ -50,9 +50,13 @@ router.post('/createUser', async (req, res) => {
         }
 
         let createdUser = await User.create(req.body);
-        res.status(201).send(createdUser);
-        // Respond with the new user data
-        return res.status(201).json({ message: "User created successfully", user: createdUser });
+
+        // We create the user and then use the `.toObject()` method to remove unwanted fields
+        let userResponse = createdUser.toObject();
+        delete userResponse.displayName;  // remove the displayName field (or any other field)
+        
+        // Send the response without the `displayName`
+        return res.status(201).json({ message: "User created successfully", user: userResponse });
 
     } catch (error) {
         // Handle any errors (e.g., database issues, validation errors)
