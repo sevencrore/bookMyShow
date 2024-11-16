@@ -1,26 +1,16 @@
 const mongoose = require('mongoose');
 
-
 const bookSchema = new mongoose.Schema({
-    email:{type:String},
-    name:{type:String},
-    uid:{type:String,ref:'user'},
-    seats:[{type:String}],
-    howmanySeats:{type:Number},
-    theater:{type:mongoose.Schema.Types.ObjectId,ref:'theater'},
-    amount:{type:Number},
-    paymnetStatus:{type:Boolean},
-    paymentMode:{type:String},    
-    phoneNumber:{type:String},
-    ticketType:{type:String},
-    dateOfBooking:{type:String},
-    timeOfShow:{type:String},
-    orderStatus:{type:String},
-    movieid:{type:mongoose.Schema.Types.ObjectId,ref:'movie'}
-},{
-    versionKey:false,
-    timestamps:true
+    email: { type: String, required: true },  // Email of the user
+    name: { type: String},   // Name of the person making the booking
+    user: { type: String},  // User's email or ID (event-specific user)
+    number_of_members: { type: Number, required: true },  // Number of members for the booking
+    eventDetailsID: { type: String, required: true },  // Event ID linked to the booking
+    event_id: { type: String, required: true },  // Event ID for specific event
+}, {
+    versionKey: false,  // Disable the version key (_v)
+    timestamps: true,  // Enable automatic creation of createdAt and updatedAt fields
 });
 
-const Book = mongoose.model("booking",bookSchema);
-module.exports=Book;
+const Book = mongoose.model("booking", bookSchema);
+module.exports = Book;

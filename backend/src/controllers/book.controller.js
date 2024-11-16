@@ -26,15 +26,33 @@ router.get("/getBooking/:bookingId",async(req,res)=>{
 });
 
 
+router.post("/create", async (req, res) => {
+    try {
+        // Log the incoming request body to inspect it
+        console.log(req.body);
 
-router.post("/create",async(req,res)=>{
+        // Validate input data (basic validation)
+        const { number_of_members, eventDetailsID, email, event_id } = req.body;
+        if (!number_of_members || !eventDetailsID || !email || !event_id) {
+            return res.status(400).send({ error: 'Missing required fields' });
+        }
 
-    let createBooking=await Book.create(req.body);
+        // Create the booking
+        const createBooking = await Book.create({
+            number_of_members,
+            eventDetailsID,
+            email,
+            event_id
+        });
 
-
-    res.status(201).send(createBooking);
-
-})
+        // Send the response with the created booking
+        res.status(201).send(createBooking);
+    } catch (error) {
+        // Catch any errors and send them back as a response
+        console.error(error);
+        res.status(500).send({ error: 'An error occurred while creating the booking' });
+    }
+});
 
 router.patch("/update/:id",async(req,res)=>{
 

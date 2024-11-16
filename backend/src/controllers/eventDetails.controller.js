@@ -19,15 +19,37 @@ router.get('/', async (req, res) => {
 });
 
 // Create new event details
-router.post('/create', async (req, res) => {
+router.post("/create", async (req, res) => {
     try {
-        const eventDetail = await EventDetails.create(req.body);
-        res.status(201).json({ message: "Event details added successfully", eventDetail });
+        // Log the incoming request body to inspect it
+        console.log(req.body);
+
+        // Validate the input fields
+        const { email, name, user, number_of_members, eventDetailsID, event_id } = req.body;
+        
+        if (!email || !name || !user || !number_of_members || !eventDetailsID || !event_id) {
+            return res.status(400).send({ error: 'Missing required fields' });
+        }
+
+        // Create the booking with only the necessary fields
+        const createBooking = await Book.create({
+            email,
+            name,
+            user,
+            number_of_members,
+            eventDetailsID,
+            event_id
+        });
+
+        // Send the created booking as a response
+        res.status(201).send(createBooking);
     } catch (error) {
-        console.error("Error creating event details:", error);
-        res.status(500).json({ message: "Error creating event details.", error });
+        // Handle errors if any
+        console.error(error);
+        res.status(500).send({ error: 'An error occurred while creating the booking' });
     }
 });
+
 
 // Get a single event detail by EventID, only if active and not deleted, 
 router.get('/event/:id', async (req, res) => {
@@ -36,7 +58,7 @@ router.get('/event/:id', async (req, res) => {
 
         const eventDetail = await EventDetails.find(
             { is_active: '1', is_deleted: '0',event_id :id }, // Filters
-        ).select("-is_active -is_deleted -updated_at");
+        ).select("-is_deleted -updated_at");
 
         // const events = await Event.find({ _id: id,
         //     is_active: '1',
