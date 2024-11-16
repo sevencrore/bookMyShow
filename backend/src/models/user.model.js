@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     password:{type:String,required:false},
     firstName:{type:String,required:false},
     lastName:{type:String,required:false},
-    uid:{type:String,required:false}
+    uid:{type:String,required:false},
+    displayName :{type:String},
+    
 /*     address :{type:mongoose.Schema.Types.ObjectId,ref:'address'} */
 },{
     versionKey:false,

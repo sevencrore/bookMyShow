@@ -45,7 +45,7 @@ const AdminRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/users/createuser", input);
+            const res = await axios.post("http://localhost:5000/users/create", input);
             alert(res.data.message);
             history.push("/admin/login"); // Updated `navigate` to `history.push`
         } catch (error) {

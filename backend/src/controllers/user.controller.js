@@ -35,51 +35,80 @@ router.post('/checkrole',async (req,res)=>{
    
 })
 
-router.post('/createUser',async(req,res)=>{
-    console.log("reuest came",req.body);
-    let createdUser = await User.create(req.body);
-    res.status(201).send(createdUser);
-})
+router.post('/createUser', async (req, res) => {
+    console.log("Request came:", req.body);
+
+    const { firstname, lastname, email, password } = req.body; // Assume these are coming from Google OAuth
+        console.log("request for login user body",req.body);
+    try {
+        // Check if user with the email already exists
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            // If the user exists, respond with the existing user data (for login)
+            return res.status(200).json({ message: "User already exists", user: existingUser });
+        }
+
+        let createdUser = await User.create(req.body);
+        res.status(201).send(createdUser);
+        // Respond with the new user data
+        return res.status(201).json({ message: "User created successfully", user: createdUser });
+
+    } catch (error) {
+        // Handle any errors (e.g., database issues, validation errors)
+        console.error("Error creating user:", error);
+        return res.status(500).json({ message: "Server error, please try again later" });
+    }
+});
 
 
-router.post('/createuser',async(req,res)=>{
-    const {firstname,lastname,email , password } = req.body;
-        console.log("request is ",req.body);
-        try {
-                if( email && password)
-                {
-                    const isUser = await User.findOne({email: email});
-                    if(!isUser){
-                        // password hashing
-                        const genSalt = await bcrypt.genSalt(10);
-                        const hashedPassword = await bcrypt.hash(password,genSalt);
-                        // save a user
-                        console.log(hashedPassword);
-                        const newUser = new User({
-                            email,
-                            password: hashedPassword,
-                            firstname,
-                            lastname,
-                        
-                        });
-                        const savedUser = await newUser.save();
-                        if(savedUser)
-                        {
-                            return res.status(200).json({ message: "User registration successfully"});
-                        }
-                    }
-                    else {
-                        return res.status(400).json({ message: "email already registerd"});
-                    }
-                }
-                else{
-                    return res.status(400).json({ message: "all fields are Required"});
-                }
+router.post('/create', async (req, res) => {
+    const { firstname, lastname, email, password } = req.body;
+
+    console.log("Request body: ", req.body);
+
+    try {
+        // Basic validation for required fields
+        if (!firstname || !lastname || !email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
         }
-        catch (error){
-            return res.status(400).json({ message: error.message});
+
+        // Validate email format using regex (simple check)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: "Invalid email format" });
         }
-})
+
+        // Check if user with this email already exists
+        const isUser = await User.findOne({ email: email });
+        if (isUser) {
+            return res.status(400).json({ message: "Email is already registered" });
+        }
+
+        // Password hashing
+        const genSalt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, genSalt);
+        console.log("Hashed password: ", hashedPassword);
+
+        // Create a new user
+        const newUser = new User({
+            email,
+            password: hashedPassword,
+            firstname,
+            lastname,
+        });
+
+        // Save the user
+        const savedUser = await newUser.save();
+        if (savedUser) {
+            return res.status(201).json({ message: "User registration successful" });
+        }
+
+    } catch (error) {
+        console.error("Error during user registration:", error);
+        return res.status(500).json({ message: "Server error, please try again later" });
+    }
+});
 
 router.post('/login',async(req,res)=>{
     console.log("request came",req.body);
