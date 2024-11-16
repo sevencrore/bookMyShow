@@ -21,12 +21,6 @@ const BookEvent = () => {
                 if (data && data.length > 0) {
                     console.log("Fetched event details data:", data); // Debugging log
                     setEventDetails(data); // Update state with event details
-                    // Initialize selected members with default value (2) for each event
-                    const initialMembers = data.reduce((acc, _, index) => {
-                        acc[index] = 2; // Default 2 members
-                        return acc;
-                    }, {});
-                    setSelectedMembers(initialMembers);
                     setLoading(false); // Set loading to false once data is fetched
                 } else {
                     console.error("Invalid data received:", data); // Debugging log
@@ -49,8 +43,9 @@ const BookEvent = () => {
     };
 
     // Handle booking event for a specific eventId
-    const handleBooking = async (eventId, members = 2, eventDetailsID, eventDetails,price) => {
+    const handleBooking = async (eventId, members, eventDetailsID, eventDetails) => {
         try {
+            // Ensure the members count is a number (not a string) and validate it
             const numberOfMembers = parseInt(members, 10);
             if (!numberOfMembers || numberOfMembers < 2) {
                 alert('Please select at least 2 members to book tickets.');
@@ -59,20 +54,17 @@ const BookEvent = () => {
 
             // Get the user's email from localStorage
             const user = JSON.parse(localStorage.getItem('user'));
-            const user_id = localStorage.getItem('user_id');
             const email = user ? user.email : '';
             const uid = user ? user.uid : '';
             const displayName = user ? user.displayName : '';
 
             const bookingData = {
-                number_of_members: numberOfMembers,
-                eventDetailsID,
-                email,
-                event_id: eventDetails.event_id,
-                uid,
-                user_id,
-                price : price * numberOfMembers,
-                displayName,
+                number_of_members: numberOfMembers, // Convert members to a number
+                eventDetailsID, // Event details ID (_id)
+                email: email, // User's email
+                event_id: eventDetails.event_id, // Event ID
+                uid: uid,
+                displayName: displayName,
             };
 
             console.log("Booking Data:", bookingData); // Log the data to verify it's correct
@@ -108,8 +100,12 @@ const BookEvent = () => {
                     const eventDate = new Date(date).toLocaleString();
 
                     // Check if event is active or deleted
-                    const isActive = is_active === '1' || is_active === 1;
+                    const isActive = is_active === '1' || is_active === 1; // Compare to both string and number
                     const isDeleted = is_deleted === '1' || is_deleted === 1;
+
+                    // Calculate total price based on selected members
+                    const selectedMembersCount = selectedMembers[index] || 2; // Default to 2 members if none selected
+                    const totalPrice = price * selectedMembersCount;
 
                     return (
                         <Col xs={12} sm={6} md={4} lg={3} key={event._id} className="mb-4">
@@ -164,10 +160,17 @@ const BookEvent = () => {
                                         </div>
                                     )}
 
+                                    {/* Total Price */}
+                                    {isActive === true && (
+                                        <Card.Text className="mt-3">
+                                            <strong>Total Price:</strong> ${totalPrice}
+                                        </Card.Text>
+                                    )}
+
                                     {/* Book Tickets Button */}
                                     {isActive === true && (
                                         <Button 
-                                            onClick={() => handleBooking(event._id, selectedMembers[index], _id, event,price)} 
+                                            onClick={() => handleBooking(event._id, selectedMembers[index], _id, event)} 
                                             variant="primary" 
                                             className="mt-3" 
                                             size="lg">

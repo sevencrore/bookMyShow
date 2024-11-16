@@ -26,7 +26,7 @@ router.post("/create", async (req, res) => {
 
         // Validate the input fields
         const movie = await EventDetails.create(req.body);
-        return res.status(200).json({ message: "City Added succesfully"});
+        return res.status(200).json({ message: "EventDetails Added succesfully"});
 
     } catch (error) {
         // Handle errors if any
