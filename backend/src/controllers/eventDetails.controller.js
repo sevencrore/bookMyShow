@@ -25,24 +25,9 @@ router.post("/create", async (req, res) => {
         console.log(req.body);
 
         // Validate the input fields
-        const { email, name, user, number_of_members, eventDetailsID, event_id } = req.body;
-        
-        if (!email || !name || !user || !number_of_members || !eventDetailsID || !event_id) {
-            return res.status(400).send({ error: 'Missing required fields' });
-        }
+        const movie = await EventDetails.create(req.body);
+        return res.status(200).json({ message: "City Added succesfully"});
 
-        // Create the booking with only the necessary fields
-        const createBooking = await Book.create({
-            email,
-            name,
-            user,
-            number_of_members,
-            eventDetailsID,
-            event_id
-        });
-
-        // Send the created booking as a response
-        res.status(201).send(createBooking);
     } catch (error) {
         // Handle errors if any
         console.error(error);
