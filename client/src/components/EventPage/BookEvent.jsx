@@ -49,7 +49,7 @@ const BookEvent = () => {
     };
 
     // Handle booking event for a specific eventId
-    const handleBooking = async (eventId, members = 2, eventDetailsID, eventDetails) => {
+    const handleBooking = async (eventId, members = 2, eventDetailsID, eventDetails,price) => {
         try {
             const numberOfMembers = parseInt(members, 10);
             if (!numberOfMembers || numberOfMembers < 2) {
@@ -59,6 +59,7 @@ const BookEvent = () => {
 
             // Get the user's email from localStorage
             const user = JSON.parse(localStorage.getItem('user'));
+            const user_id = localStorage.getItem('user_id');
             const email = user ? user.email : '';
             const uid = user ? user.uid : '';
             const displayName = user ? user.displayName : '';
@@ -69,6 +70,8 @@ const BookEvent = () => {
                 email,
                 event_id: eventDetails.event_id,
                 uid,
+                user_id,
+                price : price * numberOfMembers,
                 displayName,
             };
 
@@ -164,7 +167,7 @@ const BookEvent = () => {
                                     {/* Book Tickets Button */}
                                     {isActive === true && (
                                         <Button 
-                                            onClick={() => handleBooking(event._id, selectedMembers[index], _id, event)} 
+                                            onClick={() => handleBooking(event._id, selectedMembers[index], _id, event,price)} 
                                             variant="primary" 
                                             className="mt-3" 
                                             size="lg">
