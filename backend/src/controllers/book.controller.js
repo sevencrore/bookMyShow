@@ -99,7 +99,12 @@ router.get('/download-bill/:bookingId', async (req, res) => {
                     <div><strong>Booking ID:</strong> ${booking._id}</div>
                     <div style="color:blue;text-align:center;" ><strong>Name:</strong> ${booking.name}</div>
                     <div><strong>Email:</strong> ${booking.email}</div>
-                    <div><strong>Seats:</strong> ${booking.seats.join(', ')}</div>
+                    <div><strong>Number_of_members:</strong> ${booking.number_of_members}</div>
+                    <div><strong>Event_id:</strong> ${booking.event_id}</div>
+                    <div><strong>Total Price:</strong> ${booking.price}</div>
+                    <div><strong>Name:</strong> ${booking.displayName}</div>
+                    <div><strong>booked on:</strong> ${new Date(booking.createdAt).toLocaleString()}</div>
+                    
                     
                 </div>
             </body>

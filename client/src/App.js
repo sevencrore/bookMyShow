@@ -31,6 +31,7 @@ import EventDetails from './components/admin/Event_Details';
 import EventHome from './components/EventPage/EventHome';
 import EventDetailsHome from './components/EventPage/EventDetailsHome';
 import BookEvent from './components/EventPage/BookEvent';
+import MyBookings from './components/EventPage/MyBookings';
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
         <Route path = "/events/:categoryId/:cityId"><EventHome/></Route>
         <Route path = "/event/:eventId"><EventDetailsHome/></Route>
         <Route path = "/bookevent/:eventId"><BookEvent/></Route>
+        <Route path = "/mybookings"><MyBookings/></Route>
         
     </Switch>
     
