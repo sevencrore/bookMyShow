@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const [input, setInput] = useState({
     email: userEmail,
-});
+  });
 
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -84,6 +84,12 @@ const Dashboard = () => {
           Theater
         </Link>
       </div>
+      <div className="d-flex justify-content-center mt-4">
+        <Link to="/admin/userbookings" className="btn btn-primary mx-3">
+          Users Bookings
+        </Link>
+      </div>
+
     </div>
   );
 };

@@ -179,6 +179,28 @@ router.get('/user/:id', async (req, res) => {
 
 
 
+// Get a single userBookings detail by user_ID, 
+router.get('/user/email/:email', async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        const userBookings = await Book.find(
+            { email :email }, // Filters
+        );
+
+        if (!userBookings) {
+            return res.status(404).json({ message: "User Booking details not found ." });
+        }
+
+        res.status(200).send(userBookings);
+
+    } catch (error) {
+        console.error("Error fetching userBookings detail:", error);
+        res.status(500).json({ message: "Error fetching userBookings detail.", error });
+    }
+});
+
+
 
 
 module.exports=router;
