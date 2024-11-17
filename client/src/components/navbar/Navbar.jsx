@@ -73,7 +73,7 @@ export default function ({ toggle }) {
             {localStorage.getItem('user') ? <div>
 
 
-                <p className='sub'><FaUser /> Hi,&nbsp;{JSON.parse(localStorage.getItem('user')).displayName} &nbsp; <FaSignOutAlt onClick={() => {
+                <p className='sub'><FaUser /> Hi,&nbsp;{JSON.parse(localStorage.getItem('user')).displayName} &nbsp; <FaSignOutAlt style={{ fontSize: "2rem", cursor: "pointer" }}  onClick={() => {
 
                     localStorage.removeItem('user');
                     setShowLogin(false);

@@ -65,6 +65,13 @@ const BookEvent = () => {
             const uid = user ? user.uid : '';
             const displayName = user ? user.displayName : '';
 
+            if(!user){
+                alert('Please login to Continue Booking Process');
+                return;
+
+
+            }
+
             const bookingData = {
                 number_of_members: numberOfMembers,
                 eventDetailsID,
