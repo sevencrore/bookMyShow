@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import withAdminCheck from "./withAdminCheck";
 
 const AdminBookingDetails = () => {
   const [searchOption, setSearchOption] = useState("select"); // Default to "Select Down"
@@ -152,4 +153,4 @@ const AdminBookingDetails = () => {
   );
 };
 
-export default AdminBookingDetails;
+export default withAdminCheck(AdminBookingDetails);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
+import withAdminCheck from "./withAdminCheck";
 
 const ListVendor = () => {
   const [vendors, setVendors] = useState([]); // To store vendor data
@@ -196,4 +197,4 @@ const ListVendor = () => {
   );
 };
 
-export default ListVendor;
+export default withAdminCheck(ListVendor);

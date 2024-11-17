@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import withAdminCheck from "./withAdminCheck";
 
 const Vendor = () => {
     const history = useHistory();

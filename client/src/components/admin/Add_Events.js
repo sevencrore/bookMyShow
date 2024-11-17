@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import withAdminCheck from "./withAdminCheck";
 
 const Event = () => {
   const history = useHistory();
@@ -332,4 +333,4 @@ const Event = () => {
   );
 };
 
-export default Event;
+export default withAdminCheck(Event);

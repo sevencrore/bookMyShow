@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
+import withAdminCheck from "./withAdminCheck";
 
 const ListCategory = () => {
   const [categories, setCategories] = useState([]); // To store category data
@@ -160,4 +161,4 @@ const ListCategory = () => {
   );
 };
 
-export default ListCategory;
+export default withAdminCheck(ListCategory);

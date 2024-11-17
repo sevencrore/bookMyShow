@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
+import withAdminCheck from "./withAdminCheck";
 
 const Event_Details = () => {
   const userEmail = localStorage.getItem("username"); // User email stored in local storage
@@ -243,4 +244,4 @@ const Event_Details = () => {
   );
 };
 
-export default Event_Details;
+export default withAdminCheck(Event_Details);

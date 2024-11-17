@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import withAdminCheck from "./withAdminCheck";
 
 const Dashboard = () => {
 
@@ -16,41 +17,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    const fetchUserRole = async () => {
-      const username = localStorage.getItem('username'); // Get the username from local storage
-      console.log(username);
-
-      if (!username) {
-        history.push("/");; // Redirect if username is not found in local storage
-        return;
-      }
-
-      try {
-        // Make the API call with the username in the request body
-        const response = await axios.post('http://localhost:5000/users/checkrole', input);
-
-
-        if (response.data.message == 'admin') {
-          setRole('admin');
-        } else {
-          history.push("/"); // Redirect if not admin
-        }
-      } catch (error) {
-        console.error('Error fetching user role:', error);
-        alert('catched error');
-        history.push("/"); // Redirect if error occurs
-      } finally {
-        setLoading(false); // Set loading to false after the API call
-      }
-    };
-
-    fetchUserRole();
-  }, [history]);
-
-  if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator while fetching the role
-  }
-
+ });
 
   return (
     <div className="container mt-5">
@@ -94,4 +61,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAdminCheck(Dashboard);

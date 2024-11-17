@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import withAdminCheck from "./withAdminCheck";
 
 const Category = () => {
     const history = useHistory();
@@ -105,4 +106,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default withAdminCheck(Category);
