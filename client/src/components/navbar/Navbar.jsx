@@ -61,6 +61,14 @@ export default function ({ toggle }) {
 
             </div>
 
+            
+            <div className="menu-links">
+                {/* Link to MyBookings */}
+                <Link to="/mybookings" className="btn btn-link">
+                    MyBookings
+                </Link>
+            </div>
+
             <div className="grow">
 
             </div>

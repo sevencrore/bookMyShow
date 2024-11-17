@@ -90,7 +90,7 @@ const BookEvent = () => {
 
             // Show success message if booking is successful
             alert("Booking successful!");
-            history.push("/confirmation"); // Redirect to a confirmation page after successful booking
+            history.push("/mybookings"); // Redirect to a confirmation page after successful booking
 
         } catch (error) {
             // Handle errors if the request fails

@@ -102,6 +102,8 @@ const CategoryList = ({ categories }) => {
             </Modal>
 
             <Navbar toggle={toggleLocationPickup} />
+
+             
             <Menubar />
 
             <Slider {...settings} style={styles.slider}>
