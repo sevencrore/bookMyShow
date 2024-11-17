@@ -20,7 +20,7 @@ router.get("/",async(req,res)=>{
 
 router.get("/getBooking/:bookingId",async(req,res)=>{
     console.log(req.params.bookingId);
-    let orders = await Book.findById(req.params.bookingId).populate('theater').populate('movieid').lean().exec();
+    let orders = await Book.findById(req.params.bookingId);
 
     res.status(200).send(orders);
 });
@@ -148,6 +148,30 @@ router.get('/download-bill/:bookingId', async (req, res) => {
         res.status(500).json({ message: 'Error generating bill PDF', error: error.message });
     }
 });
+
+
+
+// Get a single userBookings detail by user_ID, 
+router.get('/user/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const userBookings = await Book.find(
+            { user_id :id }, // Filters
+        );
+
+        if (!userBookings) {
+            return res.status(404).json({ message: "User Booking details not found ." });
+        }
+
+        res.status(200).send(userBookings);
+
+    } catch (error) {
+        console.error("Error fetching userBookings detail:", error);
+        res.status(500).json({ message: "Error fetching userBookings detail.", error });
+    }
+});
+
 
 
 
