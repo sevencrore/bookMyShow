@@ -7,6 +7,9 @@ const path = require('path');
 const Movie = require('../models/movie.model');
 const { generatePDF } = require('./generatePDF.controller');
 const { sendEmail } = require('./emailSender.controller');
+const Event = require('../models/event.model'); 
+const EventDetails = require('../models/eventDetails.model');
+const City = require('../models/city.model');
 
 
 
@@ -28,16 +31,39 @@ router.get("/getBooking/:bookingId",async(req,res)=>{
 
 router.post("/create", async (req, res) => {
     try {
-        // Log the incoming request body to inspect it
+        // Log the incoming request body
         console.log(req.body);
 
-        // Validate input data (basic validation)
-        const { number_of_members, eventDetailsID, email, event_id,uid,displayName,user_id ,price} = req.body;
+        // Validate input data
+        const { number_of_members, eventDetailsID, email, event_id, uid, displayName, user_id ,price} = req.body;
         if (!number_of_members || !eventDetailsID || !email || !event_id || !uid || !displayName) {
             return res.status(400).send({ error: 'Missing required fields' });
         }
 
-        // Create the booking
+        // Fetch additional details from Event model
+        const event = await Event.findById(event_id);
+        if (!event) {
+            return res.status(404).send({ error: 'Event not found' });
+        }
+        const event_name = event.title;
+        const event_location = event.location_description;
+        const city_id = event.city_id;
+
+        // Fetch additional details from EventDetails model
+        const eventDetails = await EventDetails.findById(eventDetailsID);
+        if (!eventDetails) {
+            return res.status(404).send({ error: 'Event details not found' });
+        }
+        const { date, price: price_per_head, slots: slot } = eventDetails;
+
+        const city = await City.findById(city_id);
+        if (!city) {
+            return res.status(404).send({ error: 'City details not found' });
+        }
+        
+        const city_name = city.name;
+  
+        // Create the booking with additional details
         const createBooking = await Book.create({
             number_of_members,
             eventDetailsID,
@@ -45,14 +71,20 @@ router.post("/create", async (req, res) => {
             event_id,
             uid,
             price,
-            user_id,
             displayName,
+            user_id,
+            event_name,
+            event_location,
+            date,
+            price_per_head,
+            slot,
+            city_name,
         });
 
         // Send the response with the created booking
         res.status(201).send(createBooking);
     } catch (error) {
-        // Catch any errors and send them back as a response
+        // Catch and log any errors
         console.error(error);
         res.status(500).send({ error: 'An error occurred while creating the booking' });
     }
