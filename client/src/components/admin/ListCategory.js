@@ -37,9 +37,21 @@ const ListCategory = () => {
 
     // Send PUT request to update category
     axios
-    .post(`http://localhost:5000/eventCategory/edit/${selectedCategory._id}`, selectedCategory)  
-    console.log("Edited category: ", selectedCategory);
-    setIsEditing(false); 
+      .post(`http://localhost:5000/eventCategory/edit/${selectedCategory._id}`, selectedCategory)
+      .then((response) => {
+        console.log("Category updated successfully:", response.data);
+
+        // After successful edit, re-fetch the categories
+        axios
+          .get("http://localhost:5000/eventCategory/")
+          .then((response) => {
+            setCategories(response.data); // Update the category list
+            setIsEditing(false); // Set to view mode
+            setSelectedCategory(null); // Clear selected category
+          })
+          .catch((error) => console.error("Error fetching updated categories:", error));
+      })
+      .catch((error) => console.error("Error updating category:", error));
   };
 
   return (
@@ -53,6 +65,7 @@ const ListCategory = () => {
               <tr>
                 <th>Category Name</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

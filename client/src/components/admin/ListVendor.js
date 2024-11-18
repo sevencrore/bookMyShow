@@ -16,66 +16,72 @@ const ListVendor = () => {
 
   // Fetch vendors when component mounts
   useEffect(() => {
-    
-
     const fetchUserRole = async () => {
       const username = localStorage.getItem('username'); // Get the username from local storage
-      console.log(username);
-
       if (!username) {
-        history.push("/");; // Redirect if username is not found in local storage
+        history.push("/"); // Redirect if username is not found in local storage
         return;
       }
 
       try {
         // Make the API call with the username in the request body
         const response = await axios.post('http://localhost:5000/users/checkrole', input);
-
-
         if (response.data.message !== 'admin') {
           history.push("/"); // Redirect if not admin
         } 
       } catch (error) {
         console.error('Error fetching user role:', error);
-        alert('catched error');
         history.push("/"); // Redirect if error occurs
       } 
     };
 
     fetchUserRole();
 
-
-
-
+    // Fetch vendor list
     axios
       .get("http://localhost:5000/vendor/")
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
-  }, []);
+  }, []); // Empty dependency array to run on mount only
 
   // Handle View action
   const handleView = (vendorId) => {
     const vendor = vendors.find((v) => v._id === vendorId);
     setSelectedVendor(vendor);
-    setIsEditing(false); // Set view mode
+    setIsEditing(false); // Set to view mode
   };
 
   // Handle Edit action
   const handleEdit = (vendorId) => {
     const vendor = vendors.find((v) => v._id === vendorId);
     setSelectedVendor(vendor);
-    setIsEditing(true); // Set edit mode
+    setIsEditing(true); // Set to edit mode
   };
 
   // Handle form submit for editing
   const handleSubmitEdit = (e) => {
     e.preventDefault();
 
-    // Send PUT request to update vendor
+    // Send POST request to update vendor
     axios
-    .post(`http://localhost:5000/vendor/edit/${selectedVendor._id}`, selectedVendor)  
-    console.log("Edited vendor: ", selectedVendor);
-    setIsEditing(false); 
+      .post(`http://localhost:5000/vendor/edit/${selectedVendor._id}`, selectedVendor)
+      .then((response) => {
+        console.log("Vendor updated successfully:", response.data);
+
+        // After successful update, re-fetch the vendor list
+        axios
+          .get("http://localhost:5000/vendor/")
+          .then((response) => {
+            setVendors(response.data); // Update the vendor list with the latest data
+            setIsEditing(false); // Set to view mode after editing
+            setSelectedVendor(null); // Clear selected vendor after saving
+          })
+          .catch((error) => console.error("Error fetching updated vendors:", error));
+      })
+      .catch((error) => {
+        console.error("Error updating vendor:", error);
+        alert('There was an error updating the vendor.');
+      });
   };
 
   return (
@@ -89,6 +95,7 @@ const ListVendor = () => {
               <tr>
                 <th>Vendor Name</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -158,7 +165,6 @@ const ListVendor = () => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    {/* Adding is_active field as a checkbox */}
                     <Row>
                       <Col md={12}>
                         <Form.Group controlId="is_active">

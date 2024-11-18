@@ -55,6 +55,9 @@ const Dashboard = () => {
         <Link to="/admin/userbookings" className="btn btn-primary mx-3">
           Users Bookings
         </Link>
+        <Link to="/admin/logout" className="btn btn-primary mx-3">
+          Admin Logout
+        </Link>
       </div>
 
     </div>
