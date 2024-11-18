@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const EventList = ({ events }) => {
     return (
@@ -38,13 +39,21 @@ const EventList = ({ events }) => {
 export const EventHome = () => {
     const [events, setEvents] = useState([]);
     const { cityId, categoryId } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         // Fetch events based on categoryId and cityId
         fetch(`http://localhost:5000/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
-                setEvents(data);
+                if (data.message == 'No events found for the specified category and city.'){
+                    alert('No events found for the specified category and city.');   
+                    history.push("/");
+                }
+                else{
+                    setEvents(data);
+                }
+               
             })
             .catch((e) => {
                 console.error(e);

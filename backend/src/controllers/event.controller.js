@@ -30,6 +30,23 @@ router.get('/',async(req,res)=>{
     res.status(200).send(allEvents);
 });
 
+
+// to get the events based on cities
+router.get('/city/:cityId',async(req,res)=>{
+
+    const {  cityId } = req.params;
+    let allEvents = await Event.find({
+        is_deleted: '0',
+        is_active: '1',
+        city_id : cityId,
+    }).select("-is_deleted -created_at -updated_at");
+    
+    
+
+    res.status(200).send(allEvents);
+});
+
+
 // to get the events for selected city and category
 router.get('/get/:categoryId/:cityId', async (req, res) => {
     const { categoryId, cityId } = req.params;
