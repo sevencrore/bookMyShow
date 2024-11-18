@@ -80,6 +80,33 @@ const ListEvent = () => {
     setIsEditing(false); // Hide edit mode
   };
 
+
+const handleSubmitEditDetails = (e) => {
+
+   // Check if event_id is set
+   if (!eventDetails.e.id) {
+    alert("Please select a valid event.");
+    return;
+  }
+
+  // Send a POST request to save the event details
+  axios
+    .post(`http://localhost:5000/event/edit${e._id}`, e)
+    .then((response) => {
+      console.log("Event details created:", response.data);
+
+    
+      // Display success message
+      alert("Event Edited Successfully!");
+    })
+    .catch((error) => {
+      console.error("Error saving event details:", error);
+      alert("Error saving event details. Please try again.");
+    });
+
+
+}
+
   // Handle form submit for adding event details
   const handleSubmitEventDetails = (e) => {
     e.preventDefault();
@@ -188,14 +215,14 @@ const ListEvent = () => {
               {isEditing ? (
                 <div>
                   <h3>Edit Event</h3>
-                  <Form onSubmit={handleSubmitEventDetails}>
+                  <Form onSubmit={handleSubmitEditDetails}>
                     <Row>
                       <Col md={6}>
                         <Form.Group controlId="title">
                           <Form.Label>Event Title</Form.Label>
                           <Form.Control
                             type="text"
-                            value={selectedEvent.title}
+                            value={selectedEvent._id}
                             onChange={(e) =>
                               setSelectedEvent({
                                 ...selectedEvent,
