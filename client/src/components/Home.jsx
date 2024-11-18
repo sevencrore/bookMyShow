@@ -116,7 +116,7 @@ function HomePage() {
                 <p className="red">View All Cities</p>
             </Modal>
 
-            <Navbar toggle={toggleLocationPickup} />
+            {/* <Navbar toggle={toggleLocationPickup} /> */}
 
             <Menubar />
 
