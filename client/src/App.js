@@ -19,6 +19,7 @@ import Login from './components/Login/Login';
 import AdminLogin from './components/Login/AdminLogin';
 import AdminRegister from './components/Login/AdminRegister';
 import AdminDashboard from './components/admin/Admindashboard';
+import AdminLogout from './components/Login/AdminLogout';
 import Movies from './components/admin/Add_Movies';
 import Theaters from './components/admin/Add_Theater';
 import Events from './components/admin/Add_Events';
@@ -65,6 +66,7 @@ function App() {
         <Route path="/admin/login"><AdminLogin /></Route>
         <Route path="/admin/register"><AdminRegister /></Route>
         <Route path="/admin/dashboard"><AdminDashboard /></Route>
+        <Route path="/admin/logout"><AdminLogout /></Route>
         <Route path="/admin/Movies"><Movies /></Route>
         <Route path="/admin/Events"><Events /></Route>
         <Route path="/admin/ListEvents"><ListEvent /></Route>
