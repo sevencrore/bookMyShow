@@ -33,56 +33,56 @@ export default function Menubar() {
         localStorage.setItem('selectedCategoryName', categoryName);
     };
 
-    const CategoryList = ({ categories }) => {
-        const menuStyles = {
-            container: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '10px 20px',
-                backgroundColor: '#fff',
-                borderBottom: '1px solid #ddd',
-            },
-            left: {
-                display: 'flex',
-                gap: '20px',
-                flexWrap: 'wrap',
-            },
-            right: {
-                display: 'flex',
-                gap: '20px',
-                fontWeight: 'bold',
-                color: '#333',
-            },
-            categoryLink: {
-                textDecoration: 'none',
-                color: '#333',
-                padding: '8px 16px',
-                borderRadius: '4px',
-                transition: 'background-color 0.3s',
-            },
-            categoryLinkHover: {
-                backgroundColor: '#f0f0f0',
-            },
-            categoryTitle: {
-                margin: 0,
-                fontSize: '14px',
-                fontWeight: '500',
-            },
-            menubarItem: {
-                cursor: 'pointer',
-                fontSize: '14px',
-                color: '#555',
-                transition: 'color 0.3s',
-            },
-            menubarItemHover: {
-                color: '#007BFF',
-            },
-        };
+    const menuStyles = {
+        container: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '10px 20px',
+            backgroundColor: '#fff',
+            borderBottom: '1px solid #ddd',
+        },
+        left: {
+            display: 'flex',
+            gap: '20px',
+            flexWrap: 'wrap',
+        },
+        right: {
+            display: 'flex',
+            gap: '20px',
+            fontWeight: 'bold',
+            color: '#333',
+        },
+        categoryLink: {
+            textDecoration: 'none',
+            color: '#333',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            transition: 'background-color 0.3s',
+        },
+        categoryLinkHover: {
+            backgroundColor: '#f0f0f0',
+        },
+        categoryTitle: {
+            margin: 0,
+            fontSize: '14px',
+            fontWeight: '500',
+        },
+        menubarItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+            color: '#555',
+            transition: 'color 0.3s',
+        },
+        menubarItemHover: {
+            color: '#007BFF',
+        },
+    };
 
+    const CategoryList = ({ categories }) => {
         return (
-            <div style={menuStyles.container}>
-                <div style={menuStyles.left}>
+            <div style={{...menuStyles.container, backgroundColor: '#615863' }}>
+               <div style={{ ...menuStyles.left, backgroundColor: '#fff' }}>
                     {categories.map((category, index) => (
                         <Link
                             key={index}

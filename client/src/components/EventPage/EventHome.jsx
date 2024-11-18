@@ -2,14 +2,43 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
+// Breadcrumb Component
+const Breadcrumb = () => {
+    const selectedCityName = localStorage.getItem('selectedCityName');
+    const selectedCategoryName = localStorage.getItem('selectedCategoryName');
+
+    return (
+        <nav aria-label="breadcrumb">
+            <ol style={styles.breadcrumbList}>
+                <li style={styles.breadcrumbItem}>
+                    <Link to="/" style={styles.breadcrumbLink}>
+                        Home
+                    </Link>
+                </li>
+                {selectedCityName && (
+                    <li style={styles.breadcrumbItem}>
+                        <Link to={`/city/${selectedCityName}`} style={styles.breadcrumbLink}>
+                            {selectedCityName}
+                        </Link>
+                    </li>
+                )}
+                {selectedCategoryName && (
+                    <li style={styles.breadcrumbItem}>
+                        <Link to={`/category/${selectedCategoryName}`} style={styles.breadcrumbLink}>
+                            {selectedCategoryName}
+                        </Link>
+                    </li>
+                )}
+            </ol>
+        </nav>
+    );
+};
+
+// Event List Component
 const EventList = ({ events }) => {
     return (
         <div>
-            <div>
-                {/* Dynamically render city and category names from localStorage */}
-                <a href="http://localhost:3000/">{localStorage.getItem('selectedCityName')} >> </a>
-                <a href="http://localhost:3000/">{localStorage.getItem('selectedCategoryName')} </a>
-            </div>
+            <Breadcrumb />
             <div className="container-fluid categories-list" style={styles.categoriesList}>
                 {events.map((event, index) => (
                     <Link key={index} to={`/event/${event._id}`} style={styles.link}>
@@ -36,6 +65,7 @@ const EventList = ({ events }) => {
     );
 };
 
+// Main Component: EventHome
 export const EventHome = () => {
     const [events, setEvents] = useState([]);
     const { cityId, categoryId } = useParams();
@@ -46,14 +76,12 @@ export const EventHome = () => {
         fetch(`http://localhost:5000/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
-                if (data.message == 'No events found for the specified category and city.'){
-                    alert('No events found for the specified category and city.');   
+                if (data.message === 'No events found for the specified category and city.') {
+                    alert('No events found for the specified category and city.');
                     history.push("/");
-                }
-                else{
+                } else {
                     setEvents(data);
                 }
-               
             })
             .catch((e) => {
                 console.error(e);
@@ -61,17 +89,47 @@ export const EventHome = () => {
     }, [categoryId, cityId]); // Ensure useEffect runs when categoryId or cityId changes
 
     return (
-        <EventList events={events} />
+        <div style={styles.container}>
+            <div style={styles.innerContainer}>
+                <EventList events={events} />
+            </div>
+        </div>
     );
 };
 
+// Styles
 const styles = {
+    container: {
+        padding: '20px',
+        maxWidth: '1200px', // Max width of the container for large screens
+        margin: '0 auto',  // Center the container
+        borderRadius: '16px', // Rounded corners for the main container
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)', // Light shadow for the container
+        overflow: 'hidden', // Ensure child elements don't overflow the rounded corners
+    },
+    innerContainer: {
+        padding: '20px',
+    },
+    breadcrumbList: {
+        display: 'flex',
+        listStyle: 'none',
+        padding: '0',
+        margin: '20px 0',
+    },
+    breadcrumbItem: {
+        marginRight: '10px',
+    },
+    breadcrumbLink: {
+        textDecoration: 'none',
+        color: '#007bff',
+        fontSize: '16px',
+    },
     categoriesList: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)', // 4 cards per row
-        gap: '20px', // Space between cards
+        gridTemplateColumns: 'repeat(4, 1fr)', // Default 4 cards per row
+        gap: '20px',
         marginTop: '20px',
-        padding: '0 20px', // Padding for the container
+        padding: '0 20px',
     },
     link: {
         textDecoration: 'none', // No underline for the link
@@ -79,35 +137,38 @@ const styles = {
     categoryCard: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between', // Distribute content evenly
+        justifyContent: 'space-between', 
         width: '100%',
-        height: 'auto', // Auto height for the card
-        borderRadius: '8px',
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+        height: 'auto',
+        borderRadius: '16px',  // Rounded corners for the entire card (top & bottom)
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', // Light shadow for the cards
         backgroundColor: '#fff',
-        overflow: 'hidden',
+        overflow: 'hidden', // Ensure no overflow from rounded corners
         transition: 'transform 0.3s ease-in-out',
         cursor: 'pointer',
     },
     imageContainer: {
         display: 'flex',
-        justifyContent: 'center', // Center the image horizontally
-        alignItems: 'center', // Center the image vertically
-        width: '204px', // Fixed width of 204px
-        height: '336px', // Fixed height of 336px
-        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '204px',  // Fixed width for the image container
+        height: '336px', // Fixed height for the image container
+        overflow: 'hidden',  // Hide overflow for images that don't fit perfectly
+        borderTopLeftRadius: '16px', // Rounded top-left corner for the image container
+        borderTopRightRadius: '16px', // Rounded top-right corner for the image container
     },
     image: {
-        width: '204px',  // Fixed width for image
-        height: '336px', // Fixed height for image
-        objectFit: 'cover',  // Ensure image covers the container and doesn't stretch
-        display: 'block',
+        width: '100%',    // Image width 100% of container size
+        height: '100%',   // Image height 100% of container size
+        objectFit: 'cover',  // Ensure the image fills the container and maintains aspect ratio
     },
     contentContainer: {
         padding: '8px 16px',
         backgroundColor: '#fff',
-        flexGrow: 1, // Allow content to take available space
-        marginTop: '10px', // Add margin-top for space between image and text
+        flexGrow: 1,
+        marginTop: '10px',
+        borderBottomLeftRadius: '16px', // Rounded bottom-left corner for the content container
+        borderBottomRightRadius: '16px', // Rounded bottom-right corner for the content container
     },
     title: {
         fontSize: '16px',
@@ -120,16 +181,45 @@ const styles = {
         color: '#666',
         marginBottom: '8px',
     },
-    slider: {
-        maxWidth: '100%',
-        maxHeight: '324px',
-        marginRight: '20px',
-        marginLeft: '20px',
-        marginTop: '20px'
+    // Responsive Styles
+    '@media (max-width: 1200px)': {
+        categoriesList: {
+            gridTemplateColumns: 'repeat(3, 1fr)', // 3 cards per row for medium screens
+        },
+        imageContainer: {
+            width: '180px',  // Adjust image size for medium screens
+            height: '300px',  // Adjust image height for medium screens
+        },
     },
-    sliderImage: {
-        objectFit: 'cover',
-        width: '100%',
+    '@media (max-width: 768px)': {
+        categoriesList: {
+            gridTemplateColumns: 'repeat(2, 1fr)', // 2 cards per row for smaller screens
+        },
+        imageContainer: {
+            width: '150px',  // Adjust image size for smaller screens
+            height: '250px',  // Adjust image height for smaller screens
+        },
+        title: {
+            fontSize: '14px', // Reduce font size for small screens
+        },
+        description: {
+            fontSize: '12px', // Reduce font size for small screens
+        },
+    },
+    '@media (max-width: 480px)': {
+        categoriesList: {
+            gridTemplateColumns: '1fr', // 1 card per row for mobile screens
+        },
+        imageContainer: {
+            width: '100%', // Adjust image size to full width for mobile screens
+            height: 'auto', // Adjust height for mobile screens
+        },
+        title: {
+            fontSize: '12px', // Further reduce font size for very small screens
+        },
+        description: {
+            fontSize: '10px', // Further reduce font size for very small screens
+        },
     },
 };
 
