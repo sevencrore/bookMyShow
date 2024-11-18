@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 
 const EventList = ({ events }) => {
-    // TODO
-
     return (
         <div>
-            <div><a href="http://localhost:3000/">Hubli >> </a> <a href="http://localhost:3000/">Pubs >> </a></div>
+            <div>
+                {/* Dynamically render city and category names from localStorage */}
+                <a href="http://localhost:3000/">{localStorage.getItem('selectedCityName')} >> </a>
+                <a href="http://localhost:3000/">{localStorage.getItem('selectedCategoryName')} </a>
+            </div>
             <div className="container-fluid categories-list" style={styles.categoriesList}>
                 {events.map((event, index) => (
                     <Link key={index} to={`/event/${event._id}`} style={styles.link}>
@@ -33,34 +35,26 @@ const EventList = ({ events }) => {
     );
 };
 
-
 export const EventHome = () => {
-
     const [events, setEvents] = useState([]);
     const { cityId, categoryId } = useParams();
-    console.log(cityId);
 
     useEffect(() => {
-
-        // Fetch categories
+        // Fetch events based on categoryId and cityId
         fetch(`http://localhost:5000/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 setEvents(data);
-                console.log(data);
             })
             .catch((e) => {
                 console.error(e);
             });
-
-    }, []);
-
+    }, [categoryId, cityId]); // Ensure useEffect runs when categoryId or cityId changes
 
     return (
         <EventList events={events} />
-
-    )
-}
+    );
+};
 
 const styles = {
     categoriesList: {
