@@ -11,7 +11,7 @@ export default function Menubar() {
 
     useEffect(() => {
         if (city_id) {
-            fetch(`http://localhost:5000/city/${city_id}`, { mode: 'cors' })
+            fetch(`http://localhost:5000/city/`, { mode: 'cors' })
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.name) {

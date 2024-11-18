@@ -43,7 +43,7 @@ function HomePage() {
     // Fetch City Name based on city_id
     useEffect(() => {
         if (city_id) {
-            fetch(`http://localhost:5000/city/${city_id}`, { mode: 'cors' })  // Assuming the API endpoint to get city details
+            fetch(`http://localhost:5000/city/`, { mode: 'cors' })  // Assuming the API endpoint to get city details
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.name) {
@@ -116,7 +116,7 @@ function HomePage() {
                 <p className="red">View All Cities</p>
             </Modal>
 
-            {/* <Navbar toggle={toggleLocationPickup} /> */}
+            <Navbar toggle={toggleLocationPickup} />
 
             <Menubar />
 
