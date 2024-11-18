@@ -90,14 +90,14 @@ const EventDetailsHome = () => {
 
                     {/* Category */}
                     <div className="mb-3">
-                        <strong>Category ID:</strong>
-                        <p>{event.category_id}</p>
+                        <strong>Category Name:</strong>
+                        <p>{event.category}</p>
                     </div>
 
                     {/* Vendor */}
                     <div className="mb-3">
-                        <strong>Vendor ID:</strong>
-                        <p>{event.vendor_id}</p>
+                        <strong>Vendor Name:</strong>
+                        <p>{event.vendor}</p>
                     </div>
 
                     {/* Event Location */}
@@ -116,8 +116,8 @@ const EventDetailsHome = () => {
 
                     {/* City */}
                     <div className="mb-3">
-                        <strong>City ID:</strong>
-                        <p>{event.city_id}</p>
+                        <strong>City Name:</strong>
+                        <p>{event.city}</p>
                     </div>
 
                     {/* Event Status */}
