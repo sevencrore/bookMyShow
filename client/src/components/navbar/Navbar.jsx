@@ -85,6 +85,7 @@ export default function ({ toggle }) {
 
                     localStorage.removeItem('user');
                     setShowLogin(false);
+                    window.location.reload();
                 }} /> </p>
             </div> : <div>
                 <Button onClick={() => {
