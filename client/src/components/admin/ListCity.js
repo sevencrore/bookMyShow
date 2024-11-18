@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import { useHistory } from 'react-router-dom'; // React Router v5
@@ -13,6 +13,8 @@ const ListCity = () => {
   const [input, setInput] = useState({
     email: userEmail,
   });
+
+  const formRef = useRef(null);
 
   // Fetch cities when component mounts
   useEffect(() => {
@@ -44,11 +46,18 @@ const ListCity = () => {
       .catch((error) => console.error("Error fetching cities:", error));
   }, [input, history]); // Empty dependency array to run on mount only
 
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
   // Handle View action
   const handleView = (cityId) => {
     const city = cities.find((c) => c._id === cityId);
     setSelectedCity(city);
     setIsEditing(false); // Set to view mode
+    scrollToForm();
   };
 
   // Handle Edit action
@@ -56,6 +65,7 @@ const ListCity = () => {
     const city = cities.find((c) => c._id === cityId);
     setSelectedCity(city);
     setIsEditing(true); // Set to edit mode
+    scrollToForm();
   };
 
   // Handle form submit for editing
@@ -124,6 +134,7 @@ const ListCity = () => {
           </Table>
 
           {/* City Details or Edit Form Below the Table */}
+          <div ref={formRef}>
           {selectedCity && (
             <div className="my-3">
               {isEditing ? (
@@ -197,6 +208,7 @@ const ListCity = () => {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

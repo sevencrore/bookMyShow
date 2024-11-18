@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import withAdminCheck from "./withAdminCheck";
@@ -10,6 +10,8 @@ const Event_Details = () => {
   const [selectedEvent, setSelectedEvent] = useState(null); // To store selected event for view/edit
   const [isEditing, setIsEditing] = useState(false); // To toggle between view/edit modes
 
+  const formRef = useRef(null);
+  
   // Fetch event details and active events when the component mounts
   useEffect(() => {
     // Fetch event details (eventdetails)
@@ -24,6 +26,12 @@ const Event_Details = () => {
       .then((response) => setActiveEvents(response.data))
       .catch((error) => console.error("Error fetching active events:", error));
   }, []);
+
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Helper function to get event title by matching event_id from eventdetails with _id from activeEvents
   const getEventTitle = (eventId) => {
@@ -43,6 +51,7 @@ const Event_Details = () => {
     const event = events.find((e) => e._id === eventId);
     setSelectedEvent(event);
     setIsEditing(false); // Set view mode
+    scrollToForm();
   };
 
   // Handle Edit action
@@ -50,6 +59,7 @@ const Event_Details = () => {
     const event = events.find((e) => e._id === eventId);
     setSelectedEvent(event);
     setIsEditing(true); // Set edit mode
+    scrollToForm();
   };
 
   // Handle form submit for editing event details
@@ -144,6 +154,7 @@ const Event_Details = () => {
           </Table>
 
           {/* Event Details or Edit Form Below the Table */}
+          <div ref={formRef}>
           {selectedEvent && (
             <div className="my-3">
               {isEditing ? (
@@ -238,6 +249,7 @@ const Event_Details = () => {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
@@ -13,6 +13,8 @@ const ListVendor = () => {
   const [input, setInput] = useState({
     email: userEmail,
   });
+
+  const formRef = useRef(null);
 
   // Fetch vendors when component mounts
   useEffect(() => {
@@ -44,11 +46,18 @@ const ListVendor = () => {
       .catch((error) => console.error("Error fetching vendors:", error));
   }, []); // Empty dependency array to run on mount only
 
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
   // Handle View action
   const handleView = (vendorId) => {
     const vendor = vendors.find((v) => v._id === vendorId);
     setSelectedVendor(vendor);
     setIsEditing(false); // Set to view mode
+    scrollToForm();
   };
 
   // Handle Edit action
@@ -56,6 +65,7 @@ const ListVendor = () => {
     const vendor = vendors.find((v) => v._id === vendorId);
     setSelectedVendor(vendor);
     setIsEditing(true); // Set to edit mode
+    scrollToForm();
   };
 
   // Handle form submit for editing
@@ -124,6 +134,7 @@ const ListVendor = () => {
           </Table>
 
           {/* Vendor Details or Edit Form Below the Table */}
+          <div ref={formRef}>
           {selectedVendor && (
             <div className="my-3">
               {isEditing ? (
@@ -197,6 +208,7 @@ const ListVendor = () => {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

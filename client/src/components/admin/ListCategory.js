@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import withAdminCheck from "./withAdminCheck";
@@ -17,11 +17,20 @@ const ListCategory = () => {
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
+  const formRef = useRef(null);
+
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   // Handle View action
   const handleView = (categoryId) => {
     const category = categories.find((c) => c._id === categoryId);
     setSelectedCategory(category);
     setIsEditing(false); // Set view mode
+    scrollToForm();
   };
 
   // Handle Edit action
@@ -29,6 +38,7 @@ const ListCategory = () => {
     const category = categories.find((c) => c._id === categoryId);
     setSelectedCategory(category);
     setIsEditing(true); // Set edit mode
+    scrollToForm();
   };
 
   // Handle form submit for editing
@@ -94,6 +104,7 @@ const ListCategory = () => {
           </Table>
 
           {/* Category Details or Edit Form Below the Table */}
+          <div ref={formRef}>
           {selectedCategory && (
             <div className="my-3">
               {isEditing ? (
@@ -168,6 +179,7 @@ const ListCategory = () => {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
