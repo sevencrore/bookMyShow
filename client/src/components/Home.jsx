@@ -11,7 +11,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
 
-
 // HomePage Component
 function HomePage() {
     const [categories, setCategories] = useState([]);
@@ -68,12 +67,24 @@ function HomePage() {
             });
     }, [city_id]);
 
+    // Function to handle category click and store the selected category in localStorage
+    const handleCategoryClick = (categoryId, categoryName) => {
+        // Save category id and name to localStorage
+        localStorage.setItem('selectedCategoryId', categoryId);
+        localStorage.setItem('selectedCategoryName', categoryName);
+    };
+
     // Category List Component (Updated to show name/description below the image)
     const CategoryList = ({ categories }) => {
         return (
             <div className="container-fluid categories-list" style={styles.categoriesList}>
                 {categories.map((category, index) => (
-                    <Link key={index} to={`/events/${category._id}/${city_id}`} style={styles.link}>
+                    <Link 
+                        key={index} 
+                        to={`/events/${category._id}/${city_id}`} 
+                        style={styles.link}
+                        onClick={() => handleCategoryClick(category._id, category.category_name)} // Save category info to localStorage when clicked
+                    >
                         <div style={styles.categoryCard}>
                             {/* Image Container with fixed size 204x336 */}
                             <div className="image-container" style={styles.imageContainer}>
@@ -210,20 +221,6 @@ const styles = {
     sliderImage: {
         objectFit: 'cover',
         width: '100%',
-    },
-};
-
-// Media Query for Responsiveness
-const mediaQueryStyles = {
-    '@media (max-width: 1024px)': {
-        categoriesList: {
-            gridTemplateColumns: 'repeat(2, 1fr)', // 2 columns for medium screens
-        },
-    },
-    '@media (max-width: 768px)': {
-        categoriesList: {
-            gridTemplateColumns: '1fr', // 1 column for smaller screens
-        },
     },
 };
 
