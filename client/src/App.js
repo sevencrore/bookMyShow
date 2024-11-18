@@ -34,6 +34,8 @@ import EventDetailsHome from './components/EventPage/EventDetailsHome';
 import BookEvent from './components/EventPage/BookEvent';
 import MyBookings from './components/EventPage/MyBookings';
 import UserBookings from './components/admin/UserBookingDetails';
+import Add_City from './components/admin/Add_City';
+import ListCity from './components/admin/ListCity';
 
 function App() {
 
@@ -73,8 +75,10 @@ function App() {
         <Route path="/admin/EventDetails"><EventDetails /></Route>
         <Route path="/admin/ListCategory"><ListCategory /></Route>
         <Route path="/admin/ListVendor"><ListVendor /></Route>
+        <Route path="/admin/ListCity"><ListCity /></Route>
         <Route path="/admin/category"><Category /></Route>
         <Route path="/admin/vendor"><Vendor /></Route>
+        <Route path="/admin/Add_city"><Add_City /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>
         <Route path = "/events/:categoryId/:cityId"><EventHome/></Route>
         <Route path = "/event/:eventId"><EventDetailsHome/></Route>
