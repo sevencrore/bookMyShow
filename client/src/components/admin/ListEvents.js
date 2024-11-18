@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef  } from "react";
 import axios from "axios";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import withAdminCheck from "./withAdminCheck";
@@ -19,6 +19,8 @@ const ListEvent = () => {
     slots: "",
     event_id: "", // The event ID will be set when an event is selected
   });
+
+  const formRef = useRef(null);
 
   // Fetch events, vendors, categories, and cities when component mounts
   useEffect(() => {
@@ -47,12 +49,19 @@ const ListEvent = () => {
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   // Handle View action
   const handleView = (eventId) => {
     const event = events.find((e) => e._id === eventId);
     setSelectedEvent(event);
     setIsEditing(false); // Set to view mode
     setIsAddingDetails(false); // Hide "Add Event Details" form
+    scrollToForm();
   };
 
   // Handle Edit action
@@ -61,6 +70,7 @@ const ListEvent = () => {
     setSelectedEvent(event);
     setIsEditing(true); // Set to edit mode
     setIsAddingDetails(false); // Hide "Add Event Details" form
+    scrollToForm();
   };
 
   // Handle Add Event Details action
@@ -78,34 +88,42 @@ const ListEvent = () => {
     setSelectedEvent(event);
     setIsAddingDetails(true); // Show the form to add event details
     setIsEditing(false); // Hide edit mode
+    scrollToForm();
   };
 
 
-const handleSubmitEditDetails = (e) => {
-
-   // Check if event_id is set
-   if (!eventDetails.e.id) {
-    alert("Please select a valid event.");
-    return;
-  }
-
-  // Send a POST request to save the event details
-  axios
-    .post(`http://localhost:5000/event/edit${e._id}`, e)
-    .then((response) => {
-      console.log("Event details created:", response.data);
-
-    
-      // Display success message
-      alert("Event Edited Successfully!");
-    })
-    .catch((error) => {
-      console.error("Error saving event details:", error);
-      alert("Error saving event details. Please try again.");
-    });
-
-
-}
+  const handleSubmitEditDetails = (e) => {
+    e.preventDefault();
+  
+    if (!selectedEvent || !selectedEvent._id) {
+      alert("No event selected for editing.");
+      return;
+    }
+  
+    // Send updated event data to the API
+    axios
+      .post(`http://localhost:5000/event/edit/${selectedEvent._id}`, selectedEvent)
+      .then((response) => {
+        console.log("Event updated:", response.data);
+  
+        // Update the events list with the edited event
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event._id === selectedEvent._id ? response.data : event
+          )
+        );
+  
+        alert("Event updated successfully!");
+        setIsEditing(false); // Exit editing mode
+        setSelectedEvent(null); // Reset selected event
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating event:", error);
+        alert("Failed to update event. Please try again.");
+      });
+  };
+  
 
   // Handle form submit for adding event details
   const handleSubmitEventDetails = (e) => {
@@ -209,6 +227,7 @@ const handleSubmitEditDetails = (e) => {
             </tbody>
           </Table>
 
+        <div ref={formRef}>
           {/* Display Event Details / Edit Form Below the Table */}
           {selectedEvent && !isAddingDetails && (
             <div className="my-3">
@@ -369,8 +388,10 @@ const handleSubmitEditDetails = (e) => {
               )}
             </div>
           )}
+          </div>
 
           {/* Add New Event Details Form (Only visible when "Add Event Details" is clicked) */}
+          <div ref={formRef}>
           {isAddingDetails && (
             <div className="my-3">
               <h3>Add New Event Details</h3>
@@ -454,6 +475,7 @@ const handleSubmitEditDetails = (e) => {
               </Form>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
