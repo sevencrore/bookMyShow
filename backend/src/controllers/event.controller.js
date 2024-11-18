@@ -66,19 +66,49 @@ router.get('/get/:categoryId/:cityId', async (req, res) => {
 
 router.get('/:Id', async (req, res) => {
     try {
-        const { Id } = req.params;  // Get Id from URL parameter
-        const events = await Event.findOne({ _id: Id }).select("-is_deleted -created_at -is_active -updated_at");;  // Fetch events by Id
+        const { Id } = req.params; // Get Id from URL parameter
 
-        if (!events || events.length === 0) {
+        // Fetch the event and populate the related city and category data
+        const event = await Event.findOne({ _id: Id })
+            .select("-is_deleted -created_at -is_active -updated_at") // Exclude unwanted fields
+            .populate({
+                path: 'city_id', // Populate city_id field
+                select: 'name', // Only fetch the name field from the City model
+            })
+            .populate({
+                path: 'category_id', // Populate category_id field
+                select: 'category_name', // Only fetch the name field from the Category model
+            })
+            .populate({
+                path: 'vendor_id', // Populate category_id field
+                select: 'name', // Only fetch the name field from the Category model
+            });
+
+        if (!event) {
             return res.status(404).json({ message: 'No events found for this Id.' });
         }
 
-        res.status(200).json(events);
+        // Transform the response to include city and category as top-level fields
+        const eventData = {
+            ...event.toObject(),
+            city: event.city_id?.name || null, // Add city name
+            category: event.category_id?.category_name || null, // Add category name
+            vendor: event.vendor_id?.name || null,
+        };
+
+        // Remove city_id and category_id from the response if not needed
+        delete eventData.city_id;
+        delete eventData.category_id;
+        delete eventData.vendor_id;
+
+        console.log(eventData);
+        res.status(200).json(eventData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'An error occurred while retrieving events.', error });
+        res.status(500).json({ message: 'An error occurred while retrieving the event.', error });
     }
 });
+
 
 
 router.get('/vendor/:vendorId', async (req, res) => {
