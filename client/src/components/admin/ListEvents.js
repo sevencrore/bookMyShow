@@ -66,14 +66,16 @@ const ListEvent = () => {
   // Handle Add Event Details action
   const handleAddEventDetails = (eventId) => {
     const event = events.find((e) => e._id === eventId);
+    if (event) {
+      setEventDetails({
+        email: userEmail,
+        date: "",
+        price: "",
+        slots: "",
+        event_id: eventId, // Set the event_id to the selected event
+      });
+    }
     setSelectedEvent(event);
-    setEventDetails({
-      email: userEmail,
-      date: "",
-      price: "",
-      slots: "",
-      event_id: eventId, // Set the event_id to the selected event
-    });
     setIsAddingDetails(true); // Show the form to add event details
     setIsEditing(false); // Hide edit mode
   };
