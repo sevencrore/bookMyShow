@@ -12,11 +12,11 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
 
 
-
 // HomePage Component
 function HomePage() {
     const [categories, setCategories] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [cityName, setCityName] = useState(null);  // State to store city name
     let { city, handleChange } = useContext(AppContext);
 
     const city_id = localStorage.getItem('selectedCityId');
@@ -41,10 +41,21 @@ function HomePage() {
         setShowModal(set);
     }
 
+    // Fetch City Name based on city_id
     useEffect(() => {
-        window.addEventListener('load', () => {
-            setShowModal(true);
-        });
+        if (city_id) {
+            fetch(`http://localhost:5000/city/${city_id}`, { mode: 'cors' })  // Assuming the API endpoint to get city details
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.name) {
+                        setCityName(data.name);  // Set the city name
+                        localStorage.setItem('selectedCityName', data.name);  // Save city name in local storage
+                    }
+                })
+                .catch(e => {
+                    console.error("Error fetching city details:", e);
+                });
+        }
 
         // Fetch categories
         fetch('http://localhost:5000/eventCategory/', { mode: 'cors' })
@@ -55,42 +66,35 @@ function HomePage() {
             .catch((e) => {
                 console.error(e);
             });
-    }, []);
+    }, [city_id]);
 
+    // Category List Component (Updated to show name/description below the image)
+    const CategoryList = ({ categories }) => {
+        return (
+            <div className="container-fluid categories-list" style={styles.categoriesList}>
+                {categories.map((category, index) => (
+                    <Link key={index} to={`/events/${category._id}/${city_id}`} style={styles.link}>
+                        <div style={styles.categoryCard}>
+                            {/* Image Container with fixed size 204x336 */}
+                            <div className="image-container" style={styles.imageContainer}>
+                                <img
+                                    src={`http://localhost:5000${category.image}`}
+                                    alt={category.category_name}
+                                    style={styles.image}
+                                />
+                            </div>
 
-
-
-// Category List Component (Updated to show name/description below the image)
-const CategoryList = ({ categories }) => {
-    // TODO
-    
-    return (
-        <div className="container-fluid categories-list" style={styles.categoriesList}>
-            {categories.map((category, index) => (
-                <Link key={index} to={`/events/${category._id}/${city_id}`} style={styles.link}>
-                    <div style={styles.categoryCard}>
-                        {/* Image Container with fixed size 204x336 */}
-                        <div className="image-container" style={styles.imageContainer}>
-                            <img
-                                src={`http://localhost:5000${category.image}`}
-                                alt={category.category_name}
-                                style={styles.image}
-                            />
+                            {/* Name and Description below the image */}
+                            <div className="content-container" style={styles.contentContainer}>
+                                <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
+                                <p className="category-description" style={styles.description}>{category.description}</p>
+                            </div>
                         </div>
-
-                        {/* Name and Description below the image */}
-                        <div className="content-container" style={styles.contentContainer}>
-                            <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
-                            <p className="category-description" style={styles.description}>{category.description}</p>
-                        </div>
-                    </div>
-                </Link>
-            ))}
-        </div>
-    );
-};
-
-
+                    </Link>
+                ))}
+            </div>
+        );
+    };
 
     return (
         <>
@@ -103,7 +107,6 @@ const CategoryList = ({ categories }) => {
 
             <Navbar toggle={toggleLocationPickup} />
 
-             
             <Menubar />
 
             <Slider {...settings} style={styles.slider}>

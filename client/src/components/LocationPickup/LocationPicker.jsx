@@ -39,6 +39,7 @@ const Locationpicker = ({ handleClose }) => {
                     const defaultCity = sortedLocations[0];
                     handleChange(defaultCity.name); // Set it in the context
                     localStorage.setItem('selectedCityId', defaultCity._id); // Save the default city ID in localStorage
+                    localStorage.setItem('selectedCityName', defaultCity.name); // Save the default city name in localStorage
                 }
             } catch (err) {
                 setError('Failed to fetch city data');
@@ -58,6 +59,7 @@ const Locationpicker = ({ handleClose }) => {
     const handleSelectLocation = (cityName, cityId) => {
         handleChange(cityName); // Set the selected city using handleChange function
         localStorage.setItem('selectedCityId', cityId); // Save the selected city ID in localStorage
+        localStorage.setItem('selectedCityName', cityName); // Save the selected city name in localStorage
         handleClose(); // Close the picker after selection
     };
 
