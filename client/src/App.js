@@ -55,8 +55,9 @@ function App() {
   const analytics = getAnalytics(app);
   return (
     <div className="App">      
-    
+     <Navbar />
       <Switch>
+       
         <Route path="/" exact><Home/></Route>
         <Route path="/moviepage"><MoviePage/></Route>
         <Route path="/movie/:id"><Book/></Route>
@@ -87,7 +88,7 @@ function App() {
         <Route path = "/admin/userbookings"><UserBookings/></Route>
         
     </Switch>
-    
+    <Footer />
     </div>
   );
 }
