@@ -30,19 +30,19 @@ const Event = () => {
   useEffect(() => {
     // Fetch categories from 'eventCategory' endpoint
     axios
-      .get("http://localhost:5000/eventCategory")
+      .get(`${process.env.REACT_APP_HOST}/eventCategory`)
       .then((response) => setCategories(response.data))
       .catch((error) => console.error("Error fetching categories:", error));
 
     // Fetch vendors from 'vendor' endpoint
     axios
-      .get("http://localhost:5000/vendor")
+      .get(`${process.env.REACT_APP_HOST}/vendor`)
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
 
     // Fetch cities from 'city' endpoint
     axios
-      .get("http://localhost:5000/city")
+      .get(`${process.env.REACT_APP_HOST}/city`)
       .then((response) => setCities(response.data)) // Update state with cities data
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
@@ -80,8 +80,8 @@ const Event = () => {
     console.log("Form Data being sent:", formData);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/event/create",
+      const res = await axios.post(`${process.env.REACT_APP_HOST}/event/create`,
+        
         formData,
         {
           headers: {

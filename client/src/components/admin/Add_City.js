@@ -16,7 +16,7 @@ const Add_City = () => {
         e.preventDefault();
         try {
             // Make a POST request to your backend to create a new Add_city
-            const res = await axios.post("http://localhost:5000/city/create", input);
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/city/create`, input);
             alert("Add_city created successfully!"); // Show success message
             history.push("/admin/dashboard"); // Redirect to the dashboard after successful Add_city creation
         } catch (error) {

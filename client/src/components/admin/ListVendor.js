@@ -27,7 +27,7 @@ const ListVendor = () => {
 
       try {
         // Make the API call with the username in the request body
-        const response = await axios.post('http://localhost:5000/users/checkrole', input);
+        const response = await axios.post(`${process.env.REACT_APP_HOST}/users/checkrole`, input);
         if (response.data.message !== 'admin') {
           history.push("/"); // Redirect if not admin
         } 
@@ -41,7 +41,7 @@ const ListVendor = () => {
 
     // Fetch vendor list
     axios
-      .get("http://localhost:5000/vendor/")
+      .get(`${process.env.REACT_APP_HOST}/vendor/`)
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
   }, []); // Empty dependency array to run on mount only
@@ -74,13 +74,13 @@ const ListVendor = () => {
 
     // Send POST request to update vendor
     axios
-      .post(`http://localhost:5000/vendor/edit/${selectedVendor._id}`, selectedVendor)
+      .post(`${process.env.REACT_APP_HOST}/vendor/edit/${selectedVendor._id}`, selectedVendor)
       .then((response) => {
         console.log("Vendor updated successfully:", response.data);
 
         // After successful update, re-fetch the vendor list
         axios
-          .get("http://localhost:5000/vendor/")
+          .get(`${process.env.REACT_APP_HOST}/vendor/`)
           .then((response) => {
             setVendors(response.data); // Update the vendor list with the latest data
             setIsEditing(false); // Set to view mode after editing

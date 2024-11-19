@@ -29,9 +29,9 @@ const AdminBookingDetails = () => {
     try {
       let apiUrl;
       if (searchOption === "user_id") {
-        apiUrl = `http://localhost:5000/book/user/${searchValue}`;
+        apiUrl = `${process.env.REACT_APP_HOST}/book/user/${searchValue}`;
       } else if (searchOption === "email") {
-        apiUrl = `http://localhost:5000/book/user/email/${searchValue}`;
+        apiUrl = `${process.env.REACT_APP_HOST}/book/user/email/${searchValue}`;
       }
 
       const response = await axios.get(apiUrl);
@@ -44,7 +44,7 @@ const AdminBookingDetails = () => {
   };
 
   const handleDownload = async (id) => {
-    const downloadUrl = `http://localhost:5000/book/download-bill/${id}`;
+    const downloadUrl = `${process.env.REACT_APP_HOST}/book/download-bill/${id}`;
     const link = document.createElement("a");
     link.href = downloadUrl;
     link.setAttribute("download", "");

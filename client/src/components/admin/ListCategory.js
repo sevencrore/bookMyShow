@@ -12,7 +12,7 @@ const ListCategory = () => {
   useEffect(() => {
     // Fetch categories
     axios
-      .get("http://localhost:5000/eventCategory/")
+      .get(`${process.env.REACT_APP_HOST}/eventCategory/`)
       .then((response) => setCategories(response.data))
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
@@ -47,13 +47,13 @@ const ListCategory = () => {
 
     // Send PUT request to update category
     axios
-      .post(`http://localhost:5000/eventCategory/edit/${selectedCategory._id}`, selectedCategory)
+      .post(`${process.env.REACT_APP_HOST}/eventCategory/edit/${selectedCategory._id}`, selectedCategory)
       .then((response) => {
         console.log("Category updated successfully:", response.data);
 
         // After successful edit, re-fetch the categories
         axios
-          .get("http://localhost:5000/eventCategory/")
+          .get(`${process.env.REACT_APP_HOST}/eventCategory/`)
           .then((response) => {
             setCategories(response.data); // Update the category list
             setIsEditing(false); // Set to view mode

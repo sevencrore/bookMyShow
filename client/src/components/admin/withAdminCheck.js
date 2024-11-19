@@ -18,7 +18,7 @@ const withAdminCheck = (WrappedComponent) => {
           }
           
           const response = await axios.post(
-            "http://localhost:5000/users/checkrole",
+            `${process.env.REACT_APP_HOST}/users/checkrole`,
             { email: username }
           );
 

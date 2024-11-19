@@ -26,25 +26,25 @@ const ListEvent = () => {
   useEffect(() => {
     // Fetch events
     axios
-      .get("http://localhost:5000/event/")
+      .get(`${process.env.REACT_APP_HOST}/event/`)
       .then((response) => setEvents(response.data))
       .catch((error) => console.error("Error fetching events:", error));
 
     // Fetch vendors
     axios
-      .get("http://localhost:5000/vendor/")
+      .get(`${process.env.REACT_APP_HOST}/vendor/`)
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
 
     // Fetch categories
     axios
-      .get("http://localhost:5000/eventCategory/")
+      .get(`${process.env.REACT_APP_HOST}/eventCategory/`)
       .then((response) => setCategories(response.data))
       .catch((error) => console.error("Error fetching categories:", error));
 
     // Fetch cities
     axios
-      .get("http://localhost:5000/city/")
+      .get(`${process.env.REACT_APP_HOST}/city/`)
       .then((response) => setCities(response.data))
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
@@ -102,7 +102,7 @@ const ListEvent = () => {
   
     // Send updated event data to the API
     axios
-      .post(`http://localhost:5000/event/edit/${selectedEvent._id}`, selectedEvent)
+      .post(`${process.env.REACT_APP_HOST}/event/edit/${selectedEvent._id}`, selectedEvent)
       .then((response) => {
         console.log("Event updated:", response.data);
   
@@ -137,7 +137,7 @@ const ListEvent = () => {
 
     // Send a POST request to save the event details
     axios
-      .post("http://localhost:5000/eventDetails/create", eventDetails)
+      .post(`${process.env.REACT_APP_HOST}/eventDetails/create`, eventDetails)
       .then((response) => {
         console.log("Event details created:", response.data);
 

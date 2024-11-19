@@ -16,13 +16,13 @@ const Event_Details = () => {
   useEffect(() => {
     // Fetch event details (eventdetails)
     axios
-      .get("http://localhost:5000/eventdetails/")
+      .get(`${process.env.REACT_APP_HOST}/eventdetails/`)
       .then((response) => setEvents(response.data))
       .catch((error) => console.error("Error fetching events:", error));
 
     // Fetch active events (these are the actual events with titles)
     axios
-      .get("http://localhost:5000/event/")
+      .get(`${process.env.REACT_APP_HOST}/event/`)
       .then((response) => setActiveEvents(response.data))
       .catch((error) => console.error("Error fetching active events:", error));
   }, []);
@@ -69,7 +69,7 @@ const Event_Details = () => {
 
     // Perform the edit submission logic (POST request to update event)
     axios
-      .post(`http://localhost:5000/eventdetails/edit/${_id}`, {
+      .post(`${process.env.REACT_APP_HOST}/eventdetails/edit/${_id}`, {
         event_id,
         title,
         date,  // Send date as a single value
@@ -92,7 +92,7 @@ const Event_Details = () => {
   // Handle soft delete event
   const handleDelete = (eventId) => {
     axios
-      .post(`http://localhost:5000/eventdetails/delete/${eventId}`)
+      .post(`${process.env.REACT_APP_HOST}/eventdetails/delete/${eventId}`)
       .then((response) => {
         setEvents(events.filter((event) => event._id !== eventId));
         console.log("Event deleted:", response.data);

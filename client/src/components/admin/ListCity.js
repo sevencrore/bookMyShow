@@ -27,7 +27,7 @@ const ListCity = () => {
 
       try {
         // Make the API call with the username in the request body
-        const response = await axios.post('http://localhost:5000/users/checkrole', input);
+        const response = await axios.post(`${process.env.REACT_APP_HOST}/users/checkrole`, input);
         if (response.data.message !== 'admin') {
           history.push("/"); // Redirect if not admin
         } 
@@ -41,7 +41,7 @@ const ListCity = () => {
 
     // Fetch city list
     axios
-      .get("http://localhost:5000/city/") // Changed to city endpoint
+      .get(`${process.env.REACT_APP_HOST}/city/`) // Changed to city endpoint
       .then((response) => setCities(response.data))
       .catch((error) => console.error("Error fetching cities:", error));
   }, [input, history]); // Empty dependency array to run on mount only
@@ -74,13 +74,14 @@ const ListCity = () => {
 
     // Send POST request to update city
     axios
-      .post(`http://localhost:5000/city/edit/${selectedCity._id}`, selectedCity) // Changed to city endpoint
+      .post(`${process.env.REACT_APP_HOST}/city/edit/${selectedCity._id}`, selectedCity) // Changed to city endpoint
       .then((response) => {
+        alert(response.data.message);
         console.log("City updated successfully:", response.data);
 
         // After successful update, re-fetch the city list
         axios
-          .get("http://localhost:5000/city/") // Changed to city endpoint
+          .get(`${process.env.REACT_APP_HOST}/city/`) // Changed to city endpoint
           .then((response) => {
             setCities(response.data); // Update the city list with the latest data
             setIsEditing(false); // Set to view mode after editing

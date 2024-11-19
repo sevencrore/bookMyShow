@@ -16,7 +16,7 @@ const Vendor = () => {
         e.preventDefault();
         try {
             // Make a POST request to your backend to create a new vendor
-            const res = await axios.post("http://localhost:5000/vendor/create", input);
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/vendor/create`, input);
             alert("Vendor created successfully!"); // Show success message
             history.push("/admin/dashboard"); // Redirect to the dashboard after successful vendor creation
         } catch (error) {
