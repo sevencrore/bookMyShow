@@ -24,7 +24,7 @@ function Summary()
 
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/book/getBooking/${id}`).then(async (data)=>{
+        fetch(`${process.env.REACT_APP_HOST}/book/getBooking/${id}`).then(async (data)=>{
             let resp = await data.json();
             setBookingData(resp);
             console.log({bookingData});

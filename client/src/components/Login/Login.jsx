@@ -22,7 +22,7 @@ export default function({ hide }) {
         console.log("Logged in user:", user);
 
         // Send user data to your backend
-        fetch('http://localhost:5000/users/createUser', {
+        fetch(`${process.env.REACT_APP_HOST}/users/createUser`, {
           method: 'POST',
           mode: 'cors',
           cache: 'no-cache',

@@ -43,7 +43,7 @@ function HomePage() {
     // Fetch City Name based on city_id
     useEffect(() => {
         if (city_id) {
-            fetch(`http://localhost:5000/city/`, { mode: 'cors' })  // Assuming the API endpoint to get city details
+            fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })  // Assuming the API endpoint to get city details
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.name) {
@@ -57,7 +57,7 @@ function HomePage() {
         }
 
         // Fetch categories
-        fetch('http://localhost:5000/eventCategory/', { mode: 'cors' })
+        fetch(`${process.env.REACT_APP_HOST}/eventCategory/`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 setCategories(data);
@@ -89,7 +89,7 @@ function HomePage() {
                             {/* Image Container with fixed size 204x336 */}
                             <div className="image-container" style={styles.imageContainer}>
                                 <img
-                                    src={`http://localhost:5000${category.image}`}
+                                    src={`${process.env.REACT_APP_HOST}${category.image}`}
                                     alt={category.category_name}
                                     style={styles.image}
                                 />

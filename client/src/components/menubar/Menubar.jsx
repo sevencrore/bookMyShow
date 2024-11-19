@@ -11,7 +11,7 @@ export default function Menubar() {
 
     useEffect(() => {
         if (city_id) {
-            fetch(`http://localhost:5000/city/`, { mode: 'cors' })
+            fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.name) {
@@ -22,7 +22,7 @@ export default function Menubar() {
                 .catch(e => console.error("Error fetching city details:", e));
         }
 
-        fetch('http://localhost:5000/eventCategory/', { mode: 'cors' })
+        fetch(`${process.env.REACT_APP_HOST}/eventCategory/`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => setCategories(data))
             .catch((e) => console.error(e));
