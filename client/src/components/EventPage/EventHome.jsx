@@ -2,37 +2,29 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
-// Breadcrumb Component
 const Breadcrumb = () => {
     const selectedCityName = localStorage.getItem('selectedCityName');
-    const selectedCategoryName = localStorage.getItem('selectedCategoryName');
 
     return (
         <nav aria-label="breadcrumb">
-            <ol style={styles.breadcrumbList}>
-                <li style={styles.breadcrumbItem}>
-                    <Link to="/" style={styles.breadcrumbLink}>
-                        Home
-                    </Link>
-                </li>
+            <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {selectedCityName && (
-                    <li style={styles.breadcrumbItem}>
-                        <Link to={`/city/${selectedCityName}`} style={styles.breadcrumbLink}>
-                            {selectedCityName}
-                        </Link>
-                    </li>
-                )}
-                {selectedCategoryName && (
-                    <li style={styles.breadcrumbItem}>
-                        <Link to={`/category/${selectedCategoryName}`} style={styles.breadcrumbLink}>
-                            {selectedCategoryName}
-                        </Link>
+                    <li style={{ display: 'inline-block', marginRight: '10px' }}>
+                        <span style={{
+                            color: 'black',  // Set text color to black
+                            fontSize: '24px',  // Increase text size
+                            fontWeight: 'bold'  // Optional: make the text bold
+                        }}>
+                            Events in {selectedCityName}
+                        </span>
                     </li>
                 )}
             </ol>
         </nav>
     );
 };
+
+
 
 // Event List Component
 const EventList = ({ events }) => {
