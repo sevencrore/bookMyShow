@@ -75,22 +75,24 @@ export default function ({ toggle }) {
                 </Link>
             </div>
 
-            <div>
+            {/* <div>
 
                 <input className="inp" placeholder='Search for movies sports and events' />
 
-            </div>
+            </div> */}
 
             
-            <div className="menu-links">
-                {/* Link to MyBookings */}
-                <Link to="/mybookings" className="btn btn-link">
-                    MyBookings
-                </Link>
-            </div>
+            
 
             <div className="grow">
 
+            </div>
+
+            <div className="menu-links">
+                {/* Link to MyBookings */}
+                <Link to="/mybookings" className="btn btn-outline-secondary text-light">
+                    MyBookings
+                </Link>
             </div>
 
             <div onClick={toggle}>
