@@ -2,7 +2,10 @@ import './App.css';
 import { MoviePage } from './components/MoviePage/MoviePage';
 
 import { Book } from '../src/components/BookPage/Book';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import Modal from 'react-bootstrap/Modal';
+import LocationPicker from "./components/LocationPickup/LocationPicker";
 import Home from './components/Home';
 
 import { Terms } from './components/Seat/Terms';
@@ -37,7 +40,21 @@ import UserBookings from './components/admin/UserBookingDetails';
 import Add_City from './components/admin/Add_City';
 import ListCity from './components/admin/ListCity';
 
+
 function App() {
+
+  const [showModal, setShowModal] = useState(true);
+
+  function toggleLocationPickup(e) {
+    let set = !showModal;
+    setShowModal(set);
+  }
+
+
+  function handleClose(e) {
+    setShowModal(false);
+  }
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyALuLSKz7yNKbdk3t3kAHfs1ODnmygpdjQ",
@@ -48,24 +65,32 @@ function App() {
     appId: "1:696353441992:web:3d682155c2f61541c77dfd",
     measurementId: "G-MLVGY89LDF"
   };
-  
-  
+
+
   const app = initializeApp(firebaseConfig);
-  
+
   const analytics = getAnalytics(app);
   return (
-    <div className="App">      
-     <Navbar />
+    <div className="App">
+
+      <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Body>
+          <LocationPicker handleClose={handleClose} />
+        </Modal.Body>
+        <p className="red">View All Cities</p>
+      </Modal>
+
+      <Navbar toggle={toggleLocationPickup} />
       <Switch>
-       
-        <Route path="/" exact><Home/></Route>
-        <Route path="/moviepage"><MoviePage/></Route>
-        <Route path="/movie/:id"><Book/></Route>
-        <Route path="/book"><Book/></Route>
-        <Route path="/terms"> <Terms/> <Selectseat/></Route>
-        <Route path = "/slot/:id/:bookingId"><Slotbooking/></Route>
-        <Route path = "/seating/:id"><Seating/></Route>        
-        <Route path = "/summary/:id"><Summary/></Route>  
+
+        <Route path="/" exact><Home /></Route>
+        <Route path="/moviepage"><MoviePage /></Route>
+        <Route path="/movie/:id"><Book /></Route>
+        <Route path="/book"><Book /></Route>
+        <Route path="/terms"> <Terms /> <Selectseat /></Route>
+        <Route path="/slot/:id/:bookingId"><Slotbooking /></Route>
+        <Route path="/seating/:id"><Seating /></Route>
+        <Route path="/summary/:id"><Summary /></Route>
         <Route path="/admin/login"><AdminLogin /></Route>
         <Route path="/admin/register"><AdminRegister /></Route>
         <Route path="/admin/dashboard"><AdminDashboard /></Route>
@@ -81,14 +106,14 @@ function App() {
         <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Add_city"><Add_City /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>
-        <Route path = "/events/:categoryId/:cityId"><EventHome/></Route>
-        <Route path = "/event/:eventId"><EventDetailsHome/></Route>
-        <Route path = "/bookevent/:eventId"><BookEvent/></Route>
-        <Route path = "/mybookings"><MyBookings/></Route>
-        <Route path = "/admin/userbookings"><UserBookings/></Route>
-        
-    </Switch>
-    <Footer />
+        <Route path="/events/:categoryId/:cityId"><EventHome /></Route>
+        <Route path="/event/:eventId"><EventDetailsHome /></Route>
+        <Route path="/bookevent/:eventId"><BookEvent /></Route>
+        <Route path="/mybookings"><MyBookings /></Route>
+        <Route path="/admin/userbookings"><UserBookings /></Route>
+
+      </Switch>
+      <Footer />
     </div>
   );
 }

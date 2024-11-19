@@ -1,6 +1,7 @@
 
 import '../../style/navbar.css'
 import { useContext } from 'react'
+import { useEffect } from "react";
 
 import { AppContext } from '../../contexts/AppContext'
 import Button from 'react-bootstrap/Button'
@@ -13,9 +14,28 @@ export default function ({ toggle }) {
 
     const { city, handleChange } = useContext(AppContext);
     const [showLogin, setShowLogin] = useState(false);
+    const [cityName, setCityName] = useState(null); 
+    
+
+    const city_id = localStorage.getItem('selectedCityId');
 
 
+    useEffect(() => {
+        if (city_id) {
+            fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })  // Assuming the API endpoint to get city details
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.name) {
+                        setCityName(data.name);  // Set the city name
+                        localStorage.setItem('selectedCityName', data.name);  // Save city name in local storage
+                    }
+                })
+                .catch(e => {
+                    console.error("Error fetching city details:", e);
+                });
+        }
 
+    });
 
 
     function checkUser() {

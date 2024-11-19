@@ -28,13 +28,14 @@ const Locationpicker = ({ handleClose }) => {
                 // Check if there's a selected city in localStorage
                 const storedCityId = localStorage.getItem('selectedCityId');
 
-                if (storedCityId) {
-                    // Set the selected city from localStorage if it exists
-                    const selectedCity = sortedLocations.find(city => city._id === storedCityId);
-                    if (selectedCity) {
-                        handleChange(selectedCity.name); // Set it in the context
-                    }
-                } else if (sortedLocations.length > 0) {
+                // if (storedCityId) {
+                //     // Set the selected city from localStorage if it exists
+                //     const selectedCity = sortedLocations.find(city => city._id === storedCityId);
+                //     if (selectedCity) {
+                //         handleChange(selectedCity.name); // Set it in the context
+                //     }
+                // } else 
+                if (sortedLocations.length > 0) {
                     // If no city is selected, set the first city (earliest created) as default
                     const defaultCity = sortedLocations[0];
                     handleChange(defaultCity.name); // Set it in the context
