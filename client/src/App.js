@@ -43,7 +43,7 @@ import ListCity from './components/admin/ListCity';
 
 function App() {
 
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   function toggleLocationPickup(e) {
     let set = !showModal;
