@@ -90,20 +90,20 @@ export default function ({ toggle }) {
 
             <div className="menu-links">
                 {/* Link to MyBookings */}
-                <Link to="/mybookings" className="btn btn-outline-secondary text-light">
+                <Link to="/mybookings" className="btn btn-outline-secondary text-light fs-6">
                     MyBookings
                 </Link>
             </div>
 
             <div onClick={toggle}>
-                <p className='sub'>{city} <img className='img-fluid' src={`${process.env.PUBLIC_URL}/down.png`} /></p>
+                <p className='sub fs-5'>{city} <img className='img-fluid' src={`${process.env.PUBLIC_URL}/down.png`} /></p>
             </div>
 
 
             {localStorage.getItem('user') ? <div>
 
 
-                <p className='sub'><FaUser /> Hi,&nbsp;{JSON.parse(localStorage.getItem('user')).displayName} &nbsp; <FaSignOutAlt style={{ fontSize: "2rem", cursor: "pointer" }}  onClick={() => {
+                <p className='sub fs-6'><FaUser /> Hi,&nbsp;{JSON.parse(localStorage.getItem('user')).displayName} &nbsp; <FaSignOutAlt  style={{ fontSize: "2rem", cursor: "pointer" }}  onClick={() => {
 
                     localStorage.removeItem('user');
                     setShowLogin(false);
