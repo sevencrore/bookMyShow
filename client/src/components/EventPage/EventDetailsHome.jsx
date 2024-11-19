@@ -81,37 +81,37 @@ const EventDetailsHome = () => {
             <Card className="mt-4 p-4 shadow-sm rounded event-card">
                 <Card.Body>
                     <h3>{event.title}</h3>
-                    <Card.Subtitle className="mb-2 text-muted">
-                        <strong>Host:</strong> {event.host_name}
+                    <Card.Subtitle className="mb-4 ">
+                        <strong>Host:</strong><br /> {event.host_name}
                     </Card.Subtitle>
-                    <p><strong>Location:</strong> {event.description}</p>
+                    <p><strong>Description :</strong> <br />{event.description}</p>
 
                     {/* Category */}
                     <div className="mb-3">
-                        <strong>Category:</strong> {event.category}
+                        <strong>Category:</strong><br />{event.category}
                     </div>
 
                     {/* Vendor */}
                     <div className="mb-3">
-                        <strong>Vendor:</strong> {event.vendor}
+                        <strong>Vendor:</strong><br /> {event.vendor}
                     </div>
 
                     {/* Event Location */}
                     {event.location_description && (
                         <div className="mb-3">
-                            <strong>Location Description:</strong> {event.location_description}
+                            <strong>Location Description:</strong><br /> {event.location_description}
                         </div>
                     )}
 
                     {/* Coordinates */}
                     <div className="mb-3">
-                        <strong>Coordinates:</strong>
-                        <p>Latitude: {locationLat}, Longitude: {locationLng}</p>
+                        <strong> Location Coordinates:</strong><br />
+                        <p>Latitude: {locationLat}, <br />Longitude: {locationLng}</p>
                     </div>
 
                     {/* City */}
                     <div className="mb-3">
-                        <strong>City:</strong> {event.city}
+                        <strong>City:</strong> <br /> {event.city}
                     </div>
 
                     {/* Event Status */}
