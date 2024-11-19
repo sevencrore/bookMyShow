@@ -39,6 +39,7 @@ import MyBookings from './components/EventPage/MyBookings';
 import UserBookings from './components/admin/UserBookingDetails';
 import Add_City from './components/admin/Add_City';
 import ListCity from './components/admin/ListCity';
+import Add_Image from './components/admin/Add_Image';
 
 
 function App() {
@@ -103,6 +104,7 @@ function App() {
         <Route path="/admin/ListVendor"><ListVendor /></Route>
         <Route path="/admin/ListCity"><ListCity /></Route>
         <Route path="/admin/category"><Category /></Route>
+        <Route path="/admin/Add_Image"><Add_Image /></Route>
         <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Add_city"><Add_City /></Route>
         <Route path="/admin/Theaters"><Theaters /></Route>

@@ -33,7 +33,7 @@ router.post("/create", upload.single("image"), async (req, res) => {
         const imagePath = `/uploads/Slide_img/${req.file.filename}`;  // Construct the URL path for the image
         console.log(imagePath);
         // Save the category with the image path
-        const newImage = new Category({
+        const newImage = new SlideImage({
             name:name,  
             description,
             image: imagePath

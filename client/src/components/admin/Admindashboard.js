@@ -38,6 +38,9 @@ const Dashboard = () => {
         <Link to="/admin/Category" className="btn btn-primary mx-3">
           Category
         </Link>
+        <Link to="/admin/Add_Image" className="btn btn-primary mx-3">
+          Add Image
+        </Link>
         <Link to="/admin/ListCategory" className="btn btn-primary mx-3">
           Category List
         </Link>
