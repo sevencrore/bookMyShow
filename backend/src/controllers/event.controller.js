@@ -186,8 +186,8 @@ router.post("/edit/:id", upload.fields([
         const { category_id, vendor_id, location_description, location_lat, location_lang, title, description, host_name,is_active ,city_id} = req.body;
 
         // Safely construct the image paths if files are uploaded
-        const imgPath = req.files && req.files["img"] ? `/uploads/event${req.files["img"][0].filename}` : null;
-        const bgImgPath = req.files && req.files["bg_img"] ? `/uploads/event${req.files["bg_img"][0].filename}` : null;
+        const imgPath = req.files && req.files["img"] ? `/uploads/event/${req.files["img"][0].filename}` : null;
+        const bgImgPath = req.files && req.files["bg_img"] ? `/uploads/event/${req.files["bg_img"][0].filename}` : null;
         console.log(req.body);
 
         // Find the event by ID and update it with the new data
