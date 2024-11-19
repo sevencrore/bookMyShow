@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 const Breadcrumb = () => {
     const selectedCityName = localStorage.getItem('selectedCityName');
+    const selectedCategoryName = localStorage.getItem('selectedCategoryName');
 
     return (
         <nav aria-label="breadcrumb">
@@ -15,7 +16,7 @@ const Breadcrumb = () => {
                             fontSize: '24px',  // Increase text size
                             fontWeight: 'bold'  // Optional: make the text bold
                         }}>
-                            Events in {selectedCityName}
+                            {selectedCategoryName} in {selectedCityName}
                         </span>
                     </li>
                 )}
@@ -64,6 +65,7 @@ export const EventHome = () => {
     const history = useHistory();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         // Fetch events based on categoryId and cityId
         fetch(`${process.env.REACT_APP_HOST}/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
