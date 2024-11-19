@@ -24,9 +24,7 @@ const Category = () => {
         formData.append("email", input.email);
 
         try {
-            debugger;
             const host = process.env.REACT_APP_HOST; // Correct access
-            console.log('API Host:', host); // Log to confirm it's working
             const url = `${process.env.REACT_APP_HOST}/eventCategory/create`;
             const res = await axios.post(url, formData, {
                 headers: {
