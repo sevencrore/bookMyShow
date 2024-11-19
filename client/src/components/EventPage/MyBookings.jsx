@@ -20,7 +20,7 @@ const MyBookings = () => {
         }
 
         // Construct API URL
-        const apiUrl = `http://localhost:5000/book/user/${user_id}`;
+        const apiUrl = `${process.env.REACT_APP_HOST}/book/user/${user_id}`;
 
         // Fetch bookings data
         const response = await axios.get(apiUrl);
@@ -36,7 +36,7 @@ const MyBookings = () => {
   }, []);
 
   const handleDownload = async (id) => {
-    const downloadUrl = `http://localhost:5000/book/download-bill/${id}`;
+    const downloadUrl = `${process.env.REACT_APP_HOST}/book/download-bill/${id}`;
   const link = document.createElement("a");
   link.href = downloadUrl;
   link.setAttribute("download", "");

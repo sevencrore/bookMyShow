@@ -16,7 +16,7 @@ const BookEvent = () => {
     // Fetch event details using eventId from URL
     useEffect(() => {
         console.log(`Fetching data for event details with event ID: ${eventId}`); // Debugging log
-        fetch(`http://localhost:5000/eventdetails/event/${eventId}`, { mode: 'cors' })
+        fetch(`${process.env.REACT_APP_HOST}/eventdetails/event/${eventId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 if (data && data.length > 0) {
@@ -86,7 +86,7 @@ const BookEvent = () => {
             console.log("Booking Data:", bookingData); // Log the data to verify it's correct
 
             // Send a POST request to the backend to create the booking
-            const res = await axios.post('http://localhost:5000/book/create', bookingData);
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/book/create`, bookingData);
 
             // Show success message if booking is successful
             alert("Booking successful!");

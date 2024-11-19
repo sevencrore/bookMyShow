@@ -13,7 +13,7 @@ const EventDetailsHome = () => {
     // Fetch event details using eventId from URL
     useEffect(() => {
         console.log(`Fetching data for event ID: ${eventId}`); // Debugging log
-        fetch(`http://localhost:5000/event/${eventId}`, { mode: 'cors' })
+        fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 if (data && data._id) {
@@ -46,8 +46,8 @@ const EventDetailsHome = () => {
     const locationLng = event.location_lang?.$numberDecimal || 0;
 
     // Build full URLs for images
-    const imageUrl = `http://localhost:5000${event.img}`;
-    const bgImageUrl = `http://localhost:5000${event.bg_img}`;
+    const imageUrl = `${process.env.REACT_APP_HOST}${event.img}`;
+    const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
 
     return (
         <div className="container my-5">

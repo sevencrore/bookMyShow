@@ -38,7 +38,7 @@ const EventList = ({ events }) => {
                             {/* Image Container with fixed size 204x336 */}
                             <div className="image-container" style={styles.imageContainer}>
                                 <img
-                                    src={`http://localhost:5000${event.img}`}
+                                    src={`${process.env.REACT_APP_HOST}${event.img}`}
                                     alt={event.category_name}
                                     style={styles.image}
                                 />
@@ -65,7 +65,7 @@ export const EventHome = () => {
 
     useEffect(() => {
         // Fetch events based on categoryId and cityId
-        fetch(`http://localhost:5000/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
+        fetch(`${process.env.REACT_APP_HOST}/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 if (data.message === 'No events found for the specified category and city.') {
