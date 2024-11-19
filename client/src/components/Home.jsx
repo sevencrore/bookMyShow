@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 // HomePage Component
 function HomePage() {
     const [categories, setCategories] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(true);
     const [cityName, setCityName] = useState(null);  // State to store city name
     let { city, handleChange } = useContext(AppContext);
 
@@ -109,14 +109,14 @@ function HomePage() {
 
     return (
         <>
-            {/* <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+            <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Body>
                     <LocationPicker handleClose={handleClose} />
                 </Modal.Body>
                 <p className="red">View All Cities</p>
             </Modal>
 
-            <Navbar toggle={toggleLocationPickup} /> */}
+            {/* <Navbar toggle={toggleLocationPickup} /> */}
 
             <Menubar />
 
