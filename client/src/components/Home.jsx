@@ -77,36 +77,64 @@ function HomePage() {
     // Category List Component (Updated to show name/description below the image)
     const CategoryList = ({ categories }) => {
         return (
-            <div  style={{ ...styles.categoriesList, backgroundColor: '#f0f0f0' }} className="container categories-list align-items-center"> {/* Apply grey color here */}
-                {categories.map((category, index) => (
-                    <Link
-                        key={index}
-                        to={`/events/${category._id}/${city_id}`}
-                        style={styles.link}
-                        onClick={() => handleCategoryClick(category._id, category.category_name)} // Save category info to localStorage when clicked
-                    >
-                        <div style={styles.categoryCard} className="bg-secondary  align-items-center  ">
-                            {/* Image Container with fixed size 204x336 */}
-                            <div className="align-items-center">
-                            <div className="image-container" style={{ ...styles.imageContainer, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <img className="align-items-center"
-                                    src={`${process.env.REACT_APP_HOST}${category.image}`}
-                                    alt={category.category_name}
-                                    style={styles.image}
-                                />
+            <div className="container mt-4 mb-4"> {/* Container for the grid */}
+                <div className="row g-4"> {/* Responsive row with gaps */}
+                    {categories.map((category, index) => (
+                        <Link
+                            key={index}
+                            to={`/events/${category._id}/${city_id}`}
+                            className="col-sm-12 col-md-4 col-lg-3 d-flex flex-column align-items-center text-decoration-none" // Responsive columns
+                            onClick={() => handleCategoryClick(category._id, category.category_name)}
+                        >
+                            {/* Card Container */}
+                            <div className=" p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor:"#e2e0ea" }}>
+                                {/* Image Container */}
+                                <div
+                                    className="d-flex justify-content-center align-items-center mb-3"
+                                    style={{
+                                        width: '100%',
+                                        height: '336px',
+                                        backgroundColor: '#f0f0f0',
+                                        overflow: 'hidden',
+                                        borderRadius: '8px',
+                                    }}
+                                >
+                                    <img
+                                        src={`${process.env.REACT_APP_HOST}${category.image}`}
+                                        alt={category.category_name}
+                                        className="img-fluid"
+                                        style={{
+                                            width: '100%',   // Stretch to fill the width of the container
+                                            height: '100%',  // Stretch to fill the height of the container
+                                            objectFit: 'cover', // Maintain aspect ratio while covering the container
+                                        }}
+                                    />
+                                </div>
+                                {/* Title */}
+                                <h3 className="fs-6 fw-bold text-dark mb-2">{category.category_name}</h3>
+                                {/* Description */}
+                                <p
+                                    className="text-muted fs-6 text-truncate"
+                                    style={{
+                                        maxWidth: '100%',    // Ensure truncation works within the card
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                    }}
+                                    title={category.description} // Tooltip for full description
+                                >
+                                    {category.description}
+                                </p>
                             </div>
-                            </div>
-                            {/* Name and Description below the image */}
-                            <div className="content-container" style={styles.contentContainer}>
-                                <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
-                                <p className="category-description" style={styles.description}>{category.description}</p>
-                            </div>
-                        </div>
-                    </Link>
-                ))}
+                        </Link>
+                    ))}
+                </div>
             </div>
         );
     };
+    
+    
+    
 
     return (
         <>
