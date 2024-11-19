@@ -77,24 +77,25 @@ function HomePage() {
     // Category List Component (Updated to show name/description below the image)
     const CategoryList = ({ categories }) => {
         return (
-            <div className="container-fluid categories-list" style={styles.categoriesList}>
+            <div  style={{ ...styles.categoriesList, backgroundColor: '#f0f0f0' }} className="container categories-list align-items-center"> {/* Apply grey color here */}
                 {categories.map((category, index) => (
-                    <Link 
-                        key={index} 
-                        to={`/events/${category._id}/${city_id}`} 
+                    <Link
+                        key={index}
+                        to={`/events/${category._id}/${city_id}`}
                         style={styles.link}
                         onClick={() => handleCategoryClick(category._id, category.category_name)} // Save category info to localStorage when clicked
                     >
-                        <div style={styles.categoryCard}>
+                        <div style={styles.categoryCard} className="bg-secondary  align-items-center  ">
                             {/* Image Container with fixed size 204x336 */}
-                            <div className="image-container" style={styles.imageContainer}>
-                                <img
+                            <div className="align-items-center">
+                            <div className="image-container" style={{ ...styles.imageContainer, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <img className="align-items-center"
                                     src={`${process.env.REACT_APP_HOST}${category.image}`}
                                     alt={category.category_name}
                                     style={styles.image}
                                 />
                             </div>
-
+                            </div>
                             {/* Name and Description below the image */}
                             <div className="content-container" style={styles.contentContainer}>
                                 <h3 className="category-title" style={styles.title}>{category.category_name}</h3>
