@@ -6,7 +6,7 @@
 //   return (
 //     <div>
 //       <h2>Admin Registration</h2>
-//       <form  action="http://localhost:5000/users/createuser" method="POST">
+//       <form  action=`${process.env.REACT_APP_HOST}/users/createuser` method="POST">
 //         <label>Admin Email:</label>
 //         <input type="email" name="email" placeholder="admin@example.com" required />
         
@@ -45,7 +45,7 @@ const AdminRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/users/create", input);
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/users/create`, input);
             alert(res.data.message);
             history.push("/admin/login"); // Updated `navigate` to `history.push`
         } catch (error) {

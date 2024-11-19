@@ -13,7 +13,7 @@ const AdminLogin = () => {
 const handleLogin = async (e) => {
  e.preventDefault();
  try{
-    const res= await axios.post("http://localhost:5000/users/login", input);
+    const res= await axios.post(`${process.env.REACT_APP_HOST}/users/login`, input);
      alert(res.data.message);
      console.log(res.data)
      localStorage.setItem("token",res.data.token);
