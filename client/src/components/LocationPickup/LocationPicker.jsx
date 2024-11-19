@@ -17,7 +17,7 @@ const Locationpicker = ({ handleClose }) => {
             setError('');
 
             try {
-                const response = await axios.get('http://localhost:5000/city/');
+                const response = await axios.get(`${process.env.REACT_APP_HOST}/city/`);
                 const fetchedLocations = response.data;
 
                 // Sort locations by the 'createdAt' field (earliest created city first)
