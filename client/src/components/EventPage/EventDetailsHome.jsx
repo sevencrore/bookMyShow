@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom"; 
-import { Card, Button, Row, Col, Alert, Spinner } from 'react-bootstrap'; // Import necessary components from React-Bootstrap
+import { useParams, useHistory } from "react-router-dom";
+import { Card, Button, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EventDetailsHome = () => {
-    const { eventId } = useParams(); // Get the eventId from the URL
-    const history = useHistory(); // Use history hook for navigation
-    const [event, setEvent] = useState(null); // Initialize state to null, since event is an object
-    const [loading, setLoading] = useState(true); // Loading state to manage data fetching state
+    const { eventId } = useParams();
+    const history = useHistory();
+    const [event, setEvent] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // Fetch event details using eventId from URL
     useEffect(() => {
-        console.log(`Fetching data for event ID: ${eventId}`); // Debugging log
+        console.log(`Fetching data for event ID: ${eventId}`);
         fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 if (data && data._id) {
-                    console.log("Fetched event data:", data); // Debugging log
-                    setEvent(data); // Update state with the fetched event data
-                    setLoading(false); // Set loading to false once data is fetched
+                    setEvent(data);
+                    setLoading(false);
                 } else {
-                    console.error("Invalid data received:", data); // Debugging log
                     setLoading(false);
                 }
             })
@@ -55,19 +52,20 @@ const EventDetailsHome = () => {
                 {/* Background image */}
                 <Col xs={12} className="p-0">
                     <div
-                        className="position-relative"
+                        className="position-relative event-bg"
                         style={{
                             backgroundImage: `url(${bgImageUrl})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             height: "400px",
+                            borderRadius: "10px",
                         }}
                     >
                         {/* Small image on top of background */}
                         <img
                             src={imageUrl}
                             alt={event.title}
-                            className="position-absolute top-0 start-0 m-3"
+                            className="position-absolute top-0 start-0 m-3 event-img"
                             style={{
                                 width: "150px",
                                 height: "auto",
@@ -80,44 +78,40 @@ const EventDetailsHome = () => {
             </Row>
 
             {/* Event Details */}
-            <Card className="mt-4 p-3 shadow-sm">
+            <Card className="mt-4 p-4 shadow-sm rounded event-card">
                 <Card.Body>
-                    <Card.Title>{event.title}</Card.Title>
+                    <h3>{event.title}</h3>
                     <Card.Subtitle className="mb-2 text-muted">
                         <strong>Host:</strong> {event.host_name}
                     </Card.Subtitle>
-                    <Card.Text>{event.description}</Card.Text>
+                    <p><strong>Location:</strong> {event.description}</p>
 
                     {/* Category */}
                     <div className="mb-3">
-                        <strong>Category Name:</strong>
-                        <p>{event.category}</p>
+                        <strong>Category:</strong> {event.category}
                     </div>
 
                     {/* Vendor */}
                     <div className="mb-3">
-                        <strong>Vendor Name:</strong>
-                        <p>{event.vendor}</p>
+                        <strong>Vendor:</strong> {event.vendor}
                     </div>
 
                     {/* Event Location */}
                     {event.location_description && (
                         <div className="mb-3">
-                            <strong>Location Description:</strong>
-                            <p>{event.location_description}</p>
+                            <strong>Location Description:</strong> {event.location_description}
                         </div>
                     )}
 
                     {/* Coordinates */}
                     <div className="mb-3">
-                        <strong>Location Coordinates:</strong>
+                        <strong>Coordinates:</strong>
                         <p>Latitude: {locationLat}, Longitude: {locationLng}</p>
                     </div>
 
                     {/* City */}
                     <div className="mb-3">
-                        <strong>City Name:</strong>
-                        <p>{event.city}</p>
+                        <strong>City:</strong> {event.city}
                     </div>
 
                     {/* Event Status */}
@@ -129,9 +123,9 @@ const EventDetailsHome = () => {
 
                     {/* Button to go back to events list */}
                     <Button
-                        onClick={() => history.push(`/bookevent/${event._id}`)} // Navigate back to event list
+                        onClick={() => history.push(`/bookevent/${event._id}`)}
                         variant="primary"
-                        className="mt-3"
+                        className="mt-3 event-btn"
                         size="lg"
                     >
                         Book Tickets
