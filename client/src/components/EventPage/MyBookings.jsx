@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './Mybookings.css';
+import './Mybookings.css';  // Link to external CSS file
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -43,7 +43,6 @@ const MyBookings = () => {
   };
 
   return (
-
     <div className="container mt-4">
       <h1 className="text-center">My Bookings</h1>
 
@@ -55,26 +54,12 @@ const MyBookings = () => {
       )}
 
       {!loading && !error && bookings.length > 0 && (
-        <div
-          className="table-responsive"
-          style={{
-            overflowX: "auto",
-            WebkitOverflowScrolling: "touch",
-          }}
-        >
-          <p className="text-muted small text-center" style={{ fontSize: "0.8rem" }}>
+        <div className="table-responsive" style={{ overflowX: "auto" }}>
+          <p className="text-muted small text-center">
             Swipe to view hidden columns
           </p>
           <table className="table table-bordered table-striped table-hover">
-            <thead
-              className="thead-dark"
-              style={{
-                backgroundColor: "#343a40",
-                position: "sticky",
-                top: 0,
-                zIndex: 1,
-              }}
-            >
+            <thead className="thead-dark sticky-top">
               <tr>
                 <th>#</th>
                 <th>Email</th>
@@ -83,36 +68,23 @@ const MyBookings = () => {
                 <th>Total Price</th>
                 <th>Display Name</th>
                 <th>Created At</th>
-                <th style={{
-                position: '-webkit-sticky',
-                position: 'sticky',
-                right: 0,
-                backgroundColor: '#f8f9fa',
-                zIndex: 1,
-              }}>Action </th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
                 <tr key={booking._id}>
-                  <td style={{ fontSize: "0.9rem" }}>{index + 1}</td>
-                  <td style={{ fontSize: "0.9rem" }}>{booking.email}</td>
-                  <td style={{ fontSize: "0.9rem" }}>{booking.number_of_members}</td>
-                  <td style={{ fontSize: "0.9rem" }}>{booking.event_id}</td>
-                  <td style={{ fontSize: "0.9rem" }}>{booking.price}</td>
-                  <td style={{ fontSize: "0.9rem" }}>{booking.displayName}</td>
-                  <td style={{ fontSize: "0.9rem" }}>
-                    {new Date(booking.createdAt).toLocaleString()}
-                  </td>
+                  <td>{index + 1}</td>
+                  <td>{booking.email}</td>
+                  <td>{booking.number_of_members}</td>
+                  <td>{booking.event_id}</td>
+                  <td>{booking.price}</td>
+                  <td>{booking.displayName}</td>
+                  <td>{new Date(booking.createdAt).toLocaleString()}</td>
                   <td>
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => handleDownload(booking._id)}
-                      style={{
-                        fontSize: "0.8rem",
-                        position: "relative",
-                        zIndex: 10,
-                      }}
                     >
                       Download
                     </button>
@@ -123,6 +95,14 @@ const MyBookings = () => {
           </table>
         </div>
       )}
+
+      {/* Fixed Download Button using Bootstrap 5 utility classes */}
+      <button
+        className="btn btn-primary btn-sm position-fixed bottom-0 end-0 m-3"
+        onClick={() => handleDownload(bookings[0]?._id)}
+      >
+        Download All
+      </button>
     </div>
   );
 };
