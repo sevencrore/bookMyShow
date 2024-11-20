@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Alert } from "react-bootstrap";
+import './Mybookings.css';
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -11,20 +11,15 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // Get user ID from local storage
-        const user_id = localStorage.getItem('user_id');
-       
+        const user_id = localStorage.getItem("user_id");
 
         if (!user_id) {
           throw new Error("User ID not found in local storage");
         }
 
-        // Construct API URL
         const apiUrl = `${process.env.REACT_APP_HOST}/book/user/${user_id}`;
-
-        // Fetch bookings data
         const response = await axios.get(apiUrl);
-        setBookings(response.data); // Assuming response contains the bookings array
+        setBookings(response.data);
       } catch (err) {
         setError(err.message || "Failed to fetch bookings");
       } finally {
@@ -37,18 +32,18 @@ const MyBookings = () => {
 
   const handleDownload = async (id) => {
     const downloadUrl = `${process.env.REACT_APP_HOST}/book/download-bill/${id}`;
-  const link = document.createElement("a");
-  link.href = downloadUrl;
-  link.setAttribute("download", "");
-  document.body.appendChild(link);
-  link.click();
-  setTimeout(() => {
-    link.remove();
-  }, 100); 
-    
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.setAttribute("download", "");
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      link.remove();
+    }, 100);
   };
 
   return (
+
     <div className="container mt-4">
       <h1 className="text-center">My Bookings</h1>
 
@@ -60,9 +55,26 @@ const MyBookings = () => {
       )}
 
       {!loading && !error && bookings.length > 0 && (
-        <div className="table-responsive">
-          <table className="table table-bordered table-striped">
-            <thead className="thead-dark">
+        <div
+          className="table-responsive"
+          style={{
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          <p className="text-muted small text-center" style={{ fontSize: "0.8rem" }}>
+            Swipe to view hidden columns
+          </p>
+          <table className="table table-bordered table-striped table-hover">
+            <thead
+              className="thead-dark"
+              style={{
+                backgroundColor: "#343a40",
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+              }}
+            >
               <tr>
                 <th>#</th>
                 <th>Email</th>
@@ -71,23 +83,36 @@ const MyBookings = () => {
                 <th>Total Price</th>
                 <th>Display Name</th>
                 <th>Created At</th>
-                <th>Action</th>
+                <th style={{
+                position: '-webkit-sticky',
+                position: 'sticky',
+                right: 0,
+                backgroundColor: '#f8f9fa',
+                zIndex: 1,
+              }}>Action </th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
                 <tr key={booking._id}>
-                  <td>{index + 1}</td>
-                  <td>{booking.email}</td>
-                  <td>{booking.number_of_members}</td>
-                  <td>{booking.event_id}</td>
-                  <td>{booking.price}</td>
-                  <td>{booking.displayName}</td>
-                  <td>{new Date(booking.createdAt).toLocaleString()}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{index + 1}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{booking.email}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{booking.number_of_members}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{booking.event_id}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{booking.price}</td>
+                  <td style={{ fontSize: "0.9rem" }}>{booking.displayName}</td>
+                  <td style={{ fontSize: "0.9rem" }}>
+                    {new Date(booking.createdAt).toLocaleString()}
+                  </td>
                   <td>
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => handleDownload(booking._id)}
+                      style={{
+                        fontSize: "0.8rem",
+                        position: "relative",
+                        zIndex: 10,
+                      }}
                     >
                       Download
                     </button>

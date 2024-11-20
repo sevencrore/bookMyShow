@@ -1,0 +1,50 @@
+/* Table responsive styling for mobile */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Sticky header on scroll */
+  .thead-dark {
+    background-color: #343a40;  /* Dark background for header */
+  }
+  
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Ensures header stays on top of table rows */
+  }
+  
+  /* Ensure the download button is always visible and fixed at the bottom-right */
+  .position-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+  }
+  
+  /* Mobile adjustments: Make sure the text size is smaller for mobile users */
+  @media (max-width: 767px) {
+    .table th, .table td {
+      font-size: 0.8rem; /* Smaller text on mobile */
+    }
+    .table th {
+      padding: 0.5rem; /* Reduce padding on smaller screens */
+    }
+    .table td {
+      padding: 0.5rem; /* Reduce padding on smaller screens */
+    }
+    .text-muted {
+      font-size: 0.7rem;
+    }
+  }
+  
+
+  @media (max-width: 768px) {
+    .table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+  
