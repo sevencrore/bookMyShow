@@ -87,7 +87,7 @@ function HomePage() {
                             onClick={() => handleCategoryClick(category._id, category.category_name)}
                         >
                             {/* Card Container */}
-                            <div className=" p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor:"#e2e0ea" }}>
+                            <div className=" p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#e2e0ea" }}>
                                 {/* Image Container */}
                                 <div
                                     className="d-flex justify-content-center align-items-center mb-3"
@@ -132,9 +132,9 @@ function HomePage() {
             </div>
         );
     };
-    
-    
-    
+
+
+
 
     return (
         <>
@@ -168,15 +168,16 @@ function HomePage() {
             <CategoryList categories={categories} />
 
             <br />
-            <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
 
-            <div className="premier-container">
+            <div className="container">
+                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
                 <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Promo Banner" />
-                <br />
-                <br />
-                <div className="container">
-                    <CategoryList categories={categories} />
-                </div>
+            </div>
+
+            <br />
+            <br />
+            <div className="container">
+                <CategoryList categories={categories} />
             </div>
 
             <PrivacyNote />
