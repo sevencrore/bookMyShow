@@ -1,4 +1,5 @@
 import '../../style/footer.css'
+import { Link } from "react-router-dom";
 export default function () {
 
 
@@ -9,9 +10,9 @@ export default function () {
             <div className="flexed">
                 <img className="img" src={`${process.env.PUBLIC_URL}/vector.png`} />
                 <p className="footer-heading">List Your Show</p>
-                <p className="footer-sub">Got a show, event, activity or a great experience? Partner with us & get listed on BookMyShow</p>
+                <p className="footer-sub">Got a show, event, activity or a great experience? Partner with us & get listed on PartyJunction</p>
                 <div className="grow"></div>
-                <button className='btn btn-danger btn-red'>Contact Today</button>
+                {/* <button className='btn btn-danger btn-red'>Contact Today</button> */}
             </div>
 
 
@@ -31,511 +32,31 @@ export default function () {
 
 
             <div className="container-fluid space">
-                <p className='heading-grey'>MOVIES PLAYING IN PRAYAGRAJ (ALLAHABAD) </p>
+                <p className='heading-grey'>Top Events </p>
 
-                <p className='heading-grey2'>Antim: The Final Truth | Tadap | Bhojpuriaya Raja | Resident Evil: Welcome To Raccoon City | Satyameva Jayate 2 | Eternals | My Hero Academia: World Heroes Mission | Marakkar: Arabikadalinte Simham | Akhanda</p>
-
-                <br />
-                <p className='heading-grey'>UPCOMING MOVIES </p>
-                <p className='heading-grey2'>Jail
-                    |
-                    Ikk
-                    |
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    Drishya 2
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha</p>
+                <p className='heading-grey2'>Pubs | DJ Nights | </p>
 
                 <br />
+                
 
-
-                <p className='heading-grey'>MOVIES UPDATES AND CELEBRITIES</p>
-                <p className='heading-grey2'>Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2</p>
-
-                <br />
-
-                <p className='heading-grey'>MOVIES CALENDER</p>
-                <p className='heading-grey2'>Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries</p>
-                <br />
-                <p className='heading-grey'>MOVIES REVIEWS</p>
-                <p className='heading-grey2'>Resident Evil: Welcome To Raccoon City
-                    |
-                    Satyameva Jayate 2
-                    |
-                    Eternals
-                    |
-                    My Hero Academia: World Heroes Mission
-                    |
-                    Marakkar: Arabikadalinte Simham
-                    |
-                    Akhanda</p>
-                <br />
-                <p className='heading-grey'>MOVIES BY GENRE</p>
-                <p className='heading-grey2'>Bullet Satyam
-                    |
-                    Ikk
-                    |
-                    Jail
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Muddy
-                    Michael`s Coffee House
-                    |
-                    Antardhaan
-                    |
-                    Consilium
-                    Bullet Satyam
-                    |
-                    Avatar Purusha
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2</p>
-                <br />
-                <p className='heading-grey'>ONLINE MOVIES BY GENRA</p>
-                <p className='heading-grey2'>Jail
-                    |
-                    Ikk
-                    |
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    Drishya 2
-                    Bullet Satyam
-                    |
-                    Ikk
-                    |
-                    Jail
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    Drishya 2
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Muddy
-                    Michael`s Coffee House
-                    |
-                    Antardhaan
-                    |
-                    Consilium
-                    Bullet Satyam
-                    |
-                    Avatar Purusha
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2</p>
-                <br />
-                <p className='heading-grey'>MOVIES BY LANGUAGE</p>
-                <p className='heading-grey2'>Resident Evil: Welcome To Raccoon City
-                    |
-                    Satyameva Jayate 2
-                    |
-                    Eternals
-                    |
-                    My Hero Academia: World Heroes Mission
-                    |
-                    Marakkar: Arabikadalinte Simham
-                    |
-                    Akhanda
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    Marakkar: Arabikadalinte Simham
-                    |
-                    Akhanda
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian</p>
-                <br />
-                <p className='heading-grey'>MOVIES BY FORMAT</p>
-                <p className='heading-grey2'>Resident Evil: Welcome To Raccoon City
-                    |
-                    Satyameva Jayate 2
-                    |
-                    Eternals
-                    |
-                    My Hero Academia: World Heroes Mission
-                    |
-                    Marakkar: Arabikadalinte Simham
-                    |
-                    Akhanda</p>
-                <br />
-                <p className='heading-grey'>MOVIES IN TOP CITIES</p>
-                <p className='heading-grey2'>Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2</p>
-                <br />
-                <p className='heading-grey'>BOX OFFICE</p>
-                <p className='heading-grey2'>Jail
-                    |
-                    Ikk
-                    |
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    Drishya 2
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha</p>
-                <br />
-
-                <p className='heading-grey'>COUNTRIES</p>
-                <p className='heading-grey2'>Jail
-                    |
-                    Ikk
-                    |
-                    Murungakkai Chips
-                    |
-                    Rhymes
-                    |
-                    Theal
-                    |
-                    Gamanam
-                    |
-                    Bullet Satyam
-                    |
-                    Drishyav 2</p>
-                <br />
+               
                 <p className='heading-grey'>HELP</p>
-                <p className='heading-grey2'>Sitemap
-                    |
+                <p className='heading-grey2'>
+                
+                <Link to="/faq" className="text-primary mx-2">
                     FAQ
-                    |
-                    Terms and Condition
-                    |
-                    Privacy Policy</p>
+                </Link>
+                |
+                <Link to="/terms-and-conditions" className="text-primary mx-2">
+                    Terms and Conditions
+                </Link>
+                |
+                <Link to="/privacy-policy" className="text-primary mx-2">
+                    Privacy Policy
+                </Link>
+                </p>
                 <br />
-                <p className='heading-grey'>BOOK MY SHOW EXCLUSIVE</p>
-                <p className='heading-grey2'>Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Oomai Sennai
-                    |
-                    Marjaney
-                    |
-                    Anti Indian
-                    |
-                    Nayeem Diaries
-                    |
-                    Muddy
-                    Michael`s Coffee House
-                    |
-                    Antardhaan
-                    |
-                    Consilium
-                    Bullet Satyam
-                    |
-                    Avatar Purusha
-                    Nayeem Diaries
-                    |
-                    Michael`s Coffee House
-                    |
-                    Muddy
-                    |
-                    Consilium
-                    |
-                    Avatar Purusha
-                    |
-                    Antardhaan
-                    |
-                    Bullet Satyam
-                    |
-                    Drishya 2</p>
-                <br />
-
-
-
-
-
-
+                
             </div>
 
 
@@ -559,7 +80,7 @@ export default function () {
             </div> */}
 
             <div className="copyright">
-                <p className='copy'>Copyright 2021 © Bigtree Entertainment Pvt. Ltd. All Rights Reserved.
+                <p className='copy'>Copyright 2021 ©PartyJunction. All Rights Reserved.
                     The content and images used on this site are copyright protected and copyrights vests with the respective owners. The usage of the content and images on this website is intended to promote the works and no endorsement of the artist shall be implied. Unauthorized use is prohibited and punishable by law.</p>
             </div>
 

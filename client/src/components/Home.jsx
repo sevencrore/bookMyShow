@@ -181,7 +181,7 @@ function HomePage() {
             </div>
 
             <PrivacyNote />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }
