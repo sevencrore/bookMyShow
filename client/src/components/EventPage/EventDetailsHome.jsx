@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EventDetailsHome = () => {
     const { eventId } = useParams();
-    const history = useHistory();
+    const history = useHistory();  // React Router v5's `useHistory` hook
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -47,7 +47,7 @@ const EventDetailsHome = () => {
     const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
 
     return (
-        <div className="container my-5">
+        <div className="container my-5" style={{ overflowX: "hidden", maxWidth: "100%" }}>
             <Row>
                 {/* Background image */}
                 <Col xs={12} className="p-0">
@@ -58,6 +58,7 @@ const EventDetailsHome = () => {
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             height: "400px",
+                            width: "100%",  // Ensuring full width
                             borderRadius: "10px",
                         }}
                     >
@@ -67,7 +68,7 @@ const EventDetailsHome = () => {
                             alt={event.title}
                             className="position-absolute top-0 start-0 m-3 event-img"
                             style={{
-                                width: "150px",
+                                maxWidth: "150px",  // Restrict max width to prevent overflow
                                 height: "auto",
                                 borderRadius: "8px",
                                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
@@ -81,7 +82,7 @@ const EventDetailsHome = () => {
             <Card className="mt-4 p-4 shadow-sm rounded event-card">
                 <Card.Body>
                     <h3>{event.title}</h3>
-                    <Card.Subtitle className="mb-4 ">
+                    <Card.Subtitle className="mb-4 text-muted">
                         <strong>Host:</strong><br /> {event.host_name}
                     </Card.Subtitle>
                     <p><strong>Description :</strong> <br />{event.description}</p>
@@ -123,7 +124,7 @@ const EventDetailsHome = () => {
 
                     {/* Button to go back to events list */}
                     <Button
-                        onClick={() => history.push(`/bookevent/${event._id}`)}
+                        onClick={() => history.push(`/bookevent/${event._id}`)}  // React Router v5's `history.push`
                         variant="primary"
                         className="mt-3 event-btn"
                         size="lg"
