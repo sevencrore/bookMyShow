@@ -72,7 +72,7 @@ export default function({ hide }) {
 
       <div className="google-btn" onClick={googleLogin}>
         <div className="google-icon-wrapper">
-          <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
+          <img className="google-icon" style={{width:"35px" , marginTop:"18px",height : "45px"}}  src="https://img.icons8.com/?size=48&id=V5cGWnc9R4xj&format=png" alt="Google logo" />
           <p className="btn-text text"><b>Sign in with Google</b></p>
         </div>
       </div>
