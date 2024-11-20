@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link, useParams, useHistory } from "react-router-dom";
 
+// Breadcrumb Component
 const Breadcrumb = () => {
     const selectedCityName = localStorage.getItem('selectedCityName');
     const selectedCategoryName = localStorage.getItem('selectedCategoryName');
 
     return (
-        <nav aria-label="breadcrumb">
-            <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <nav aria-label="breadcrumb" className="mb-4">
+            <ol className="breadcrumb" style={{ backgroundColor: 'transparent', padding: 0 }}>
                 {selectedCityName && (
-                    <li style={{ display: 'inline-block', marginRight: '10px' }}>
-                        <span style={{
-                            color: 'black',  // Set text color to black
-                            fontSize: '24px',  // Increase text size
-                            fontWeight: 'bold'  // Optional: make the text bold
-                        }}>
-                            {selectedCategoryName} in {selectedCityName}
-                        </span>
+                    <li className="breadcrumb-item" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                        {selectedCategoryName} in {selectedCityName}
                     </li>
                 )}
             </ol>
@@ -25,67 +19,76 @@ const Breadcrumb = () => {
     );
 };
 
-
-
 // Event List Component
-const EventList = ({ events, city_id, handleEventClick }) => {
+const EventList = ({ events }) => {
     return (
-        <div className="container mt-4 mb-4">
-            <div className="row g-4">
-                {events.map((event, index) => (
-                    <Link
-                        key={index}
-                        to={`/event/${event._id}/${city_id}`}
-                        className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column align-items-center text-decoration-none"
-                        onClick={() => handleEventClick(event._id, event.title)}
-                    >
-                        {/* Card Container */}
-                        <div className="p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#e2e0ea" }}>
-                            {/* Image Container */}
+        <div>
+            <Breadcrumb />
+            <div className="container mt-4 mb-4">
+                <div className="row g-4">
+                    {events.map((event, index) => (
+                        <Link
+                            key={index}
+                            to={`/event/${event._id}`}
+                            className="col-12 col-sm-6 col-md-4 col-lg-3 text-decoration-none"
+                        >
                             <div
-                                className="d-flex justify-content-center align-items-center mb-3"
+                                className="p-3 rounded shadow-sm text-center"
                                 style={{
-                                    width: '100%',
-                                    height: '336px',
-                                    backgroundColor: '#f0f0f0',
-                                    overflow: 'hidden',
-                                    borderRadius: '8px',
+                                    backgroundColor: '#e2e0ea',
+                                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.2)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
                                 }}
                             >
-                                <img
-                                    src={`${process.env.REACT_APP_HOST}${event.img}`}
-                                    alt={event.title}
-                                    className="img-fluid"
+                                <div
+                                    className="d-flex justify-content-center align-items-center mb-3"
                                     style={{
                                         width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
+                                        height: '300px',
+                                        backgroundColor: '#f0f0f0',
+                                        overflow: 'hidden',
+                                        borderRadius: '8px',
                                     }}
-                                />
+                                >
+                                    <img
+                                        src={`${process.env.REACT_APP_HOST}${event.img}`}
+                                        alt={event.title}
+                                        className="img-fluid"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </div>
+                                <h3 className="fs-6 fw-bold text-dark mb-2">{event.title}</h3>
+                                <p
+                                    className="text-muted fs-6 text-truncate"
+                                    style={{
+                                        maxWidth: '100%',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                    }}
+                                    title={event.description}
+                                >
+                                    {event.description}
+                                </p>
                             </div>
-                            {/* Title */}
-                            <h3 className="fs-6 fw-bold text-dark mb-2">{event.title}</h3>
-                            {/* Description */}
-                            <p
-                                className="text-muted fs-6 text-truncate"
-                                style={{
-                                    maxWidth: '100%',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                }}
-                                title={event.description}
-                            >
-                                {event.description}
-                            </p>
-                        </div>
-                    </Link>
-                ))}
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     );
 };
-
 
 // Main Component: EventHome
 export const EventHome = () => {
@@ -94,8 +97,7 @@ export const EventHome = () => {
     const history = useHistory();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-        // Fetch events based on categoryId and cityId
+        window.scrollTo(0, 0); // Scroll to top on component mount
         fetch(`${process.env.REACT_APP_HOST}/event/get/${categoryId}/${cityId}`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
@@ -106,144 +108,19 @@ export const EventHome = () => {
                     setEvents(data);
                 }
             })
-            .catch((e) => {
-                console.error(e);
-            });
-    }, [categoryId, cityId]); // Ensure useEffect runs when categoryId or cityId changes
+            .catch((e) => console.error(e));
+    }, [categoryId, cityId]);
 
     return (
-        <div style={styles.container}>
-            <div style={styles.innerContainer}>
+        <div className="container mt-4">
+            <div className="p-4 rounded" style={{
+                backgroundColor: '#fff',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+            }}>
                 <EventList events={events} />
             </div>
         </div>
     );
-};
-
-// Styles
-const styles = {
-    container: {
-        padding: '20px',
-        maxWidth: '1200px', // Max width of the container for large screens
-        margin: '0 auto',  // Center the container
-        borderRadius: '16px', // Rounded corners for the main container
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)', // Light shadow for the container
-        overflow: 'hidden', // Ensure child elements don't overflow the rounded corners
-    },
-    innerContainer: {
-        padding: '20px',
-    },
-    breadcrumbList: {
-        display: 'flex',
-        listStyle: 'none',
-        padding: '0',
-        margin: '20px 0',
-    },
-    breadcrumbItem: {
-        marginRight: '10px',
-    },
-    breadcrumbLink: {
-        textDecoration: 'none',
-        color: '#007bff',
-        fontSize: '16px',
-    },
-    categoriesList: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)', // Default 4 cards per row
-        gap: '20px',
-        marginTop: '20px',
-        padding: '0 20px',
-    },
-    link: {
-        textDecoration: 'none', // No underline for the link
-    },
-    categoryCard: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between', 
-        width: '100%',
-        height: 'auto',
-        borderRadius: '16px',  // Rounded corners for the entire card (top & bottom)
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', // Light shadow for the cards
-        backgroundColor: '#fff',
-        overflow: 'hidden', // Ensure no overflow from rounded corners
-        transition: 'transform 0.3s ease-in-out',
-        cursor: 'pointer',
-    },
-    imageContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '204px',  // Fixed width for the image container
-        height: '336px', // Fixed height for the image container
-        overflow: 'hidden',  // Hide overflow for images that don't fit perfectly
-        borderTopLeftRadius: '16px', // Rounded top-left corner for the image container
-        borderTopRightRadius: '16px', // Rounded top-right corner for the image container
-    },
-    image: {
-        width: '100%',    // Image width 100% of container size
-        height: '100%',   // Image height 100% of container size
-        objectFit: 'cover',  // Ensure the image fills the container and maintains aspect ratio
-    },
-    contentContainer: {
-        padding: '8px 16px',
-        backgroundColor: '#fff',
-        flexGrow: 1,
-        marginTop: '10px',
-        borderBottomLeftRadius: '16px', // Rounded bottom-left corner for the content container
-        borderBottomRightRadius: '16px', // Rounded bottom-right corner for the content container
-    },
-    title: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '8px 0',
-        color: '#333',
-    },
-    description: {
-        fontSize: '14px',
-        color: '#666',
-        marginBottom: '8px',
-    },
-    // Responsive Styles
-    '@media (max-width: 1200px)': {
-        categoriesList: {
-            gridTemplateColumns: 'repeat(3, 1fr)', // 3 cards per row for medium screens
-        },
-        imageContainer: {
-            width: '180px',  // Adjust image size for medium screens
-            height: '300px',  // Adjust image height for medium screens
-        },
-    },
-    '@media (max-width: 768px)': {
-        categoriesList: {
-            gridTemplateColumns: 'repeat(2, 1fr)', // 2 cards per row for smaller screens
-        },
-        imageContainer: {
-            width: '150px',  // Adjust image size for smaller screens
-            height: '250px',  // Adjust image height for smaller screens
-        },
-        title: {
-            fontSize: '14px', // Reduce font size for small screens
-        },
-        description: {
-            fontSize: '12px', // Reduce font size for small screens
-        },
-    },
-    '@media (max-width: 480px)': {
-        categoriesList: {
-            gridTemplateColumns: '1fr', // 1 card per row for mobile screens
-        },
-        imageContainer: {
-            width: '100%', // Adjust image size to full width for mobile screens
-            height: 'auto', // Adjust height for mobile screens
-        },
-        title: {
-            fontSize: '12px', // Further reduce font size for very small screens
-        },
-        description: {
-            fontSize: '10px', // Further reduce font size for very small screens
-        },
-    },
 };
 
 export default EventHome;

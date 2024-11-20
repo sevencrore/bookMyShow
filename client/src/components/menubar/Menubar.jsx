@@ -81,7 +81,7 @@ export default function Menubar() {
 
     const CategoryList = ({ categories }) => {
         return (
-            <div style={{...menuStyles.container, backgroundColor: '#615863' }}>
+            <div  className="d-none d-md-block"style={{...menuStyles.container, backgroundColor: '#615863' }}>
                <div style={{ ...menuStyles.left, backgroundColor: '#fff' }}>
                     {categories.map((category, index) => (
                         <Link

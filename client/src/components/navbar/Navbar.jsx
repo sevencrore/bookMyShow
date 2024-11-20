@@ -67,7 +67,7 @@ export default function Navbar({ toggle }) {
                                     MyBookings
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/admin/login" className="nav-link">
                                     Admin Login
                                 </Link>
@@ -81,7 +81,7 @@ export default function Navbar({ toggle }) {
                                 <Link to="/admin/dashboard" className="nav-link">
                                     Admin Dashboard
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
 
                         {/* Right-aligned items */}
