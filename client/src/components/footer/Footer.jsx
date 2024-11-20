@@ -547,7 +547,7 @@ export default function () {
 
             </div>
 
-            <div className="social-container">
+            {/* <div className="social-container">
                 <div className="social">
                     <img className='img-fluid' src={`${process.env.PUBLIC_URL}/facebook.png`} />
                     <img className='img-fluid' src={`${process.env.PUBLIC_URL}/twitter.png`} />
@@ -556,7 +556,7 @@ export default function () {
                     <img className='img-fluid' src={`${process.env.PUBLIC_URL}/pin.png`} />
                     <img className='img-fluid' src={`${process.env.PUBLIC_URL}/linkedin.png`} />
                 </div>
-            </div>
+            </div> */}
 
             <div className="copyright">
                 <p className='copy'>Copyright 2021 © Bigtree Entertainment Pvt. Ltd. All Rights Reserved.

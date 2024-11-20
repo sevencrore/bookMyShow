@@ -97,12 +97,12 @@ const MyBookings = () => {
       )}
 
       {/* Fixed Download Button using Bootstrap 5 utility classes */}
-      <button
+      {/* <button
         className="btn btn-primary btn-sm position-fixed bottom-0 end-0 m-3"
         onClick={() => handleDownload(bookings[0]?._id)}
       >
         Download All
-      </button>
+      </button> */}
     </div>
   );
 };
