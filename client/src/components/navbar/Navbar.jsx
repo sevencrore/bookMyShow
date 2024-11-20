@@ -1,128 +1,141 @@
-
-import '../../style/navbar.css'
-import { useContext } from 'react'
-import { useEffect } from "react";
-
-import { AppContext } from '../../contexts/AppContext'
-import Button from 'react-bootstrap/Button'
+import '../../style/navbar.css';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Login from '../Login/Login';
-import { useState } from 'react';
+import { AppContext } from '../../contexts/AppContext';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import { FaUser, FaSignOutAlt } from 'react-icons/fa';
-export default function ({ toggle }) {
+import Login from '../Login/Login';
 
-    const { city, handleChange } = useContext(AppContext);
+export default function Navbar({ toggle }) {
+    const { city } = useContext(AppContext);
     const [showLogin, setShowLogin] = useState(false);
-    const [cityName, setCityName] = useState(null); 
-    
 
     const city_id = localStorage.getItem('selectedCityId');
 
-
-    // useEffect(() => {
-    //     if (city_id) {
-    //         fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })  // Assuming the API endpoint to get city details
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 if (data && data.name) {
-    //                     setCityName(data.name);  // Set the city name
-    //                     localStorage.setItem('selectedCityName', data.name);  // Save city name in local storage
-    //                 }
-    //             })
-    //             .catch(e => {
-    //                 console.error("Error fetching city details:", e);
-    //             });
-    //     }
-
-    // });
-
-
-    function checkUser() {
-
-        return localStorage.getItem('user');
-
-    }
-
-
-    function handleClose(e) {
+    function handleClose() {
         setShowLogin(false);
     }
 
-    console.log("Toggled location function", toggle)
-    return (<>
+    return (
+        <>
+            {/* Login Modal */}
+            <Modal
+                size="sm"
+                show={showLogin}
+                onHide={handleClose}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Body>
+                    <Login hide={setShowLogin} />
+                </Modal.Body>
+            </Modal>
 
-        <Modal size="sm" show={showLogin} onHide={handleClose} style={{}} aria-labelledby="contained-modal-title-vcenter"
-            centered>
+            {/* Navbar */}
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container-fluid">
+                    {/* Logo */}
+                    <Link to="/" className="navbar-brand">
+                        <img
+                            src={`${process.env.PUBLIC_URL}/logo.png`}
+                            alt="Logo"
+                            className="img-fluid"
+                            style={{ height: '40px' }}
+                        />
+                    </Link>
 
-            <Modal.Body>
-                <Login hide={setShowLogin} />
-            </Modal.Body>
+                    {/* Toggler for smaller screens */}
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
+                    {/* Collapsible Navbar */}
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        {/* Left-aligned menu items */}
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <Link to="/mybookings" className="nav-link">
+                                    MyBookings
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/admin/login" className="nav-link">
+                                    Admin Login
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/admin/register" className="nav-link">
+                                    Admin Register
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/admin/dashboard" className="nav-link">
+                                    Admin Dashboard
+                                </Link>
+                            </li>
+                        </ul>
 
+                        {/* Right-aligned items */}
+                        <div className="d-flex align-items-center">
+                            {/* City Dropdown */}
+                            <div className="me-3">
+                                <p className="mb-0 text-light" style={{ cursor: 'pointer' }} onClick={toggle}>
+                                    {city}{' '}
+                                    <img
+                                        className="img-fluid"
+                                        src={`${process.env.PUBLIC_URL}/down.png`}
+                                        alt="Dropdown"
+                                        style={{ height: '20px' }}
+                                    />
+                                </p>
+                            </div>
 
-        </Modal>
-
-        <Link to={`/admin/login`}><p className="menubar-item" >Admin Login</p></Link>
-        <Link to={`/admin/register`}><p className="menubar-item" >Admin Register</p></Link>
-        <Link to={`/admin/dashboard`}><p className="menubar-item" >Admin Dashboard</p></Link>
-
-
-        <div className="container-fluid navbar">
-            <div>
-                <Link to="/">
-                    <img src={`${process.env.PUBLIC_URL}/logo.png`} />
-                </Link>
-            </div>
-
-            {/* <div>
-
-                <input className="inp" placeholder='Search for movies sports and events' />
-
-            </div> */}
-
-            
-            
-
-            <div className="grow">
-
-            </div>
-
-            <div className="menu-links">
-                {/* Link to MyBookings */}
-                <Link to="/mybookings" className="btn btn-outline-secondary text-light fs-6">
-                    MyBookings
-                </Link>
-            </div>
-
-            <div onClick={toggle}>
-                <p className='sub fs-5'>{city} <img className='img-fluid' src={`${process.env.PUBLIC_URL}/down.png`} /></p>
-            </div>
-
-
-            {localStorage.getItem('user') ? <div>
-
-
-                <p className='sub fs-6'><FaUser /> Hi,&nbsp;{JSON.parse(localStorage.getItem('user')).displayName} &nbsp; <FaSignOutAlt  style={{ fontSize: "2rem", cursor: "pointer" }}  onClick={() => {
-
-                    localStorage.removeItem('user');
-                    setShowLogin(false);
-                    window.location.reload();
-                }} /> </p>
-            </div> : <div>
-                <Button onClick={() => {
-                    setShowLogin(!showLogin);
-
-                }} className='btn-signin'>Signin</Button>
-
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                <img src={`${process.env.PUBLIC_URL}/menu.png`} className="img-fluid" />
-            </div>}
-
-        </div>
-
-
-    </>)
+                            {/* User Info */}
+                            {localStorage.getItem('user') ? (
+                                <div className="d-flex align-items-center">
+                                    <p className="mb-0 text-light me-3">
+                                        <FaUser /> Hi,&nbsp;
+                                        {JSON.parse(localStorage.getItem('user')).displayName}{' '}
+                                    </p>
+                                    <FaSignOutAlt
+                                        style={{ fontSize: '1.5rem', cursor: 'pointer' }}
+                                        className="text-light"
+                                        onClick={() => {
+                                            localStorage.removeItem('user');
+                                            setShowLogin(false);
+                                            window.location.reload();
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="d-flex align-items-center">
+                                    <Button
+                                        onClick={() => setShowLogin(!showLogin)}
+                                        className="btn btn-primary btn-sm me-3"
+                                    >
+                                        Signin
+                                    </Button>
+                                    <img
+                                        src={`${process.env.PUBLIC_URL}/menu.png`}
+                                        className="img-fluid"
+                                        alt="Menu"
+                                        style={{ height: '30px' }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </>
+    );
 }

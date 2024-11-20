@@ -28,28 +28,56 @@ const Breadcrumb = () => {
 
 
 // Event List Component
-const EventList = ({ events }) => {
+const EventList = ({ events, city_id, handleEventClick }) => {
     return (
-        <div>
-            <Breadcrumb />
-            <div className="container-fluid categories-list" style={styles.categoriesList}>
+        <div className="container mt-4 mb-4">
+            <div className="row g-4">
                 {events.map((event, index) => (
-                    <Link key={index} to={`/event/${event._id}`} style={styles.link}>
-                        <div style={styles.categoryCard}>
-                            {/* Image Container with fixed size 204x336 */}
-                            <div className="image-container" style={styles.imageContainer}>
+                    <Link
+                        key={index}
+                        to={`/event/${event._id}/${city_id}`}
+                        className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column align-items-center text-decoration-none"
+                        onClick={() => handleEventClick(event._id, event.title)}
+                    >
+                        {/* Card Container */}
+                        <div className="p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#e2e0ea" }}>
+                            {/* Image Container */}
+                            <div
+                                className="d-flex justify-content-center align-items-center mb-3"
+                                style={{
+                                    width: '100%',
+                                    height: '336px',
+                                    backgroundColor: '#f0f0f0',
+                                    overflow: 'hidden',
+                                    borderRadius: '8px',
+                                }}
+                            >
                                 <img
                                     src={`${process.env.REACT_APP_HOST}${event.img}`}
-                                    alt={event.category_name}
-                                    style={styles.image}
+                                    alt={event.title}
+                                    className="img-fluid"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                    }}
                                 />
                             </div>
-
-                            {/* Name and Description below the image */}
-                            <div className="content-container" style={styles.contentContainer}>
-                                <h3 className="category-title" style={styles.title}>{event.title}</h3>
-                                <p className="category-description" style={styles.description}>{event.description}</p>
-                            </div>
+                            {/* Title */}
+                            <h3 className="fs-6 fw-bold text-dark mb-2">{event.title}</h3>
+                            {/* Description */}
+                            <p
+                                className="text-muted fs-6 text-truncate"
+                                style={{
+                                    maxWidth: '100%',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                                title={event.description}
+                            >
+                                {event.description}
+                            </p>
                         </div>
                     </Link>
                 ))}
@@ -57,6 +85,7 @@ const EventList = ({ events }) => {
         </div>
     );
 };
+
 
 // Main Component: EventHome
 export const EventHome = () => {
