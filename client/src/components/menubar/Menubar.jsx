@@ -98,12 +98,12 @@ export default function Menubar() {
                         </Link>
                     ))}
                 </div>
-                <div style={menuStyles.right}>
+                {/* <div style={menuStyles.right}>
                     <p style={menuStyles.menubarItem}>Liveshows</p>
                     <p style={menuStyles.menubarItem}>Corporate</p>
                     <p style={menuStyles.menubarItem}>Offers</p>
                     <p style={menuStyles.menubarItem}>GiftCards</p>
-                </div>
+                </div> */}
             </div>
         );
     };

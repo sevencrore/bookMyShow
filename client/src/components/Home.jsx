@@ -17,6 +17,7 @@ function HomePage() {
     const [showModal, setShowModal] = useState(true);
     const [cityName, setCityName] = useState(null);  // State to store city name
     let { city, handleChange } = useContext(AppContext);
+    const [images, setImages] = useState([]);
 
     const city_id = localStorage.getItem('selectedCityId');
 
@@ -55,6 +56,16 @@ function HomePage() {
                     console.error("Error fetching city details:", e);
                 });
         }
+
+        const fetchImages = async () =>
+             { try 
+                { const response = await fetch(`${process.env.REACT_APP_HOST}/slideImage/`); 
+                const data = await response.json(); setImages(data); 
+                } catch (error) {
+                     console.error('Error fetching images:', error); 
+                    } 
+                }; 
+         fetchImages ();
 
         // Fetch categories
         fetch(`${process.env.REACT_APP_HOST}/eventCategory/`, { mode: 'cors' })
@@ -149,21 +160,29 @@ function HomePage() {
 
             <Menubar />
 
-            <Slider {...settings} style={styles.slider}>
+            {/* <Slider {...settings} style={styles.slider}>
                 <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639378314392_revisedbanner2.jpg" style={styles.sliderImage} /></div>
                 <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639051788302_sunburn.jpg" style={styles.sliderImage} /></div>
                 <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1637323134871_divinepunyapaaptour_webshowcase_1240x300.jpg" style={styles.sliderImage} /></div>
-            </Slider>
+            </Slider> */}
+
+            <Slider {...settings} style={styles.slider}> 
+                {images.map((image, index) => (<div key={index}>
+                     <img src={`${process.env.REACT_APP_HOST}${image.image}`} alt={`Slide ${index}`} style={styles.sliderImage} /> 
+                     </div>))}
+                     </Slider>
 
             <div className="container-fluid padd">
                 <div className="left">
-                    <p className="heading-4">Categories</p>
+                    <p className="heading-3">Categories</p>
                 </div>
-                <div className="right">
+                {/* <div className="right">
                     <p className="heading-3">see all &#8594;</p>
-                </div>
+                </div> */}
                 <div className="clear"></div>
             </div>
+
+            <h3 className="heading-3">Categories</h3>
 
             <CategoryList categories={categories} />
 
@@ -244,13 +263,15 @@ const styles = {
     slider: {
         maxWidth: '100%',
         maxHeight: '324px',
-        marginRight: '20px',
-        marginLeft: '20px',
-        marginTop: '20px'
+        // marginRight: '20px',
+        // marginLeft: '20px',
+        // marginTop: '20px'
     },
     sliderImage: {
         objectFit: 'cover',
         width: '100%',
+        height: '350px',
+        // borderRadius: '15px'
     },
 };
 
