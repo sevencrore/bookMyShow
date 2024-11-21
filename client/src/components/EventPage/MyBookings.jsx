@@ -68,7 +68,7 @@ const MyBookings = () => {
                 <th>Total Price</th>
                 <th>Display Name</th>
                 <th>Created At</th>
-                <th>Action</th>
+                <th  className="sticky-col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -81,7 +81,7 @@ const MyBookings = () => {
                   <td>{booking.price}</td>
                   <td>{booking.displayName}</td>
                   <td>{new Date(booking.createdAt).toLocaleString()}</td>
-                  <td>
+                  <td className="sticky-col">
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => handleDownload(booking._id)}
