@@ -45,10 +45,5 @@ const path = require('path');
 
 
  app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-// app.use('/uploads', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads'));
-// app.use('/uploads/event', express.static('E:\\programming\\development\\project\\book-my-show\\bookMyShow\\backend\\uploads\\event'));
-// // app.use(express.static("../uploads"));
-
-
 
 module.exports=app;

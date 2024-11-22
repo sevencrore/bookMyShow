@@ -188,10 +188,10 @@ function HomePage() {
 
             <br />
 
-            <div className="container">
+            {/* <div className="container">
                 <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
                 <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Promo Banner" />
-            </div>
+            </div> */}
 
             <br />
             <br />

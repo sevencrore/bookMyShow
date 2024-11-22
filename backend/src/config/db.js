@@ -15,18 +15,3 @@ const connect = async () => {
 };
 
 module.exports=connect;
-
-// import mongoose from "mongoose";
-
-// const connectToMongo = async ()=>{
-   
-//      const res = await mongoose.connect("mongodb://0.0.0.0:27017/blog-mern-project");
-//     if(res)
-//     {
-//         console.log("Connection succesfully");
-//     } 
-    
-// };
-// export default connectToMongo;
-
-// mongodb+srv://akhilkamsala:akhil123@bookmyshowclonecluster.uxxgb.mongodb.net/bookDB?retryWrites=true&w=majority
