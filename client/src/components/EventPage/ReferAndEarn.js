@@ -38,37 +38,32 @@ export default function ReferAndEarn() {
             readOnly
           />
         </div>
-        <button
-          className="btn btn-primary btn-lg"
-          onClick={copyToClipboard}
-          style={{ minWidth: "150px" }}
-        >
-          Copy Link
-        </button>
-      </div>
-
-      {/* Success Popup */}
-      {showPopup && (
-        <div
-          className="position-fixed bottom-0 end-0 p-3"
-          style={{ zIndex: 1050 }}
-        >
-          <div
-            className="toast align-items-center text-white bg-success border-0 show"
-            role="alert"
+        <div className="d-flex align-items-center position-relative">
+          <button
+            className="btn btn-primary btn-lg"
+            onClick={copyToClipboard}
+            style={{ minWidth: "150px" }}
           >
-            <div className="d-flex">
-              <div className="toast-body">Link copied to clipboard!</div>
-              <button
-                type="button"
-                className="btn-close btn-close-white me-2 m-auto"
-                aria-label="Close"
-                onClick={() => setShowPopup(false)}
-              ></button>
+            Copy Link
+          </button>
+
+          {/* Success Popup */}
+          {showPopup && (
+            <div
+              className="position-absolute start-100 translate-middle mt-2 p-2"
+              style={{
+                zIndex: 1050,
+                backgroundColor: "green",
+                color: "white",
+                borderRadius: "5px",
+                padding: "5px 10px",
+              }}
+            >
+              Link copied to clipboard!
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

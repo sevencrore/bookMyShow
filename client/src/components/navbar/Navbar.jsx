@@ -67,6 +67,12 @@ export default function Navbar({ toggle }) {
                                     MyBookings
                                 </Link>
                             </li>
+
+                            <li className="nav-item">
+                                <Link to="/ReferAndEarn" className="nav-link">
+                                    Refer and Earn
+                                </Link>
+                            </li>
                             {/* <li className="nav-item">
                                 <Link to="/admin/login" className="nav-link">
                                     Admin Login
