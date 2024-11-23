@@ -43,6 +43,8 @@ import Add_Image from './components/admin/Add_Image';
 import PrivacyPolicy from './components/footer/privacyPolicy';
 import TermsAndConditions from './components/footer/TermsAndConditions';
 import FAQ from './components/footer/FAQ';
+import Login_Ref from './components/Login/LoginWithRef';
+import ReferAndEarn from './components/EventPage/ReferAndEarn';
 
 
 function App() {
@@ -119,6 +121,8 @@ function App() {
         <Route path="/privacy-policy"><PrivacyPolicy /></Route>
         <Route path="/terms-and-conditions"><TermsAndConditions /></Route>
         <Route path="/faq"><FAQ /></Route>
+        <Route path="/Login_referral" component={Login_Ref} />
+        <Route path="/ReferAndEarn"><ReferAndEarn/></Route>
 
       </Switch>
       <Footer />
