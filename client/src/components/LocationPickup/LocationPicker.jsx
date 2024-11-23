@@ -59,11 +59,7 @@ const Locationpicker = ({ handleClose }) => {
         fetchLocations();
     }, []); // Fetch locations on component mount
 
-    // Filter locations based on search input
-    const filteredPopularCities = popularCities.filter((city) =>
-        city.name.toLowerCase().includes(search.toLowerCase())
-    );
-
+    // Filter backend locations based on search input
     const filteredBackendLocations = locations.filter((city) =>
         city.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -97,75 +93,124 @@ const Locationpicker = ({ handleClose }) => {
                 />
             </div>
 
+            {/* Filtered Cities Based on Search */}
+            {search && (
+                <ul style={{
+                    width: '100%',
+                    padding: 0,
+                    marginTop: '10px',
+                    marginBottom: '20px',
+                    listStyleType: 'none',
+                    backgroundColor: 'white',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                    maxHeight: '200px',
+                    overflowY: 'auto',
+                }}>
+                    {filteredBackendLocations.length > 0 ? (
+                        filteredBackendLocations.map((city) => (
+                            <li
+                                key={city._id}
+                                style={{
+                                    cursor: 'pointer',
+                                    padding: '10px',
+                                    borderBottom: '1px solid #e5e5e5',
+                                }}
+                                onClick={() => handleSelectLocation(city.name, city._id)} // Handle click event
+                            >
+                                {city.name}
+                            </li>
+                        ))
+                    ) : (
+                        <li style={{ padding: '10px', color: 'gray' }}>No cities found</li>
+                    )}
+                </ul>
+            )}
+
             {/* Popular Cities Section */}
             <div className="container mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <h4>Popular Cities</h4>
             </div>
 
             <ul className="city-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: 0 }}>
-                {filteredPopularCities.length > 0 ? (
-                    filteredPopularCities.map((city) => (
-                        <li
-                            key={city.name}
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column', // Image above the city name
-                                alignItems: 'center',
-                                padding: '10px',
-                                borderBottom: '1px solid rgb(229, 229, 229)',
-                                background: 'rgb(255, 255, 255)',
-                                cursor: 'pointer',
-                                margin: '5px',
-                                width: 'calc(10% - 10px)', // 10 items per row
-                                boxSizing: 'border-box',
-                                textAlign: 'center', // Center text and image
-                            }}
-                            onClick={() => handleSelectLocation(city.name)} // Handle click event
-                        >
-                            <div className="city-image" style={{ marginBottom: '5px' }}>
-                                <img
-                                    src={`//in.bmscdn.com/m6/images/common-modules/regions/${city.image}`} // Assuming `city.image` is the correct image path
-                                    alt={city.name}
-                                    style={{ width: '30px', height: '30px', borderRadius: '50%' }}
-                                />
-                            </div>
-                            <span className="city-name" style={{ fontSize: '14px', display: 'block' }}>{city.name}</span>
-                        </li>
-                    ))
-                ) : (
-                    <p>No popular cities found</p>
-                )}
+                {popularCities.map((city) => (
+                    <li
+                        key={city.name}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            padding: '10px',
+                            borderBottom: '1px solid rgb(229, 229, 229)',
+                            background: 'rgb(255, 255, 255)',
+                            cursor: 'pointer',
+                            margin: '5px',
+                            width: 'calc(10% - 10px)',
+                            boxSizing: 'border-box',
+                            textAlign: 'center',
+                        }}
+                        onClick={() => handleSelectLocation(city.name)} // Handle click event
+                    >
+                        <div className="city-image" style={{ marginBottom: '5px' }}>
+                            <img
+                                src={`//in.bmscdn.com/m6/images/common-modules/regions/${city.image}`}
+                                alt={city.name}
+                                style={{ width: '30px', height: '30px', borderRadius: '50%' }}
+                            />
+                        </div>
+                        <span className="city-name" style={{ fontSize: '14px', display: 'block' }}>{city.name}</span>
+                    </li>
+                ))}
             </ul>
 
-            {loading && <div className="loading" style={{ marginTop: '10px' }}>Loading...</div>}
-            {error && <div className="error" style={{ marginTop: '10px', color: 'red' }}>{error}</div>}
+            {/* All Cities Section (with a div container) */}
+            <div className="container mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <h4>All Cities</h4>
+            </div>
 
-            {/* Backend locations */}
-            <ul style={{
+            <div className="all-cities-container" style={{
                 width: '100%',
+                display: 'flex',
+                cursor: 'pointer',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                background: 'rgb(255, 255, 255)',
+                borderBottom: '1px solid rgb(229, 229, 229)',
+                flexDirection: 'column',
                 padding: 0,
-                margin: 0,
-                listStyleType: 'none', // Remove default list bullets
             }}>
-                {filteredBackendLocations.length > 0 ? (
-                    filteredBackendLocations.map((city) => (
+                <ul style={{
+                    width: '100%',
+                    padding: 0,
+                    marginTop: '10px',
+                    marginBottom: '20px',
+                    listStyleType: 'none',
+                    backgroundColor: 'white',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                    maxHeight: '200px',
+                    overflowY: 'auto',
+                }}>
+                    {locations.map((city) => (
                         <li
                             key={city._id}
                             style={{
-                                display: 'block',
                                 cursor: 'pointer',
                                 padding: '10px',
-                                borderBottom: '1px solid rgb(229, 229, 229)',
+                                borderBottom: '1px solid #e5e5e5',
                             }}
                             onClick={() => handleSelectLocation(city.name, city._id)} // Handle click event
                         >
                             {city.name}
                         </li>
-                    ))
-                ) : (
-                    <p>No cities from the backend found</p>
-                )}
-            </ul>
+                    ))}
+                </ul>
+            </div>
+
+            {loading && <div className="loading" style={{ marginTop: '10px' }}>Loading...</div>}
+            {error && <div className="error" style={{ marginTop: '10px', color: 'red' }}>{error}</div>}
         </div>
     );
 };
