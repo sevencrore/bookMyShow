@@ -164,50 +164,9 @@ const Locationpicker = ({ handleClose }) => {
                 ))}
             </ul>
 
-            {/* All Cities Section (with a div container) */}
-            <div className="container mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <h4>All Cities</h4>
-            </div>
+            
 
-            <div className="all-cities-container" style={{
-                width: '100%',
-                display: 'flex',
-                cursor: 'pointer',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                background: 'rgb(255, 255, 255)',
-                borderBottom: '1px solid rgb(229, 229, 229)',
-                flexDirection: 'column',
-                padding: 0,
-            }}>
-                <ul style={{
-                    width: '100%',
-                    padding: 0,
-                    marginTop: '10px',
-                    marginBottom: '20px',
-                    listStyleType: 'none',
-                    backgroundColor: 'white',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-                    maxHeight: '200px',
-                    overflowY: 'auto',
-                }}>
-                    {locations.map((city) => (
-                        <li
-                            key={city._id}
-                            style={{
-                                cursor: 'pointer',
-                                padding: '10px',
-                                borderBottom: '1px solid #e5e5e5',
-                            }}
-                            onClick={() => handleSelectLocation(city.name, city._id)} // Handle click event
-                        >
-                            {city.name}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
 
             {loading && <div className="loading" style={{ marginTop: '10px' }}>Loading...</div>}
             {error && <div className="error" style={{ marginTop: '10px', color: 'red' }}>{error}</div>}
