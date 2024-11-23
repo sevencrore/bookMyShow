@@ -1,140 +1,130 @@
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { Card, Button, Row, Col, Alert, Spinner } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const EventDetailsHome = () => {
-    const { eventId } = useParams();
-    const history = useHistory();  // React Router v5's `useHistory` hook
-    const [event, setEvent] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const { eventId } = useParams();
+  const history = useHistory();
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // Fetch event details using eventId from URL
-    useEffect(() => {
-        console.log(`Fetching data for event ID: ${eventId}`);
-        fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: 'cors' })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data && data._id) {
-                    setEvent(data);
-                    setLoading(false);
-                } else {
-                    setLoading(false);
-                }
-            })
-            .catch((e) => {
-                console.error("Error fetching event details:", e);
-                setLoading(false);
-            });
-    }, [eventId]);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: "cors" })
+      .then((res) => res.json())
+      .then((data) => {
+        setEvent(data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error("Error fetching event details:", e);
+        setLoading(false);
+      });
+  }, [eventId]);
 
-    // If event data is not available, show loading message
-    if (loading) {
-        return (
-            <div className="text-center my-5">
-                <Spinner animation="border" variant="primary" />
-                <p>Loading event details...</p>
-            </div>
-        );
-    }
-
-    // Convert MongoDB Decimal128 values to regular numbers
-    const locationLat = event.location_lat?.$numberDecimal || 0;
-    const locationLng = event.location_lang?.$numberDecimal || 0;
-
-    // Build full URLs for images
-    const imageUrl = `${process.env.REACT_APP_HOST}${event.img}`;
-    const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
-
+  if (loading) {
     return (
-        <div className="container my-5" style={{ overflowX: "hidden", maxWidth: "100%" }}>
-            <Row>
-                {/* Background image */}
-                <Col xs={12} className="p-0">
-                    <div
-                        className="position-relative event-bg"
-                        style={{
-                            backgroundImage: `url(${bgImageUrl})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            height: "400px",
-                            width: "100%",  // Ensuring full width
-                            borderRadius: "10px",
-                        }}
-                    >
-                        {/* Small image on top of background */}
-                        <img
-                            src={imageUrl}
-                            alt={event.title}
-                            className="position-absolute top-0 start-0 m-3 event-img"
-                            style={{
-                                maxWidth: "150px",  // Restrict max width to prevent overflow
-                                height: "auto",
-                                borderRadius: "8px",
-                                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
-                            }}
-                        />
-                    </div>
-                </Col>
+      <div className="text-center my-5">
+        <Spinner animation="border" variant="primary" />
+        <p>Loading event details...</p>
+      </div>
+    );
+  }
+
+  const locationLat = event.location_lat?.$numberDecimal || 0;
+  const locationLng = event.location_lang?.$numberDecimal || 0;
+
+  const imageUrl = `${process.env.REACT_APP_HOST}${event.img}`;
+  const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
+
+  return (
+    <Container fluid className="p-0">
+      {/* Background and Small Image */}
+      <div
+        style={{
+          backgroundImage: `url(${bgImageUrl})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "40vh",
+          width: "100%",
+        }}
+      >
+        <img
+          src={imageUrl}
+          alt={event.title}
+          style={{
+            width: "100%",
+            height: "40vh",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      {/* Main Content */}
+      <Container className="my-4">
+        <Row>
+          {/* Event Details - Left Side */}
+          <Col xs={12} className="mb-3">
+            {/* Title and City */}
+            <Row className="mb-3">
+              <Col>
+                <h1>{event.title}</h1>
+                <p><strong>City:</strong> {event.city}</p>
+              </Col>
             </Row>
 
-            {/* Event Details */}
-            <Card className="mt-4 p-4 shadow-sm rounded event-card">
-                <Card.Body>
-                    <h3>{event.title}</h3>
-                    <Card.Subtitle className="mb-4 text-muted">
-                        <strong>Host:</strong><br /> {event.host_name}
-                    </Card.Subtitle>
-                    <p><strong>Description :</strong> <br />{event.description}</p>
+            {/* Location Description */}
+            <Row className="mb-3">
+              <Col>
+                <p><strong>Location Description:</strong> {event.location_description}</p>
+              </Col>
+            </Row>
 
-                    {/* Category */}
-                    <div className="mb-3">
-                        <strong>Category:</strong><br />{event.category}
-                    </div>
+            {/* View on Map */}
+            <Row>
+              <Col>
+                <Button
+                  variant="outline-primary"
+                  onClick={() =>
+                    window.open(`https://maps.google.com/?q=${locationLat},${locationLng}`)
+                  }
+                >
+                  View on Map
+                </Button>
+              </Col>
+            </Row>
+          </Col>
 
-                    {/* Vendor */}
-                    <div className="mb-3">
-                        <strong>Vendor:</strong><br /> {event.vendor}
-                    </div>
+          {/* Book Button - Right Side */}
+          <Col xs={12} className="text-center mb-3">
+            <Button
+              style={{
+                backgroundColor: "#FF0000",
+                color: "#FFFFFF",
+                border: "none",
+                width: "100%",
+                padding: "15px",
+                fontSize: "18px",
+              }}
+              onClick={() => history.push(`/bookevent/${event._id}`)}
+            >
+              Book
+            </Button>
+          </Col>
+        </Row>
+      </Container>
 
-                    {/* Event Location */}
-                    {event.location_description && (
-                        <div className="mb-3">
-                            <strong>Location Description:</strong><br /> {event.location_description}
-                        </div>
-                    )}
-
-                    {/* Coordinates */}
-                    <div className="mb-3">
-                        <strong> Location Coordinates:</strong><br />
-                        <p>Latitude: {locationLat}, <br />Longitude: {locationLng}</p>
-                    </div>
-
-                    {/* City */}
-                    <div className="mb-3">
-                        <strong>City:</strong> <br /> {event.city}
-                    </div>
-
-                    {/* Event Status */}
-                    {event.is_active === '0' && (
-                        <Alert variant="warning" className="mt-3">
-                            This event is currently inactive.
-                        </Alert>
-                    )}
-
-                    {/* Button to go back to events list */}
-                    <Button
-                        onClick={() => history.push(`/bookevent/${event._id}`)}  // React Router v5's `history.push`
-                        variant="primary"
-                        className="mt-3 event-btn"
-                        size="lg"
-                    >
-                        Book Tickets
-                    </Button>
-                </Card.Body>
-            </Card>
-        </div>
-    );
+      {/* Description Section */}
+      <Container className="my-4">
+        <Row>
+          <Col xs={12}>
+            <h2>Description</h2>
+            <p>{event.description}</p>
+          </Col>
+        </Row>
+      </Container>
+    </Container>
+  );
 };
 
 export default EventDetailsHome;
