@@ -10,13 +10,33 @@ const Add_City = () => {
         name: "",
         description: "",
         email: userEmail,
+        order: "", // New field for order
     });
+
+    const [image, setImage] = useState(null); // New state to handle the uploaded image
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Create a FormData object to handle file uploads
+        const formData = new FormData();
+        formData.append("name", input.name);
+        formData.append("description", input.description);
+        formData.append("email", input.email);
+        formData.append("order", input.order);
+        
+        // Only append the image if it is selected
+        if (image) {
+            formData.append("image", image);
+        }
+
         try {
             // Make a POST request to your backend to create a new Add_city
-            const res = await axios.post(`${process.env.REACT_APP_HOST}/city/create`, input);
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/city/create`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Important for handling file uploads
+                }
+            });
             alert("Add_city created successfully!"); // Show success message
             history.push("/admin/dashboard"); // Redirect to the dashboard after successful Add_city creation
         } catch (error) {
@@ -43,7 +63,7 @@ const Add_City = () => {
                                     onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
                                     className="form-control"
                                     id="name"
-                                    placeholder=" Add_city Name"
+                                    placeholder="Add_city Name"
                                 />
                             </div>
 
@@ -60,6 +80,36 @@ const Add_City = () => {
                                     id="description"
                                     rows="4"
                                     placeholder="Add_city Description"
+                                />
+                            </div>
+
+                            {/* Order Input */}
+                            <div className="mb-3">
+                                <label htmlFor="order" className="form-label">
+                                    Order
+                                </label>
+                                <input
+                                    type="number"
+                                    name="order"
+                                    value={input.order}
+                                    onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
+                                    className="form-control"
+                                    id="order"
+                                    placeholder="Order"
+                                />
+                            </div>
+
+                            {/* Image Upload Input */}
+                            <div className="mb-3">
+                                <label htmlFor="image" className="form-label">
+                                    Upload Image
+                                </label>
+                                <input
+                                    type="file"
+                                    name="image"
+                                    onChange={(e) => setImage(e.target.files[0])}
+                                    className="form-control"
+                                    id="image"
                                 />
                             </div>
 
