@@ -1,15 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ReferAndEarn() {
   const [showPopup, setShowPopup] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [userWallet, setUserWallet] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [walletLoading, setWalletLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Get user data from local storage
-  const user = JSON.parse(localStorage.getItem("user"));
-  const uid = user?.uid || ""; // Fallback in case user or uid is undefined
+  // Get user_id from localStorage
+  const userId = localStorage.getItem("user_id");
+
+  // Fetch user details and wallet information in useEffect
+  useEffect(() => {
+    if (userId) {
+      // Fetching user details
+      fetch(`${process.env.REACT_APP_HOST}/user/${userId}`, { mode: "cors" })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            setUserDetails(data);
+            setLoading(false);
+          }
+        })
+        .catch((e) => {
+          console.error("Error fetching user details:", e);
+          setLoading(false);
+        });
+
+      // Fetching user wallet information
+      fetch(`http://localhost:5000/userwallet/getUserWallet/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            setUserWallet(data);
+            setWalletLoading(false);
+          }
+        })
+        .catch((e) => {
+          console.error("Error fetching user wallet:", e);
+          setError("Failed to load wallet data.");
+          setWalletLoading(false);
+        });
+    } else {
+      setLoading(false); // If userId is not found in localStorage, stop loading
+      setError("User ID not found.");
+    }
+  }, [userId]);
 
   // Base referral link
-  const referralLink = `${window.location.origin}/Login_referral?uid=${uid}`;
+  const referralLink = `${window.location.origin}/Login_referral?uid=${userId}`;
 
   // Function to copy the referral link
   const copyToClipboard = () => {
@@ -19,12 +65,34 @@ export default function ReferAndEarn() {
     });
   };
 
+  // Conditional rendering based on loading state
+  if (loading) {
+    return <div>Loading user details...</div>;
+  }
+
   return (
     <div className="container py-5" style={{ minHeight: "100vh" }}>
       {/* Title Section */}
       <div className="text-center my-4">
         <h1 className="fw-bold">Refer and Earn</h1>
-        <p className="text-muted">Share the link below with your friends to earn rewards!</p>
+        <p className="text-muted">
+          Share the link below with your friends to earn rewards!
+        </p>
+       
+
+        {/* Displaying wallet information */}
+        {walletLoading ? (
+          <div>Loading wallet details...</div>
+        ) : error ? (
+          <div className="text-danger">{error}</div>
+        ) : userWallet ? (
+          <div>
+            <h5>Wallet Balance: &#x20B9;{userWallet.balance}</h5>
+            {/* Other wallet details can be displayed here */}
+          </div>
+        ) : (
+          <p className="text-danger">No wallet information available.</p>
+        )}
       </div>
 
       {/* Referral Link Section */}
