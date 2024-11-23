@@ -58,7 +58,7 @@ function HomePage() {
         }
 
         const fetchImages = async () =>
-             { try 
+            { try 
                 { const response = await fetch(`${process.env.REACT_APP_HOST}/slideImage/`); 
                 const data = await response.json(); setImages(data); 
                 } catch (error) {
@@ -88,66 +88,62 @@ function HomePage() {
     // Category List Component (Updated to show name/description below the image)
     const CategoryList = ({ categories }) => {
         return (
-            <div className="container mt-4 mb-4"> {/* Container for the grid */}
-                <div className="row g-4"> {/* Responsive row with gaps */}
+            <div className="container mt-4 mb-4">
+                <div className="row g-4">
                     {categories.map((category, index) => (
-                 <Link
-                 key={index}
-                 to={`/events/${category._id}/${city_id}`}
-                 className="col-6 col-md-4 col-lg-3 d-flex flex-column align-items-center text-decoration-none"
-                 onClick={() => handleCategoryClick(category._id, category.category_name)}
-             >
-                 {/* Card Container */}
-                 <div className="p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#e2e0ea" }}>
-                     {/* Image Container */}
-                     <div
-                         className="d-flex justify-content-center align-items-center mb-3"
-                         style={{
-                             width: '100%',
-                             height: '200px', // Set a fixed height for the container
-                             backgroundColor: '#f0f0f0',
-                             overflow: 'hidden',
-                             borderRadius: '8px',
-                         }}
-                     >
-                         <img
-                             src={`${process.env.REACT_APP_HOST}${category.image}`}
-                             alt={category.category_name}
-                             className="img-fluid"
-                             style={{
-                                 width: '100%',   // Stretch to fill the width of the container
-                                 height: '100%',  // Stretch to fill the height of the container
-                                 objectFit: 'fill', // Stretch the image, distorting if necessary
-                             }}
-                         />
-                     </div>
-                     {/* Title */}
-                     <h3 className="fs-6 fw-bold text-dark mb-2">{category.category_name}</h3>
-                     {/* Description */}
-                     <p
-                         className="text-muted fs-6 text-truncate"
-                         style={{
-                             maxWidth: '100%',    // Ensure truncation works within the card
-                             whiteSpace: 'nowrap',
-                             overflow: 'hidden',
-                             textOverflow: 'ellipsis',
-                         }}
-                         title={category.description} // Tooltip for full description
-                     >
-                         {category.description}
-                     </p>
-                 </div>
-             </Link>
-             
-              
+                        <Link
+                            key={index}
+                            to={`/events/${category._id}/${city_id}`}
+                            className="col-12 col-sm-6 col-md-4 col-lg-3 text-decoration-none"
+                            onClick={() => handleCategoryClick(category._id, category.category_name)}
+                        >
+                            <div className="p-3 rounded shadow-sm text-center" style={{
+                                backgroundColor: 'rgb(226, 224, 234)', 
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+                                transform: 'translateY(-5px)',
+                                boxShadow: 'rgba(0, 0, 0, 0.2) 0px 8px 15px'
+                            }}>
+                                <div
+                                    className="d-flex justify-content-center align-items-center mb-3"
+                                    style={{
+                                        width: '100%',
+                                        height: '300px',
+                                        backgroundColor: 'rgb(240, 240, 240)',
+                                        overflow: 'hidden',
+                                        borderRadius: '8px'
+                                    }}
+                                >
+                                    <img
+                                        src={`${process.env.REACT_APP_HOST}${category.image}`}
+                                        alt={category.category_name}
+                                        className="img-fluid"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                </div>
+                                <h3 className="fs-6 fw-bold text-dark mb-2">{category.category_name}</h3>
+                                <p
+                                    className="text-muted fs-6 text-truncate"
+                                    title={category.description}
+                                    style={{
+                                        maxWidth: '100%',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >
+                                    {category.description}
+                                </p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </div>
         );
     };
-
-
-
 
     return (
         <>
@@ -158,29 +154,20 @@ function HomePage() {
                 <p className="red">View All Cities</p>
             </Modal>
 
-            {/* <Navbar toggle={toggleLocationPickup} /> */}
-
             <Menubar />
 
-            {/* <Slider {...settings} style={styles.slider}>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639378314392_revisedbanner2.jpg" style={styles.sliderImage} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639051788302_sunburn.jpg" style={styles.sliderImage} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1637323134871_divinepunyapaaptour_webshowcase_1240x300.jpg" style={styles.sliderImage} /></div>
-            </Slider> */}
-
-            <Slider {...settings} style={styles.slider}> 
-                {images.map((image, index) => (<div key={index}>
-                     <img src={`${process.env.REACT_APP_HOST}${image.image}`} alt={`Slide ${index}`} style={styles.sliderImage} /> 
-                     </div>))}
-                     </Slider>
+            <Slider {...settings} style={styles.slider}>
+                {images.map((image, index) => (
+                    <div key={index}>
+                        <img src={`${process.env.REACT_APP_HOST}${image.image}`} alt={`Slide ${index}`} style={styles.sliderImage} />
+                    </div>
+                ))}
+            </Slider>
 
             <div className="container-fluid padd">
                 <div className="left">
                     {/* <p className="heading-3">Categories</p> */}
                 </div>
-                {/* <div className="right">
-                    <p className="heading-3">see all &#8594;</p>
-                </div> */}
                 <div className="clear"></div>
             </div>
 
@@ -189,17 +176,6 @@ function HomePage() {
             <CategoryList categories={categories} />
 
             <br />
-
-            {/* <div className="container">
-                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
-                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Promo Banner" />
-            </div> */}
-
-            <br />
-            <br />
-            {/* <div className="container">
-                <CategoryList categories={categories} />
-            </div> */}
 
             <PrivacyNote />
             {/* <Footer /> */}
@@ -265,16 +241,15 @@ const styles = {
     slider: {
         maxWidth: '100%',
         maxHeight: '324px',
-        // marginRight: '20px',
-        // marginLeft: '20px',
-        // marginTop: '20px'
+        marginRight: '20px',
+        marginLeft: '20px',
+        marginTop: '20px'
     },
     sliderImage: {
         objectFit: 'cover',
         width: '100%',
         height: '350px',
-        // borderRadius: '15px'
+        borderRadius: '15px'
     },
 };
-
 export default HomePage;
