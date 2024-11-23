@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     lastName:{type:String,required:false},
     uid:{type:String,required:false},
     displayName :{type:String},
+    reffered_by : {type:String},
     
 /*     address :{type:mongoose.Schema.Types.ObjectId,ref:'address'} */
 },{
