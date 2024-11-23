@@ -124,7 +124,7 @@ function HomePage() {
                      {/* Title */}
                      <h3 className="fs-6 fw-bold text-dark mb-2">{category.category_name}</h3>
                      {/* Description */}
-                     <p
+                     {/* <p
                          className="text-muted fs-6 text-truncate"
                          style={{
                              maxWidth: '100%',    // Ensure truncation works within the card
@@ -135,7 +135,7 @@ function HomePage() {
                          title={category.description} // Tooltip for full description
                      >
                          {category.description}
-                     </p>
+                     </p> */}
                  </div>
              </Link>
              

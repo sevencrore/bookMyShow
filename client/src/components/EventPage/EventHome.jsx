@@ -30,10 +30,10 @@ const EventList = ({ events }) => {
                         <Link
                             key={index}
                             to={`/event/${event._id}`}
-                            className="col-12 col-sm-6 col-md-4 col-lg-3 text-decoration-none"
+                            className="col-4 col-md-4 col-lg-3 text-decoration-none" // Responsive columns
                         >
                             <div
-                                className="p-3 rounded shadow-sm text-center"
+                                className="p-2 rounded shadow-sm text-center h-100 d-flex flex-column"
                                 style={{
                                     backgroundColor: '#e2e0ea',
                                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
@@ -47,14 +47,17 @@ const EventList = ({ events }) => {
                                     e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
                                 }}
                             >
+                                {/* Image Container */}
                                 <div
-                                    className="d-flex justify-content-center align-items-center mb-3"
+                                    className="mb-2"
                                     style={{
                                         width: '100%',
-                                        height: '300px',
-                                        backgroundColor: '#f0f0f0',
+                                        height: '140px',
                                         overflow: 'hidden',
                                         borderRadius: '8px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                     }}
                                 >
                                     <img
@@ -64,28 +67,48 @@ const EventList = ({ events }) => {
                                         style={{
                                             width: '100%',
                                             height: '100%',
-                                            objectFit: 'cover',
+                                            objectFit: 'cover', // Stretch image to cover the div completely
                                         }}
                                     />
                                 </div>
-                                <h3 className="fs-6 fw-bold text-dark mb-2">{event.title}</h3>
-                                <p
-                                    className="text-muted fs-6 text-truncate"
+                                {/* Title */}
+                                <h3
+                                    className="fs-6 fw-bold text-dark m-0"
                                     style={{
-                                        maxWidth: '100%',
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
+                                        display: '-webkit-box', // Required for line clamping
+                                        WebkitBoxOrient: 'vertical', // Set the text orientation to vertical
+                                        WebkitLineClamp: 2, // Limit text to 2 lines
+                                        overflow: 'hidden', // Hide overflowing text
+                                        textOverflow: 'ellipsis', // Add ellipsis for overflow
+                                        whiteSpace: 'normal', // Allow wrapping for multiline behavior
+                                        maxWidth: '100%', // Ensure it fits within the container
                                     }}
-                                    title={event.description}
+                                    title={event.title} // Tooltip for full title
                                 >
-                                    {event.description}
-                                </p>
+                                    {event.title}
+                                </h3>
+
+                                {/* Description */}
+                                {/* <p
+                        className="text-muted fs-6 mt-1 mb-0"
+                        style={{
+                            display: '-webkit-box', // Enable multi-line ellipsis
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2, // Display only 2 lines
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}
+                        title={event.description} // Tooltip for the full description
+                    >
+                        {event.description}
+                    </p> */}
                             </div>
                         </Link>
                     ))}
                 </div>
             </div>
+
+
         </div>
     );
 };
@@ -113,7 +136,7 @@ export const EventHome = () => {
 
     return (
         <div className="container mt-4">
-            <div className="p-4 rounded" style={{
+            <div className="p-6 rounded" style={{
                 backgroundColor: '#fff',
                 boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
             }}>
