@@ -174,7 +174,7 @@ function HomePage() {
 
             <div className="container-fluid padd">
                 <div className="left">
-                    <p className="heading-3">Categories</p>
+                    {/* <p className="heading-3">Categories</p> */}
                 </div>
                 {/* <div className="right">
                     <p className="heading-3">see all &#8594;</p>
@@ -195,9 +195,9 @@ function HomePage() {
 
             <br />
             <br />
-            <div className="container">
+            {/* <div className="container">
                 <CategoryList categories={categories} />
-            </div>
+            </div> */}
 
             <PrivacyNote />
             {/* <Footer /> */}

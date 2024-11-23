@@ -72,11 +72,17 @@ const Locationpicker = ({ handleClose }) => {
     };
 
     return (
-        <div className="location-picker">
+        <div className="location-picker" style={{ padding: '20px' }}>
             <h3>Select a Location</h3>
 
             {/* Search Input with Icon */}
-            <div className="search-container" style={{ display: 'flex', alignItems: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
+            <div className="search-container" style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+            }}>
                 <span style={{ marginRight: '10px' }}>
                     <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                         <title>Search</title>
@@ -133,43 +139,50 @@ const Locationpicker = ({ handleClose }) => {
                 <h4>Popular Cities</h4>
             </div>
 
-            <ul className="city-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: 0 }}>
-                {popularCities.map((city) => (
-                    <li
-                        key={city.name}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            padding: '10px',
-                            borderBottom: '1px solid rgb(229, 229, 229)',
-                            background: 'rgb(255, 255, 255)',
-                            cursor: 'pointer',
-                            margin: '5px',
-                            width: 'calc(10% - 10px)',
-                            boxSizing: 'border-box',
-                            textAlign: 'center',
-                        }}
-                        onClick={() => handleSelectLocation(city.name)} // Handle click event
-                    >
-                        <div className="city-image" style={{ marginBottom: '5px' }}>
-                            <img
-                                src={`//in.bmscdn.com/m6/images/common-modules/regions/${city.image}`}
-                                alt={city.name}
-                                style={{ width: '30px', height: '30px', borderRadius: '50%' }}
-                            />
-                        </div>
-                        <span className="city-name" style={{ fontSize: '14px', display: 'block' }}>{city.name}</span>
-                    </li>
-                ))}
+            {/* Flexbox for Popular Cities */}
+            <ul className="city-list" style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                padding: 0,
+            }}>
+                {popularCities.map((city, index) => {
+                    // Apply mobile city item style for mobile views
+                    const isMobile = window.innerWidth <= 480;
+                    const cityItemStyle = {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        padding: '10px',
+                        borderBottom: '1px solid rgb(229, 229, 229)',
+                        background: 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        margin: '5px',
+                        width: isMobile ? 'calc(25% - 10px)' : 'calc(10% - 10px)', // 4 items per row on mobile, 10 items per row on desktop
+                        boxSizing: 'border-box',
+                        textAlign: 'center',
+                    };
+
+                    return (
+                        <li
+                            key={city.name}
+                            style={cityItemStyle}
+                            onClick={() => handleSelectLocation(city.name)} // Handle click event
+                        >
+                            <div className="city-image" style={{ marginBottom: '5px' }}>
+                                <img
+                                    src={`//in.bmscdn.com/m6/images/common-modules/regions/${city.image}`}
+                                    alt={city.name}
+                                    style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+                                />
+                            </div>
+                            <span style={{ fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
+                                {city.name}
+                            </span>
+                        </li>
+                    );
+                })}
             </ul>
-
-            
-
-            
-
-            {loading && <div className="loading" style={{ marginTop: '10px' }}>Loading...</div>}
-            {error && <div className="error" style={{ marginTop: '10px', color: 'red' }}>{error}</div>}
         </div>
     );
 };
