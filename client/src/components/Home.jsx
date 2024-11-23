@@ -58,7 +58,7 @@ function HomePage() {
         }
 
         const fetchImages = async () =>
-             { try 
+            { try 
                 { const response = await fetch(`${process.env.REACT_APP_HOST}/slideImage/`); 
                 const data = await response.json(); setImages(data); 
                 } catch (error) {
@@ -88,8 +88,8 @@ function HomePage() {
     // Category List Component (Updated to show name/description below the image)
     const CategoryList = ({ categories }) => {
         return (
-            <div className="container mt-4 mb-4"> {/* Container for the grid */}
-                <div className="row g-4"> {/* Responsive row with gaps */}
+            <div className="container mt-4 mb-4">
+                <div className="row g-4">
                     {categories.map((category, index) => (
                  <Link
                  key={index}
@@ -146,9 +146,6 @@ function HomePage() {
         );
     };
 
-
-
-
     return (
         <>
             <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
@@ -158,29 +155,20 @@ function HomePage() {
                 <p className="red">View All Cities</p>
             </Modal>
 
-            {/* <Navbar toggle={toggleLocationPickup} /> */}
-
             <Menubar />
 
-            {/* <Slider {...settings} style={styles.slider}>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639378314392_revisedbanner2.jpg" style={styles.sliderImage} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1639051788302_sunburn.jpg" style={styles.sliderImage} /></div>
-                <div><img src="https://in.bmscdn.com/promotions/cms/creatives/1637323134871_divinepunyapaaptour_webshowcase_1240x300.jpg" style={styles.sliderImage} /></div>
-            </Slider> */}
-
-            <Slider {...settings} style={styles.slider}> 
-                {images.map((image, index) => (<div key={index}>
-                     <img src={`${process.env.REACT_APP_HOST}${image.image}`} alt={`Slide ${index}`} style={styles.sliderImage} /> 
-                     </div>))}
-                     </Slider>
+            <Slider {...settings} style={styles.slider}>
+                {images.map((image, index) => (
+                    <div key={index}>
+                        <img src={`${process.env.REACT_APP_HOST}${image.image}`} alt={`Slide ${index}`} style={styles.sliderImage} />
+                    </div>
+                ))}
+            </Slider>
 
             <div className="container-fluid padd">
                 <div className="left">
                     {/* <p className="heading-3">Categories</p> */}
                 </div>
-                {/* <div className="right">
-                    <p className="heading-3">see all &#8594;</p>
-                </div> */}
                 <div className="clear"></div>
             </div>
 
@@ -189,17 +177,6 @@ function HomePage() {
             <CategoryList categories={categories} />
 
             <br />
-
-            {/* <div className="container">
-                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/lead-in-v3-collection-202102040828.png" alt="Promo Banner" />
-                <img className="img-fluid padded-img" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Promo Banner" />
-            </div> */}
-
-            <br />
-            <br />
-            {/* <div className="container">
-                <CategoryList categories={categories} />
-            </div> */}
 
             <PrivacyNote />
             {/* <Footer /> */}
@@ -265,16 +242,15 @@ const styles = {
     slider: {
         maxWidth: '100%',
         maxHeight: '324px',
-        // marginRight: '20px',
-        // marginLeft: '20px',
-        // marginTop: '20px'
+        marginRight: '20px',
+        marginLeft: '20px',
+        marginTop: '20px'
     },
     sliderImage: {
         objectFit: 'cover',
         width: '100%',
         height: '350px',
-        // borderRadius: '15px'
+        borderRadius: '15px'
     },
 };
-
 export default HomePage;
