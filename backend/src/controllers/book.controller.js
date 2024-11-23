@@ -10,7 +10,8 @@ const { sendEmail } = require('./emailSender.controller');
 const Event = require('../models/event.model'); 
 const EventDetails = require('../models/eventDetails.model');
 const City = require('../models/city.model');
-
+const User = require('../models/user.model');
+const UserWallet = require('../models/userWallet.model');
 
 
 router.get("/",async(req,res)=>{
@@ -40,6 +41,39 @@ router.post("/create", async (req, res) => {
             return res.status(400).send({ error: 'Missing required fields' });
         }
 
+        
+            // Step 1: Find the user by their ID
+            const refer = await User.findById(user_id);
+           
+            if (refer && refer.reffered_by) {
+              // Step 2: Check if 'reffered_by' exists, then find the referred user
+              const referredUser = await User.findOne({ uid: refer.reffered_by });
+              if (referredUser) {
+                // Step 3: Retrieve the referred user's _id, email, and displayName
+                const { _id: referredUserId, email, displayName } = referredUser;
+        
+                // Step 4: Search for a matching record in the UserWallet model
+                let userWallet = await UserWallet.findOne({ user_id: referredUserId });
+        
+                if (!userWallet) {
+                  // Step 5: If no record found, create a new UserWallet record
+                  userWallet = new UserWallet({
+                    user_id: referredUserId,
+                    email: email,
+                    name: displayName,
+                    balance: price*0.2,
+                  });
+                  await userWallet.save();
+                } else {
+                  // Step 6: If record found, update the balance
+                  userWallet.balance += price*0.2;
+                  await userWallet.save();
+                }
+              } else {
+                throw new Error('Referred user not found');
+              }
+            } 
+        
         // Fetch additional details from Event model
         const event = await Event.findById(event_id);
         if (!event) {
