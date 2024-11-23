@@ -53,10 +53,10 @@ const BookEvent = () => {
     const handleBooking = async (eventId, members = 2, eventDetailsID, eventDetails,price) => {
         try {
             const numberOfMembers = parseInt(members, 10);
-            if (!numberOfMembers || numberOfMembers < 2) {
-                alert('Please select at least 2 members to book tickets.');
-                return;
-            }
+            // if (!numberOfMembers || numberOfMembers < 2) {
+            //     alert('Please select at least 2 members to book tickets.');
+            //     return;
+            // }
 
             // Get the user's email from localStorage
             const user = JSON.parse(localStorage.getItem('user'));
@@ -136,7 +136,7 @@ const BookEvent = () => {
 
                                     {/* Price */}
                                     <Card.Text>
-                                        <strong>Price:</strong> ${price}
+                                        <strong>Price:</strong> &#x20B9;{price}
                                     </Card.Text>
 
                                     {/* Slots */}
@@ -162,24 +162,24 @@ const BookEvent = () => {
                                     {isActive === true && (
                                         <div className="mb-3">
                                             <Form.Label>Select Number of Members</Form.Label>
-                                            <Form.Control
+                                            <Form.Select
                                                 as="select"
-                                                value={selectedMembers[index] || 2}
+                                                value={selectedMembers[index] || 1}
                                                 onChange={(e) => handleMembersChange(e, index)}
                                             >
                                                 {[...Array(10)].map((_, i) => (
-                                                    <option key={i} value={i + 2}>
-                                                        {i + 2} {i + 2 === 1 ? 'person' : 'people'}
+                                                    <option key={i} value={i + 1}>
+                                                        {i + 1} {'person'}
                                                     </option>
                                                 ))}
-                                            </Form.Control>
+                                            </Form.Select>
                                         </div>
                                     )}
 
                                     {/* Total Price */}
                                     {isActive === true && (
                                         <Card.Text className="mt-3">
-                                            <strong>Total Price:</strong> ${totalPrice}
+                                            <strong>Total Price:</strong> &#x20B9;{totalPrice}
                                         </Card.Text>
                                     )}
 
