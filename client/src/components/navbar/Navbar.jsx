@@ -131,10 +131,10 @@ export default function Navbar({ toggle }) {
                                         Signin
                                     </Button>
                                     <img
-                                        src={`${process.env.PUBLIC_URL}/menu.png`}
-                                        className="img-fluid"
-                                        alt="Menu"
-                                        style={{ height: '30px' }}
+                                        // src={`${process.env.PUBLIC_URL}/menu.png`}
+                                        // className="img-fluid"
+                                        // alt="Menu"
+                                        // style={{ height: '30px' }}
                                     />
                                 </div>
                             )}
