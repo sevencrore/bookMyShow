@@ -1,5 +1,6 @@
 const express = require('express');
 const User=require('../models/user.model');
+const UserWallet =require('../models/userWallet.model')
 const jwt = require('jsonwebtoken');
 const  bcrypt =require('bcryptjs');
 
@@ -50,6 +51,15 @@ router.post('/createUser', async (req, res) => {
         }
 
         let createdUser = await User.create(req.body);
+        const userWallet = new UserWallet({
+            user_id: createdUser._id,
+            email: createdUser.email,
+            name: createdUser.displayName,  // Assuming displayName exists in the User model
+            balance: 0,  // Initialize balance to 0 or set a default value
+        });
+
+        // Save the UserWallet to the database
+        await userWallet.save();
 
         // We create the user and then use the `.toObject()` method to remove unwanted fields
         let userResponse = createdUser.toObject();

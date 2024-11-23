@@ -26,6 +26,7 @@ const vendorController = require("./controllers/vendor.controller");
 const cityController = require("./controllers/city.controller");
 const EventDeatilsController = require('./controllers/eventDetails.controller');
 const SlideImageController = require('./controllers/slideImage.controller');
+const UserWalletController = require('./controllers/userWallet.controller');
 app.use("/users",userController);
 app.use("/movies",movieController);
 app.use("/book",bookController);
@@ -41,6 +42,7 @@ app.use("/vendor",vendorController);
 app.use("/city",cityController);
 app.use("/eventDetails/",EventDeatilsController);
 app.use("/slideImage/",SlideImageController);
+app.use("/userwallet/",UserWalletController);
 const path = require('path');
 
 
