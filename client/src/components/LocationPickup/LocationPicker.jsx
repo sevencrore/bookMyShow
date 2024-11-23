@@ -10,20 +10,6 @@ const Locationpicker = ({ handleClose }) => {
     const [loading, setLoading] = useState(false); // To handle loading state
     const [error, setError] = useState(''); // To handle any error during fetch
 
-    // Hardcoded city data (Popular Cities)
-    const popularCities = [
-        { name: 'Mumbai', image: 'mumbai.png' },
-        { name: 'Delhi-NCR', image: 'ncr.png' },
-        { name: 'Bengaluru', image: 'bang.png' },
-        { name: 'Hyderabad', image: 'hyd.png' },
-        { name: 'Chandigarh', image: 'chd.png' },
-        { name: 'Ahmedabad', image: 'ahd.png' },
-        { name: 'Chennai', image: 'chen.png' },
-        { name: 'Pune', image: 'pune.png' },
-        { name: 'Kolkata', image: 'kolk.png' },
-        { name: 'Kochi', image: 'koch.png' },
-    ];
-
     // Fetch locations from the API and set default city in localStorage if not already set
     useEffect(() => {
         const fetchLocations = async () => {
@@ -58,6 +44,10 @@ const Locationpicker = ({ handleClose }) => {
 
         fetchLocations();
     }, []); // Fetch locations on component mount
+
+    // Separate cities with an 'order' (popular cities) and without (all cities)
+    const popularCities = locations.filter(city => city.order); // Cities with order field
+    const allCities = locations.filter(city => !city.order); // Cities without order field
 
     // Filter backend locations based on search input
     const filteredBackendLocations = locations.filter((city) =>
@@ -139,15 +129,14 @@ const Locationpicker = ({ handleClose }) => {
                 <h4>Popular Cities</h4>
             </div>
 
-            {/* Flexbox for Popular Cities */}
+            {/* Flexbox for Popular Locations */}
             <ul className="city-list" style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 padding: 0,
             }}>
-                {popularCities.map((city, index) => {
-                    // Apply mobile city item style for mobile views
+                {popularCities.map((city) => {
                     const isMobile = window.innerWidth <= 480;
                     const cityItemStyle = {
                         display: 'flex',
@@ -165,17 +154,55 @@ const Locationpicker = ({ handleClose }) => {
 
                     return (
                         <li
-                            key={city.name}
+                            key={city._id}
                             style={cityItemStyle}
-                            onClick={() => handleSelectLocation(city.name)} // Handle click event
+                            onClick={() => handleSelectLocation(city.name, city._id)}
                         >
                             <div className="city-image" style={{ marginBottom: '5px' }}>
                                 <img
-                                    src={`//in.bmscdn.com/m6/images/common-modules/regions/${city.image}`}
+                                    src={`${process.env.REACT_APP_HOST}${city.image}`}
                                     alt={city.name}
                                     style={{ width: '60px', height: '60px', borderRadius: '50%' }}
                                 />
                             </div>
+                            <span style={{ fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
+                                {city.name}
+                            </span>
+                        </li>
+                    );
+                })}
+            </ul>
+
+            {/* All Cities Section */}
+            <h6>All Cities</h6>
+            <ul className="city-list" style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                padding: 0,
+            }}>
+                {allCities.map((city) => {
+                    const isMobile = window.innerWidth <= 480;
+                    const cityItemStyle = {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        padding: '10px',
+                        borderBottom: '1px solid rgb(229, 229, 229)',
+                        background: 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        margin: '5px',
+                        width: isMobile ? 'calc(25% - 10px)' : 'calc(10% - 10px)', // 4 items per row on mobile, 10 items per row on desktop
+                        boxSizing: 'border-box',
+                        textAlign: 'center',
+                    };
+
+                    return (
+                        <li
+                            key={city._id}
+                            style={cityItemStyle}
+                            onClick={() => handleSelectLocation(city.name, city._id)}
+                        >
                             <span style={{ fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
                                 {city.name}
                             </span>
