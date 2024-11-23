@@ -24,24 +24,27 @@ router.get('/',async(req,res)=>{
 
     res.status(200).send(allEvents);
 })
+router.post("/create", upload.single("image"), async (req, res) => {
+    const { name, description, order } = req.body;
+    // Check if the image exists, if not set imgPath to null
+    const imgPath = req.file ? `/uploads/city/${req.file.filename}` : null;
 
-router.post("/create",upload.single("image"),async(req,res)=>{
-
-    const { name, description,order } = req.body;
-    const imagePath = `/uploads/city/${req.file.filename}`;  // Construct the URL path for the image
-    console.log(imagePath);
+    console.log(imgPath); // Logs the image path (or null if no image was uploaded)
 
     const newCity = new City({
-        name: name,  // Use 'title' as 'category_name'
-        description,
-        order,
-        image: imagePath
+        name,          // 'name' field from the request body
+        description,   // 'description' field from the request body
+        order,         // 'order' field from the request body
+        image: imgPath // Save the image path (or null if no image)
     });
 
-    await newCity.save();
-    return res.status(200).json({ message: "City Added succesfully"});
+    try {
+        await newCity.save();
+        return res.status(200).json({ message: "City Added Successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error adding city", error: error.message });
+    }
 });
-
 
 router.post("/edit/:id", async (req, res) => {
     try {
