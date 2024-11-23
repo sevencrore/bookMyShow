@@ -36,6 +36,7 @@ export default function({ hide }) {
             email: user.email,
             displayName: user.displayName,
             uid: user.uid, // You can send any relevant data here
+            reffered_by : 'zaid@gmail.com'
           }),
         })
         .then(async (res) => {
