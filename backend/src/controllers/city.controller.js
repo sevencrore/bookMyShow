@@ -1,9 +1,22 @@
 const express = require('express');
 const getRoleByEmail =require('../middleware/AdminAuthMiddleware');
 const router = express.Router();
+const multer = require('multer');
 const City = require('../models/city.model');
+const path = require('path'); 
 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const fullPath = path.join(__dirname, '../../uploads/city/');  // Define the folder to store images
+        cb(null, fullPath); 
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));  // Rename file with timestamp
+    }
+});
+
+const upload = multer({ storage });
 
 router.get('/',async(req,res)=>{
 
@@ -12,9 +25,20 @@ router.get('/',async(req,res)=>{
     res.status(200).send(allEvents);
 })
 
-router.post("/create",async(req,res)=>{
+router.post("/create",upload.single("image"),async(req,res)=>{
 
-    const movie = await City.create(req.body);
+    const { name, description,order } = req.body;
+    const imagePath = `/uploads/city/${req.file.filename}`;  // Construct the URL path for the image
+    console.log(imagePath);
+
+    const newCity = new City({
+        name: name,  // Use 'title' as 'category_name'
+        description,
+        order,
+        image: imagePath
+    });
+
+    await newCity.save();
     return res.status(200).json({ message: "City Added succesfully"});
 });
 
