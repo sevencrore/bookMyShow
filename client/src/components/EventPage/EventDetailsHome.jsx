@@ -93,6 +93,17 @@ const EventDetailsHome = () => {
               }}
             />
           </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={bgImageUrl}
+              alt="Fifth silde"
+              style={{
+                height: "300px", // Fixed height for all images
+                objectFit: "cover", // Stretch the image to fill the space
+              }}
+            />
+          </Carousel.Item>
         </Carousel>
       </Container>
 
