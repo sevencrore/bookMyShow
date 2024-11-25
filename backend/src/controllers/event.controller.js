@@ -149,6 +149,9 @@ router.get('/vendor/:vendorId', async (req, res) => {
 
 router.post("/create", upload.fields([
     { name: "img", maxCount: 1 },
+    { name: "img1", maxCount: 1 },
+    { name: "img2", maxCount: 1 },
+    { name: "img3", maxCount: 1 },
     { name: "bg_img", maxCount: 1 }
 ]), async (req, res) => {
     console.log(req.body);
@@ -158,13 +161,20 @@ router.post("/create", upload.fields([
 
         // Construct the image paths
         const imgPath = req.files["img"] ? `/uploads/event/${req.files["img"][0].filename}` : null;
+        const imgPath1 = req.files["img1"] ? `/uploads/event/${req.files["img1"][0].filename}` : null;
+        const imgPath2 = req.files["img2"] ? `/uploads/event/${req.files["img2"][0].filename}` : null;
+        const imgPath3 = req.files["img3"] ? `/uploads/event/${req.files["img3"][0].filename}` : null;
         const bgImgPath = req.files["bg_img"] ? `/uploads/event/${req.files["bg_img"][0].filename}` : null;
 
         // Save the event with img and bg_img paths
         const newEvent = new Event({
             category_id,vendor_id,location_description,location_lat,location_lang,title, description,host_name,city_id,
             img: imgPath,
-            bg_img: bgImgPath
+            img1: imgPath1,
+            img2: imgPath2,
+            img3: imgPath3,
+            bg_img: bgImgPath,
+
         });
 
         await newEvent.save();

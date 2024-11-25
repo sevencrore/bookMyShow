@@ -14,6 +14,9 @@ const Event = () => {
     title: "",
     host_name: "",
     img: null,
+    img1: null,
+    img2: null,
+    img3: null,
     bg_img: null,
     location_description: "",
     location_lat: "",
@@ -71,6 +74,15 @@ const Event = () => {
     // Append the image files if they exist
     if (input.img) {
       formData.append("img", input.img);
+    }
+    if (input.img1) {
+      formData.append("img1", input.img1);
+    }
+    if (input.img2) {
+      formData.append("img2", input.img2);
+    }
+    if (input.img3) {
+      formData.append("img3", input.img3);
     }
     if (input.bg_img) {
       formData.append("bg_img", input.bg_img);
@@ -247,7 +259,7 @@ const Event = () => {
             {/* Image Upload */}
             <div className="mb-3">
               <label htmlFor="img" className="form-label">
-                Upload Image
+                Upload Image 1
               </label>
               <input
                 type="file"
@@ -255,6 +267,42 @@ const Event = () => {
                 onChange={handleFileChange}
                 className="form-control"
                 id="img"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="img1" className="form-label">
+                Upload Image 2
+              </label>
+              <input
+                type="file"
+                name="img1"
+                onChange={handleFileChange}
+                className="form-control"
+                id="img1"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="img2" className="form-label">
+                Upload Image 3
+              </label>
+              <input
+                type="file"
+                name="img2"
+                onChange={handleFileChange}
+                className="form-control"
+                id="img2"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="img3" className="form-label">
+                Upload Image 4
+              </label>
+              <input
+                type="file"
+                name="img3"
+                onChange={handleFileChange}
+                className="form-control"
+                id="img3"
               />
             </div>
 

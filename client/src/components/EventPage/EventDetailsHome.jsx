@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner, Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 
 const EventDetailsHome = () => {
   const { eventId } = useParams();
@@ -41,87 +40,115 @@ const EventDetailsHome = () => {
 
   const imageUrl = `${process.env.REACT_APP_HOST}${event.img}`;
   const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
+  const img1Url = `${process.env.REACT_APP_HOST}${event.img1}`;
+  const img2Url = `${process.env.REACT_APP_HOST}${event.img2}`;
+  const img3Url = `${process.env.REACT_APP_HOST}${event.img3}`;
 
   return (
     <Container fluid className="p-0">
-      {/* Background and Small Image */}
-      <div
-        style={{
-          backgroundImage: `url(${bgImageUrl})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "40vh",
-          width: "100%",
-        }}
-      >
-        <img
-          src={imageUrl}
-          alt={event.title}
-          style={{
-            width: "100%",
-            height: "40vh",
-            objectFit: "cover",
-          }}
-        />
-      </div>
+      {/* Image Carousel */}
+      <Container className="my-4">
+        <Carousel interval={3000}> {/* Carousel auto-rotates every 3 seconds */}
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={imageUrl}
+              alt="Event Image"
+              style={{
+                height: "300px", // Fixed height for all images
+                objectFit: "cover", // Stretch the image to fill the space
+              }}
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={img1Url}
+              alt="First slide"
+              style={{
+                height: "300px", // Fixed height for all images
+                objectFit: "cover", // Stretch the image to fill the space
+              }}
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={img2Url}
+              alt="Second slide"
+              style={{
+                height: "300px", // Fixed height for all images
+                objectFit: "cover", // Stretch the image to fill the space
+              }}
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={img3Url}
+              alt="Third slide"
+              style={{
+                height: "300px", // Fixed height for all images
+                objectFit: "cover", // Stretch the image to fill the space
+              }}
+            />
+          </Carousel.Item>
+        </Carousel>
+      </Container>
 
-
+      {/* Circular Progress and Text */}
       <div className="d-flex align-items-center justify-content-start p-3">
-      {/* Circular Progress */}
-      <div
-        className="position-relative me-3"
-        style={{ width: "60px", height: "60px" }}
-      >
-        <svg
-          viewBox="0 0 50 50"
-          className="w-100 h-100"
-          style={{ transform: "rotate(-90deg)" }}
-        >
-          {/* Background circle */}
-          <circle
-            cx="25"
-            cy="25"
-            r="20"
-            fill="none"
-            stroke="#e6e6e6"
-            strokeWidth="5"
-          />
-          {/* Progress circle */}
-          <circle
-            cx="25"
-            cy="25"
-            r="20"
-            fill="none"
-            stroke="#ff0000"
-            strokeWidth="5"
-            strokeDasharray="126"
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-          />
-        </svg>
-        {/* Percentage in center */}
         <div
-          className="position-absolute top-50 start-50 translate-middle text-dark fw-bold"
-          style={{ fontSize: "0.8rem" }}
+          className="position-relative me-3"
+          style={{ width: "60px", height: "60px" }}
         >
-          {percentage}%
+          <svg
+            viewBox="0 0 50 50"
+            className="w-100 h-100"
+            style={{ transform: "rotate(-90deg)" }}
+          >
+            {/* Background circle */}
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke="#e6e6e6"
+              strokeWidth="5"
+            />
+            {/* Progress circle */}
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke="#ff0000"
+              strokeWidth="5"
+              strokeDasharray="126"
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+            />
+          </svg>
+          {/* Percentage in center */}
+          <div
+            className="position-absolute top-50 start-50 translate-middle text-dark fw-bold"
+            style={{ fontSize: "0.8rem" }}
+          >
+            {percentage}%
+          </div>
+        </div>
+
+        {/* Text beside the graph */}
+        <div className="d-flex align-items-center">
+          <p className="mb-0 fw-bold text-dark" style={{ fontSize: "1rem" }}>
+            {percentage}% full Keep going!
+          </p>
         </div>
       </div>
 
-      {/* Text beside the graph */}
-      <div className="d-flex align-items-center">
-        <p className="mb-0 fw-bold text-dark" style={{ fontSize: "1rem" }}>
-          {percentage}% full Keep going!
-        </p>
-      </div>
-    </div>
-
-
-
-      {/* Main Content */}
+      {/* Event Details */}
       <Container className="my-4">
         <Row>
-          {/* Event Details - Left Side */}
           <Col xs={12} className="mb-3">
             {/* Title and City */}
             <Row className="mb-3">
@@ -153,7 +180,7 @@ const EventDetailsHome = () => {
             </Row>
           </Col>
 
-          {/* Book Button - Right Side */}
+          {/* Book Button */}
           <Col xs={12} className="text-center mb-3">
             <Button
               style={{
