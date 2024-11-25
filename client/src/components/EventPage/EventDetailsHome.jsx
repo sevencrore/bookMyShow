@@ -3,11 +3,14 @@ import { useParams, useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 const EventDetailsHome = () => {
   const { eventId } = useParams();
   const history = useHistory();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const percentage = 85; // Progress value
+  const strokeDashoffset = 440 - (440 * percentage) / 100; // Calculate offset based on percentage
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: "cors" })
@@ -59,6 +62,59 @@ const EventDetailsHome = () => {
           }}
         />
       </div>
+
+
+      <div className="d-flex align-items-center justify-content-start p-3">
+      {/* Circular Progress */}
+      <div
+        className="position-relative me-3"
+        style={{ width: "60px", height: "60px" }}
+      >
+        <svg
+          viewBox="0 0 50 50"
+          className="w-100 h-100"
+          style={{ transform: "rotate(-90deg)" }}
+        >
+          {/* Background circle */}
+          <circle
+            cx="25"
+            cy="25"
+            r="20"
+            fill="none"
+            stroke="#e6e6e6"
+            strokeWidth="5"
+          />
+          {/* Progress circle */}
+          <circle
+            cx="25"
+            cy="25"
+            r="20"
+            fill="none"
+            stroke="#ff0000"
+            strokeWidth="5"
+            strokeDasharray="126"
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+          />
+        </svg>
+        {/* Percentage in center */}
+        <div
+          className="position-absolute top-50 start-50 translate-middle text-dark fw-bold"
+          style={{ fontSize: "0.8rem" }}
+        >
+          {percentage}%
+        </div>
+      </div>
+
+      {/* Text beside the graph */}
+      <div className="d-flex align-items-center">
+        <p className="mb-0 fw-bold text-dark" style={{ fontSize: "1rem" }}>
+          {percentage}% full Keep going!
+        </p>
+      </div>
+    </div>
+
+
 
       {/* Main Content */}
       <Container className="my-4">
