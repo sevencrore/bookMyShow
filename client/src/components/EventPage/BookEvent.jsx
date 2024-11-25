@@ -26,7 +26,11 @@ const BookEvent = ({ history }) => {
                     setSelectedMembers(initialMembers);
                     setLoading(false); // Set loading to false once data is fetched
                 } else {
+                    alert("There is no Slots for this Event");
                     console.error("Invalid data received:", data); // Debugging log
+                    const cityId = localStorage.getItem('selectedCityId');
+                const categoryId = localStorage.getItem('selectedCategoryId');
+                history.push(`/events/${categoryId}/${cityId}`);
                     setLoading(false);
                 }
             })
