@@ -48,7 +48,8 @@ const EventDetailsHome = () => {
     <Container fluid className="p-0">
       {/* Image Carousel */}
       <Container className="my-4">
-        <Carousel interval={3000}> {/* Carousel auto-rotates every 3 seconds */}
+        <Carousel interval={3000}>
+          {/* Carousel items */}
           <Carousel.Item>
             <img
               className="d-block w-100"
@@ -97,7 +98,7 @@ const EventDetailsHome = () => {
             <img
               className="d-block w-100"
               src={bgImageUrl}
-              alt="Fifth silde"
+              alt="Fifth slide"
               style={{
                 height: "300px", // Fixed height for all images
                 objectFit: "cover", // Stretch the image to fill the space
@@ -190,23 +191,6 @@ const EventDetailsHome = () => {
               </Col>
             </Row>
           </Col>
-
-          {/* Book Button */}
-          <Col xs={12} className="text-center mb-3">
-            <Button
-              style={{
-                backgroundColor: "#FF0000",
-                color: "#FFFFFF",
-                border: "none",
-                width: "100%",
-                padding: "15px",
-                fontSize: "18px",
-              }}
-              onClick={() => history.push(`/bookevent/${event._id}`)}
-            >
-              Book
-            </Button>
-          </Col>
         </Row>
       </Container>
 
@@ -219,8 +203,28 @@ const EventDetailsHome = () => {
           </Col>
         </Row>
       </Container>
+
+      {/* Sticky Book Button */}
+      <div className="sticky-bottom">
+        <Col xs={12} className="text-center mb-3">
+          <Button
+            style={{
+              backgroundColor: "#FF0000",
+              color: "#FFFFFF",
+              border: "none",
+              width: "100%",
+              padding: "15px",
+              fontSize: "18px",
+            }}
+            onClick={() => history.push(`/bookevent/${event._id}`)}
+          >
+            Book
+          </Button>
+        </Col>
+      </div>
     </Container>
   );
 };
+
 
 export default EventDetailsHome;
