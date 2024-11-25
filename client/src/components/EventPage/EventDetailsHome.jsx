@@ -10,7 +10,9 @@ const EventDetailsHome = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const percentage = 85; // Progress value
-  const strokeDashoffset = 440 - (440 * percentage) / 100; // Calculate offset based on percentage
+  const radius = 20; // Radius of the circle
+  const circumference = 2 * Math.PI * radius; // Circumference of the circle
+  const strokeDashoffset = circumference - (circumference * percentage) / 100; // Adjusting based on percentage
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_HOST}/event/${eventId}`, { mode: "cors" })

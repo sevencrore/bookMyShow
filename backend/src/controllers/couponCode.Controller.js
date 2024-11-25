@@ -39,7 +39,7 @@ router.get("/search/:name", async (req, res) => {
         // Search for the coupon
         const coupon = await CouponCode.findOne({ name: upperCaseName });
         if (!coupon) {
-            return res.status(404).json({ message: "Coupon not found." });
+            return res.status(200).json({ message: "Coupon not found." });
         }
 
         // Return the discount

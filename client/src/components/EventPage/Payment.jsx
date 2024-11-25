@@ -47,16 +47,21 @@ const PaymentPage = ({ location, history }) => {
   // Apply coupon logic
   const applyCoupon = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/coupan/search/${couponCode}`);
-      if (response.message !== 'Coupon not found.') {
+      const response = await axios.get(`${process.env.REACT_APP_HOST}/coupan/search/${couponCode}`);
+      
+      debugger;
+      if (response.data.message == 'Coupon not found.'){
+        alert('Coupon expired or not found!!!')
+      }
+      
+      else {
         const newDiscount = initialPrice * (response.data.discount / 100);
         const newDiscountedTotal = initialPrice - newDiscount;
         setDiscount(newDiscount);
         setDiscountedTotal(newDiscountedTotal);
-      } else {
-        setShowCouponError(true);
+      } 
       }
-    } catch (error) {
+     catch (error) {
       console.error('Error applying coupon:', error);
     }
   };
