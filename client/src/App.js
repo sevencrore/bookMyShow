@@ -45,7 +45,7 @@ import TermsAndConditions from './components/footer/TermsAndConditions';
 import FAQ from './components/footer/FAQ';
 import Login_Ref from './components/Login/LoginWithRef';
 import ReferAndEarn from './components/EventPage/ReferAndEarn';
-
+import Payment from './components/EventPage/Payment';
 
 function App() {
 
@@ -123,6 +123,7 @@ function App() {
         <Route path="/faq"><FAQ /></Route>
         <Route path="/Login_referral" component={Login_Ref} />
         <Route path="/ReferAndEarn"><ReferAndEarn/></Route>
+        <Route path="/booking/payment"><Payment/></Route>
 
       </Switch>
       <Footer />
