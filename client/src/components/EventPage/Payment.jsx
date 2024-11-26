@@ -89,8 +89,8 @@ const PaymentPage = ({ location, history }) => {
       ) : (
         <>
           <h2>Payment Details</h2>
-          <p><strong>Name:</strong> {bookingData.displayName}</p>
-          <p><strong>Email:</strong> {bookingData.email}</p>
+          {/* <p><strong>Name:</strong> {bookingData.displayName}</p>
+          <p><strong>Email:</strong> {bookingData.email}</p> */}
           <p><strong>price per Ticket:</strong> {bookingData.price/bookingData.number_of_members}</p>
           <p><strong>Number of tickets:</strong> {bookingData.number_of_members}</p>
           <p><strong>Total Price:</strong> ₹{bookingData.price}</p>
