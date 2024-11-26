@@ -194,39 +194,34 @@ const Locationpicker = ({ handleClose }) => {
             {/* View All Cities Button */}
             <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
     <button
-        className="btn btn-primary"
+        className="btn "
         style={{ ...styles.viewAllButton, backgroundColor: "#EC5E71" }}
         onClick={fetchCities} // Function to fetch the list of cities
     >
         View All Cities
     </button>
 
-    {showCities && ( // Conditionally render city list if cities are available
-       <div style={styles.citiesList}>
-       <ul className="list-unstyled d-flex flex-wrap gap-3">
-           {cities.length > 0 ? (
-               cities.map((city) => ( // Map through the cities array
-                   <li
-                       key={city._id}
-                       className="d-flex justify-content-center align-items-center col-3 col-sm-3 col-md-2"
-                       style={{
-                           cursor: 'pointer',
-                           textDecoration: 'none',
-                           fontSize: '16px',
-                           color: 'black',
-                           minWidth: '120px',
-                       }}
-                       onClick={() => handleSelectLocation(city.name, city._id)} // Select a city
-                   >
-                       {city.name}
-                   </li>
-               ))
-           ) : (
-               <p>No cities available</p> // Fallback message when no cities are found
-           )}
-       </ul>
-   </div>
-    )}
+    {showCities && (
+    <div className="container mt-2">
+        <div className="row g-4 justify-content-center mt-2"> {/* Bootstrap row with gap */}
+            {cities.length > 0 ? (
+                cities.map((city) => (
+                    <div
+                        key={city._id}
+                        className="col-3 col-sm-3 col-md-2 col-lg-1-5 d-flex flex-column align-items-center justify-content-center text-center mt-3"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleSelectLocation(city.name, city._id)}
+                    >
+                        <span className="fw-bold text-center">{city.name}</span>
+                    </div>
+                ))
+            ) : (
+                <p className="text-center">No cities available</p>
+            )}
+        </div>
+    </div>
+)}
+
 </div>
 
         </div>
@@ -235,7 +230,7 @@ const Locationpicker = ({ handleClose }) => {
 
 const styles = {
     viewAllButton: {
-        backgroundColor: "#007bff",
+        // backgroundColor: "#007bff",
         border: "none",
         padding: "10px 20px",
         color: "white",
@@ -247,8 +242,8 @@ const styles = {
     citiesList: {
         marginTop: "20px",
         display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
         gap: "15px",
+        gridTemplateColumns: "repeat(auto-fit, minmax(80px, 1fr))", // Adjusts to screen size
     },
     cityCard: {
         padding: "15px",

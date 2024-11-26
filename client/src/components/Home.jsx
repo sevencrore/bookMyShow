@@ -154,7 +154,7 @@ function HomePage() {
                 <Modal.Body>
                     <LocationPicker handleClose={handleClose} />
                 </Modal.Body>
-                <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
+                {/* <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
                     <button
                         className="btn btn"
                         style={{ ...styles.viewAllButton, backgroundColor: "#EC5E71" }} // Apply custom background color
@@ -175,7 +175,7 @@ function HomePage() {
                             )}
                         </div>
                     )}
-                </div>
+                </div> */}
 
             </Modal>
 
