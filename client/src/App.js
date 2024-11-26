@@ -83,7 +83,7 @@ function App() {
         <Modal.Body>
           <LocationPicker handleClose={handleClose} />
         </Modal.Body>
-        <p className="red">View All Cities</p>
+        {/* <p className="red">View All Cities</p> */}
       </Modal>
 
       <Navbar toggle={toggleLocationPickup} />
