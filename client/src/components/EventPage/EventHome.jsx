@@ -10,12 +10,21 @@ const Breadcrumb = () => {
         <nav aria-label="breadcrumb" className="mb-4">
             <ol className="breadcrumb" style={{ backgroundColor: 'transparent', padding: 0 }}>
                 {selectedCityName && (
-                    <li className="breadcrumb-item" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                    <li
+                        className="breadcrumb-item"
+                        style={{
+                            fontSize: '1.3rem',  // Equivalent to h4 size
+                            fontWeight: 'bold',
+                            paddingLeft: '20px', // Adds 20px padding on the left
+                            marginLeft: '20px',  // Adds 20px margin on the left
+                        }}
+                    >
                         {selectedCategoryName} in {selectedCityName}
                     </li>
                 )}
             </ol>
         </nav>
+
     );
 };
 
