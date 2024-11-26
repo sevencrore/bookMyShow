@@ -33,9 +33,9 @@ const EventList = ({ events }) => {
                             className="col-4 col-md-4 col-lg-3 text-decoration-none" // Responsive columns
                         >
                             <div
-                                className="p-2 rounded shadow-sm text-center h-100 d-flex flex-column"
+                                className="p-0 rounded shadow-sm text-center h-100 d-flex flex-column"
                                 style={{
-                                    backgroundColor: '#e2e0ea',
+                                    backgroundColor: '#f5f5f5',
                                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
