@@ -148,7 +148,7 @@ const Locationpicker = ({ handleClose }) => {
             </div>
 
             {/* Flexbox for Popular Locations */}
-            <ul className="city-list" style={{
+            <ul className="city-list row g-4 mt-2" style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
