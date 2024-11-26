@@ -38,74 +38,38 @@ const EventDetailsHome = () => {
   const locationLat = event.location_lat?.$numberDecimal || 0;
   const locationLng = event.location_lang?.$numberDecimal || 0;
 
-  const imageUrl = `${process.env.REACT_APP_HOST}${event.img}`;
-  const bgImageUrl = `${process.env.REACT_APP_HOST}${event.bg_img}`;
-  const img1Url = `${process.env.REACT_APP_HOST}${event.img1}`;
-  const img2Url = `${process.env.REACT_APP_HOST}${event.img2}`;
-  const img3Url = `${process.env.REACT_APP_HOST}${event.img3}`;
+  // Collect all image URLs dynamically
+  const imageUrls = [
+    `${process.env.REACT_APP_HOST}${event.img}`,
+    event.img1 ? `${process.env.REACT_APP_HOST}${event.img1}` : null,
+    event.img2 ? `${process.env.REACT_APP_HOST}${event.img2}` : null,
+    event.img3 ? `${process.env.REACT_APP_HOST}${event.img3}` : null,
+    event.bg_img ? `${process.env.REACT_APP_HOST}${event.bg_img}` : null,
+  ].filter((url) => url !== null); // Filter out null values
 
   return (
     <Container fluid className="p-0">
       {/* Image Carousel */}
-      <Container className="my-4">
-        <Carousel interval={3000}>
-          {/* Carousel items */}
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={imageUrl}
-              alt="Event Image"
-              style={{
-                height: "300px", // Fixed height for all images
-                objectFit: "cover", // Stretch the image to fill the space
-              }}
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={img1Url}
-              alt="First slide"
-              style={{
-                height: "300px", // Fixed height for all images
-                objectFit: "cover", // Stretch the image to fill the space
-              }}
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={img2Url}
-              alt="Second slide"
-              style={{
-                height: "300px", // Fixed height for all images
-                objectFit: "cover", // Stretch the image to fill the space
-              }}
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={img3Url}
-              alt="Third slide"
-              style={{
-                height: "300px", // Fixed height for all images
-                objectFit: "cover", // Stretch the image to fill the space
-              }}
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={bgImageUrl}
-              alt="Fifth slide"
-              style={{
-                height: "300px", // Fixed height for all images
-                objectFit: "cover", // Stretch the image to fill the space
-              }}
-            />
-          </Carousel.Item>
-        </Carousel>
+      <Container className="my-4 p-0" >
+        {imageUrls.length > 0 ? (
+          <Carousel interval={3000}>
+            {imageUrls.map((url, index) => (
+              <Carousel.Item key={index}>
+                <img
+                  className="d-block w-100"
+                  src={url}
+                  alt={`Slide ${index + 1}`}
+                  style={{
+                    height: "300px", // Fixed height for all images
+                    objectFit: "cover", // Stretch the image to fill the space
+                  }}
+                />
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        ) : (
+          <p>No images available for this event.</p>
+        )}
       </Container>
 
       {/* Circular Progress and Text */}
@@ -225,6 +189,5 @@ const EventDetailsHome = () => {
     </Container>
   );
 };
-
 
 export default EventDetailsHome;

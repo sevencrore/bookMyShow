@@ -6,10 +6,10 @@ const eventSchema = new mongoose.Schema({
     host_name: { type: String, required: true },  // Title of the event
     description: { type: String, required: true },  // Description of the event
     img: { type: String, required: true },  // URL for the event image
-    img1: { type: String, required: true },  // URL for the event image
-    img2: { type: String, required: true },  // URL for the event image
-    img3: { type: String, required: true },  // URL for the event image
-    bg_img: { type: String, required: true },  // URL for the event background image
+    img1: { type: String, required: false },  // Optional
+    img2: { type: String, required: false },  // Optional
+    img3: { type: String, required: false },  // Optional
+    bg_img: { type: String, required: false },  // Optional
     location_description: { type: String },  // Additional details about the location
 
     // New Fields
