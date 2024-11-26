@@ -3,22 +3,22 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import withAdminCheck from "./withAdminCheck";
 
-const Vendor = () => {
+const CouponAdd = () => {
     const history = useHistory();
     const userEmail = localStorage.getItem('username'); // Getting the logged-in user's email from localStorage
     const [input, setInput] = useState({
         name: "",
-        description: "",
+        discount: "",  // Make sure to store the discount as a string to handle number inputs
         email: userEmail,
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Make a POST request to your backend to create a new vendor
-            const res = await axios.post(`${process.env.REACT_APP_HOST}/vendor/create`, input);
-            alert("Vendor created successfully!"); // Show success message
-            history.push("/admin/dashboard"); // Redirect to the dashboard after successful vendor creation
+            // Make a POST request to your backend to create a new coupon
+            const res = await axios.post(`${process.env.REACT_APP_HOST}/coupan/create`, input);
+            alert("Coupon created successfully!"); // Show success message
+            history.push("/admin/dashboard"); // Redirect to the dashboard after successful coupon creation
         } catch (error) {
             alert(error.response?.data?.message || "An error occurred"); // Show error message if request fails
         }
@@ -26,15 +26,15 @@ const Vendor = () => {
 
     return (
         <>
-            <div className="container shadow "style={{ height: "500px" }}>
-                <h2 className="text-center my-3">Add New Vendor</h2>
+            <div className="container shadow" style={{ height: "500px" }} >
+                <h2 className="text-center my-3">Add New Coupon</h2>
                 <div className="col-md-12 my-3 d-flex items-center justify-content-center">
                     <div className="row">
                         <form onSubmit={handleSubmit}>
-                            {/* Vendor Name Input */}
+                            {/* Coupon Name Input */}
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">
-                                    Vendor Name
+                                    Coupon Name
                                 </label>
                                 <input
                                     type="text"
@@ -43,30 +43,30 @@ const Vendor = () => {
                                     onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
                                     className="form-control"
                                     id="name"
-                                    placeholder="Enter Vendor Name"
+                                    placeholder="Enter Coupon Name"
                                 />
                             </div>
 
-                            {/* Vendor Description Input */}
+                            {/* Discount Input */}
                             <div className="mb-3">
-                                <label htmlFor="description" className="form-label">
-                                    Description
+                                <label htmlFor="discount" className="form-label">
+                                    Discount (%) 
                                 </label>
-                                <textarea
-                                    name="description"
-                                    value={input.description}
+                                <input
+                                    type="number"
+                                    name="discount"
+                                    value={input.discount}
                                     onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
                                     className="form-control"
-                                    id="description"
-                                    rows="4"
-                                    placeholder="Enter Vendor Description"
+                                    id="discount"
+                                    placeholder="Enter Discount Percentage"
                                 />
                             </div>
 
                             {/* Submit Button */}
                             <div className="mb-3">
                                 <button type="submit" className="btn btn-primary btn-block">
-                                    Add Vendor
+                                    Add Coupon
                                 </button>
                             </div>
                         </form>
@@ -77,4 +77,4 @@ const Vendor = () => {
     );
 };
 
-export default withAdminCheck(Vendor);
+export default withAdminCheck(CouponAdd);

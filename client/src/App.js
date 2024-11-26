@@ -46,6 +46,7 @@ import FAQ from './components/footer/FAQ';
 import Login_Ref from './components/Login/LoginWithRef';
 import ReferAndEarn from './components/EventPage/ReferAndEarn';
 import Payment from './components/EventPage/Payment';
+import AddCoupon from './components/admin/AddCoupon';
 
 function App() {
 
@@ -109,6 +110,7 @@ function App() {
         <Route path="/admin/ListVendor"><ListVendor /></Route>
         <Route path="/admin/ListCity"><ListCity /></Route>
         <Route path="/admin/category"><Category /></Route>
+        <Route path="/admin/add-coupon"><AddCoupon /></Route>
         <Route path="/admin/Add_Image"><Add_Image /></Route>
         <Route path="/admin/vendor"><Vendor /></Route>
         <Route path="/admin/Add_city"><Add_City /></Route>

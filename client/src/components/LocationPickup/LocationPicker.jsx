@@ -193,14 +193,14 @@ const Locationpicker = ({ handleClose }) => {
 
             {/* View All Cities Button */}
             <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
-            <a
-    href="#"
-   
-    style={{ ...styles.viewAllButton, color: "#EC5E71", textDecoration: "none" }} // Style to make it look like a link
-    onClick={fetchCities} // Function to fetch the list of cities
->
-    View All Cities
-</a>
+                <a
+                    href="#"
+
+                    style={{ ...styles.viewAllButton, color: "#EC5E71", textDecoration: "none" }} // Style to make it look like a link
+                    onClick={fetchCities} // Function to fetch the list of cities
+                >
+                    View All Cities
+                </a>
 
 
                 {showCities && (

@@ -20,7 +20,7 @@ const Dashboard = () => {
  });
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 " style={{ height: "500px" }} >
       <h1 className="text-center mb-4">Admin Dashboard</h1>
       <div className="d-flex justify-content-center">
         <Link to="/admin/movies" className="btn btn-primary mx-3">
@@ -64,9 +64,14 @@ const Dashboard = () => {
         <Link to="/admin/userbookings" className="btn btn-primary mx-3">
           Users Bookings
         </Link>
+        <Link to="/admin/add-coupon" className="btn btn-primary mx-3">
+        Add Coupon
+        </Link>
+
         <Link to="/admin/logout" className="btn btn-primary mx-3">
           Admin Logout
         </Link>
+        
       </div>
 
     </div>
