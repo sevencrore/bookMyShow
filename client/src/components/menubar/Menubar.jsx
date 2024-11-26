@@ -22,6 +22,7 @@ export default function Menubar() {
                 .catch(e => console.error("Error fetching city details:", e));
         }
 
+        // Fetch categories from the backend
         fetch(`${process.env.REACT_APP_HOST}/eventCategory/`, { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => setCategories(data))
@@ -39,58 +40,48 @@ export default function Menubar() {
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '10px 20px',
-            backgroundColor: '#fff',
-            borderBottom: '1px solid #ddd',
+            backgroundColor: '#343a40', // Dark background similar to navbar
+            borderBottom: '1px solid #444', // Darker border to match navbar style
         },
         left: {
             display: 'flex',
             gap: '20px',
             flexWrap: 'wrap',
         },
-        right: {
-            display: 'flex',
-            gap: '20px',
-            fontWeight: 'bold',
-            color: '#333',
-        },
         categoryLink: {
             textDecoration: 'none',
-            color: '#333',
+            color: '#aaa', // Gray text by default
             padding: '8px 16px',
             borderRadius: '4px',
-            transition: 'background-color 0.3s',
-        },
-        categoryLinkHover: {
-            backgroundColor: '#f0f0f0',
+            transition: 'color 0.3s', // Smooth transition for color change
         },
         categoryTitle: {
             margin: 0,
             fontSize: '14px',
             fontWeight: '500',
-        },
-        menubarItem: {
-            cursor: 'pointer',
-            fontSize: '14px',
-            color: '#555',
-            transition: 'color 0.3s',
-        },
-        menubarItemHover: {
-            color: '#007BFF',
+            color: '#aaa', // Gray text by default
+            transition: 'color 0.3s', // Smooth transition for text color
         },
     };
 
     const CategoryList = ({ categories }) => {
+        // State to manage hovered category index
+        const [hoveredIndex, setHoveredIndex] = useState(null);
+
         return (
-            <div  className="d-none d-md-block"style={{...menuStyles.container, backgroundColor: '#615863' }}>
-               <div style={{ ...menuStyles.left, backgroundColor: '#fff' }}>
+            <div className="d-none d-md-block" style={{ ...menuStyles.container, backgroundColor: '#343a40' }}>
+                <div style={{ ...menuStyles.left }}>
                     {categories.map((category, index) => (
                         <Link
                             key={index}
-                            to={`/events/${category._id}/${city_id}`}
-                            style={menuStyles.categoryLink}
+                            to={`/events/${category._id}/${city_id}`} // Category link to the events page
+                            style={{
+                                ...menuStyles.categoryLink,
+                                color: hoveredIndex === index ? 'white' : '#aaa', // Change color on hover
+                            }}
                             onClick={() => handleCategoryClick(category._id, category.category_name)}
-                            onMouseEnter={(e) => (e.target.style.backgroundColor = menuStyles.categoryLinkHover.backgroundColor)}
-                            onMouseLeave={(e) => (e.target.style.backgroundColor = '')}
+                            onMouseEnter={() => setHoveredIndex(index)} // Set hovered category index
+                            onMouseLeave={() => setHoveredIndex(null)} // Reset hovered category index
                         >
                             <div>
                                 <h3 style={menuStyles.categoryTitle}>{category.category_name}</h3>
@@ -98,12 +89,6 @@ export default function Menubar() {
                         </Link>
                     ))}
                 </div>
-                {/* <div style={menuStyles.right}>
-                    <p style={menuStyles.menubarItem}>Liveshows</p>
-                    <p style={menuStyles.menubarItem}>Corporate</p>
-                    <p style={menuStyles.menubarItem}>Offers</p>
-                    <p style={menuStyles.menubarItem}>GiftCards</p>
-                </div> */}
             </div>
         );
     };
