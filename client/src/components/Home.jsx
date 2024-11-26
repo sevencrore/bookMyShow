@@ -193,7 +193,7 @@ function HomePage() {
                 ))}
             </Slider>
 
-            <h3 className="heading-3" style={{ paddingLeft: "10px" }}>
+            <h3 className="heading-3" style={{ paddingLeft: "15px",marginTop:"50px" }}>
                 Categories
             </h3>
 
@@ -237,9 +237,9 @@ const styles = {
     slider: {
         maxWidth: "100%",
         maxHeight: "324px",
-        marginRight: "20px",
-        marginLeft: "20px",
-        marginTop: "20px",
+        marginRight: "0px",
+        marginLeft: "0px",
+        marginTop: "0px",
     },
     sliderImage: {
         objectFit: "cover",
