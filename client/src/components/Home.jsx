@@ -98,7 +98,7 @@ function HomePage() {
                  onClick={() => handleCategoryClick(category._id, category.category_name)}
              >
                  {/* Card Container */}
-                 <div className="p-3 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#e2e0ea" }}>
+                 <div className="p-0 rounded shadow-sm text-center" style={{ width: '100%', backgroundColor: "#f5f5f5" }}>
                      {/* Image Container */}
                      <div
                          className="d-flex justify-content-center align-items-center mb-3"
@@ -172,7 +172,7 @@ function HomePage() {
                 <div className="clear"></div>
             </div>
 
-            <h3 className="heading-3">Categories</h3>
+            <h3 className="heading-3" style={{paddingLeft:'10px'}} >Categories</h3>
 
             <CategoryList categories={categories} />
 
@@ -250,7 +250,7 @@ const styles = {
         objectFit: 'cover',
         width: '100%',
         height: '350px',
-        borderRadius: '15px'
+        // borderRadius: '15px'
     },
 };
 export default HomePage;
