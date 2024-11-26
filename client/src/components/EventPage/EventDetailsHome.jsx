@@ -173,7 +173,7 @@ const EventDetailsHome = () => {
         <Col xs={12} className="text-center mb-3">
           <Button
             style={{
-              backgroundColor: "#FF0000",
+              backgroundColor: "#EC5E71",
               color: "#FFFFFF",
               border: "none",
               width: "100%",
