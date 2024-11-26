@@ -15,8 +15,8 @@ const Breadcrumb = () => {
                         style={{
                             fontSize: '1.3rem',  // Equivalent to h4 size
                             fontWeight: 'bold',
-                            paddingLeft: '20px', // Adds 20px padding on the left
-                            marginLeft: '20px',  // Adds 20px margin on the left
+                            paddingLeft: '07px', // Adds 20px padding on the left
+                            marginLeft: '07px',  // Adds 20px margin on the left
                         }}
                     >
                         {selectedCategoryName} in {selectedCityName}
