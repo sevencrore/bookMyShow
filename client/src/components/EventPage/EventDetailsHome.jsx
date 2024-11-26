@@ -50,7 +50,7 @@ const EventDetailsHome = () => {
   return (
     <Container fluid className="p-0">
       {/* Image Carousel */}
-      <Container className="my-4 p-0" >
+      <Container className=" mt-0 my-4 p-0" >
         {imageUrls.length > 0 ? (
           <Carousel interval={3000}>
             {imageUrls.map((url, index) => (
