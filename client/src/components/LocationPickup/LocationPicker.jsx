@@ -9,6 +9,24 @@ const Locationpicker = ({ handleClose }) => {
     const [locations, setLocations] = useState([]); // Local state for fetched locations
     const [loading, setLoading] = useState(false); // To handle loading state
     const [error, setError] = useState(''); // To handle any error during fetch
+    const [cityName, setCityName] = useState(null); // State to store city name
+    const [cities, setCities] = useState([]); // State to store all cities
+    const [showCities, setShowCities] = useState(false); // State to toggle city display
+
+
+    const fetchCities = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: "cors" });
+            const data = await response.json();
+
+            // Filter out cities with the 'order' field
+            const filteredCities = data.filter((city) => !city.order);
+            setCities(filteredCities);  // Only set cities that do not have an 'order' field
+            setShowCities(true);
+        } catch (error) {
+            console.error("Error fetching cities:", error);
+        }
+    };
 
     // Fetch locations from the API and set default city in localStorage if not already set
     useEffect(() => {
@@ -156,9 +174,9 @@ const Locationpicker = ({ handleClose }) => {
                         <li
                             key={city._id}
                             style={cityItemStyle}
-                            onClick={() => handleSelectLocation(city.name, city._id)}
+                            onClick={() => handleSelectLocation(city.name, city._id)} // Set the selected city on click
                         >
-                            <div className="city-image" style={{ marginBottom: '5px' }}>
+                            <div className="city-img-container" style={{ marginBottom: '5px' }}>
                                 <img
                                     src={`${process.env.REACT_APP_HOST}${city.image}`}
                                     alt={city.name}
@@ -173,42 +191,78 @@ const Locationpicker = ({ handleClose }) => {
                 })}
             </ul>
 
-            {/* All Cities Section */}
-            <ul className="city-list" style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                padding: 0,
-            }}>
-                {allCities.map((city) => {
-                    const isMobile = window.innerWidth <= 480;
-                    const cityItemStyle = {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        padding: '10px',
-                        borderBottom: '1px solid rgb(229, 229, 229)',
-                        background: 'rgb(255, 255, 255)',
-                        cursor: 'pointer',
-                        margin: '5px',
-                        width: isMobile ? 'calc(25% - 10px)' : 'calc(10% - 10px)', // 4 items per row on mobile, 10 items per row on desktop
-                        boxSizing: 'border-box',
-                        textAlign: 'center',
-                    };
+            {/* View All Cities Button */}
+            <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
+    <button
+        className="btn btn-primary"
+        style={{ ...styles.viewAllButton, backgroundColor: "#EC5E71" }}
+        onClick={fetchCities} // Function to fetch the list of cities
+    >
+        View All Cities
+    </button>
 
-                    return (
-                        <li
-                            key={city._id}
-                            style={cityItemStyle}
-                            onClick={() => handleSelectLocation(city.name, city._id)}
-                        >
-                            
-                        </li>
-                    );
-                })}
-            </ul>
+    {showCities && ( // Conditionally render city list if cities are available
+       <div style={styles.citiesList}>
+       <ul className="list-unstyled d-flex flex-wrap gap-3">
+           {cities.length > 0 ? (
+               cities.map((city) => ( // Map through the cities array
+                   <li
+                       key={city._id}
+                       className="d-flex justify-content-center align-items-center col-3 col-sm-3 col-md-2"
+                       style={{
+                           cursor: 'pointer',
+                           textDecoration: 'none',
+                           fontSize: '16px',
+                           color: 'black',
+                           minWidth: '120px',
+                       }}
+                       onClick={() => handleSelectLocation(city.name, city._id)} // Select a city
+                   >
+                       {city.name}
+                   </li>
+               ))
+           ) : (
+               <p>No cities available</p> // Fallback message when no cities are found
+           )}
+       </ul>
+   </div>
+    )}
+</div>
+
         </div>
     );
 };
+
+const styles = {
+    viewAllButton: {
+        backgroundColor: "#007bff",
+        border: "none",
+        padding: "10px 20px",
+        color: "white",
+        fontSize: "16px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "background-color 0.3s ease",
+    },
+    citiesList: {
+        marginTop: "20px",
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: "15px",
+    },
+    cityCard: {
+        padding: "15px",
+        backgroundColor: "#f8f9fa",
+        borderRadius: "5px",
+        boxShadow: "0px 2px 5px rgba(0,0,0,0.1)",
+        textAlign: "center",
+    },
+    cityName: {
+        margin: 0,
+        fontSize: "14px",
+        fontWeight: "bold",
+    },
+};
+
 
 export default Locationpicker;
