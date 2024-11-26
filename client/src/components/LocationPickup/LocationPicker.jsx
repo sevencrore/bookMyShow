@@ -174,7 +174,6 @@ const Locationpicker = ({ handleClose }) => {
             </ul>
 
             {/* All Cities Section */}
-            <h6>All Cities</h6>
             <ul className="city-list" style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -203,9 +202,7 @@ const Locationpicker = ({ handleClose }) => {
                             style={cityItemStyle}
                             onClick={() => handleSelectLocation(city.name, city._id)}
                         >
-                            <span style={{ fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
-                                {city.name}
-                            </span>
+                            
                         </li>
                     );
                 })}
