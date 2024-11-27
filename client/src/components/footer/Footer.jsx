@@ -16,7 +16,7 @@ export default function () {
             </div>
 
 
-            <div className="footer-image-grid flexed">
+            {/* <div className="footer-image-grid flexed">
                 <div className='grow'>
                     <img className='fluid-img' src={`${process.env.PUBLIC_URL}/customer-care.png`} />
                 </div>
@@ -28,7 +28,7 @@ export default function () {
                 </div>
 
 
-            </div>
+            </div> */}
 
 
             <div className="container-fluid space">
