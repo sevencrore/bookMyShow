@@ -10,6 +10,7 @@ export default function Menubar() {
     const city_id = localStorage.getItem('selectedCityId');
 
     useEffect(() => {
+        // Fetch city details if city_id exists
         if (city_id) {
             fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })
                 .then(res => res.json())
@@ -62,6 +63,9 @@ export default function Menubar() {
             color: '#aaa', // Gray text by default
             transition: 'color 0.3s', // Smooth transition for text color
         },
+        categoryTitleHover: {
+            color: 'white', // Change text color to white on hover
+        },
     };
 
     const CategoryList = ({ categories }) => {
@@ -69,11 +73,11 @@ export default function Menubar() {
         const [hoveredIndex, setHoveredIndex] = useState(null);
 
         return (
-            <div className="d-none d-md-block" style={{ ...menuStyles.container, backgroundColor: '#343a40' }}>
-                <div style={{ ...menuStyles.left }}>
+            <div className="d-none d-md-block" style={menuStyles.container}>
+                <div style={menuStyles.left}>
                     {categories.map((category, index) => (
                         <Link
-                            key={index}
+                            key={category._id} // Using unique category ID as key
                             to={`/events/${category._id}/${city_id}`} // Category link to the events page
                             style={{
                                 ...menuStyles.categoryLink,
@@ -84,7 +88,14 @@ export default function Menubar() {
                             onMouseLeave={() => setHoveredIndex(null)} // Reset hovered category index
                         >
                             <div>
-                                <h3 style={menuStyles.categoryTitle}>{category.category_name}</h3>
+                                <h3
+                                    style={{
+                                        ...menuStyles.categoryTitle,
+                                        ...(hoveredIndex === index ? menuStyles.categoryTitleHover : {}),
+                                    }}
+                                >
+                                    {category.category_name}
+                                </h3>
                             </div>
                         </Link>
                     ))}
