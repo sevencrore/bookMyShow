@@ -193,36 +193,38 @@ const Locationpicker = ({ handleClose }) => {
 
             {/* View All Cities Button */}
             <div className="d-flex flex-column align-items-center mt-3" style={{ marginBottom: '40px' }}>
-    <button
-        className="btn "
-        style={{ ...styles.viewAllButton, backgroundColor: "#EC5E71" }}
-        onClick={fetchCities} // Function to fetch the list of cities
-    >
-        View All Cities
-    </button>
+                <a
+                    href="#"
 
-    {showCities && (
-    <div className="container mt-2">
-        <div className="row g-4 justify-content-center mt-2"> {/* Bootstrap row with gap */}
-            {cities.length > 0 ? (
-                cities.map((city) => (
-                    <div
-                        key={city._id}
-                        className="col-3 col-sm-3 col-md-2 col-lg-1-5 d-flex flex-column align-items-center justify-content-center text-center mt-3"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleSelectLocation(city.name, city._id)}
-                    >
-                        <span className="fw-bold text-center">{city.name}</span>
+                    style={{ ...styles.viewAllButton, color: "#EC5E71", textDecoration: "none" }} // Style to make it look like a link
+                    onClick={fetchCities} // Function to fetch the list of cities
+                >
+                    View All Cities
+                </a>
+
+
+                {showCities && (
+                    <div className="container mt-2">
+                        <div className="row g-4 justify-content-center mt-2"> {/* Bootstrap row with gap */}
+                            {cities.length > 0 ? (
+                                cities.map((city) => (
+                                    <div
+                                        key={city._id}
+                                        className="col-3 col-sm-3 col-md-2 col-lg-1 d-flex flex-column align-items-center justify-content-center text-center mt-3"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => handleSelectLocation(city.name, city._id)}
+                                    >
+                                        <span className="fw-bold text-center">{city.name}</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-center">No cities available</p>
+                            )}
+                        </div>
                     </div>
-                ))
-            ) : (
-                <p className="text-center">No cities available</p>
-            )}
-        </div>
-    </div>
-)}
+                )}
 
-</div>
+            </div>
 
         </div>
     );

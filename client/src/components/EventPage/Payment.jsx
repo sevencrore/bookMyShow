@@ -49,7 +49,7 @@ const PaymentPage = ({ location, history }) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_HOST}/coupan/search/${couponCode}`);
       
-      debugger;
+      
       if (response.data.message == 'Coupon not found.'){
         alert('Coupon expired or not found!!!')
       }
