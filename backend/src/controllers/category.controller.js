@@ -49,26 +49,38 @@ router.post("/create", upload.single("image"), async (req, res) => {
 });
 
 
-router.post("/edit/:id", async (req, res) => {
+router.post("/edit/:id", upload.single("image"), async (req, res) => {
     try {
         const { id } = req.params; // Extract category ID from URL parameter
-        const { category_name, description,is_active } = req.body; // Get the name and description from the request body
+        console.log('req.file:', req.file);  // Logs uploaded file
+        const { category_name, description, is_active } = req.body; // Get the name and description from the request body
+        let imagePath = null;
 
-        // Validate that name is provided
+        // Check if an image was uploaded and construct the image path
+        if (req.file) {
+            imagePath = `/uploads/${req.file.filename}`;  // Construct the URL path for the image
+        }
+
+        // Validate that category_name is provided
         if (!category_name) {
             return res.status(400).json({ message: "Category name is required." });
         }
 
-        // Build the update object. Only include description if it's provided.
-        const updateData = { category_name ,is_active};
+        // Build the update object. Only include description and image if they are provided
+        const updateData = { category_name, is_active };
+
+        // Add description and imagePath to the update object if they exist
         if (description) {
             updateData.description = description;
         }
+        if (imagePath) {
+            updateData.image = imagePath;
+        }
 
-        // Find the category by ID and update its name and description (if provided)
+        // Find the category by ID and update its name, description, and image path (if provided)
         const category = await Category.findByIdAndUpdate(
             id,
-            updateData, // Update only the fields provided
+            updateData,  // Update only the fields provided
             { new: true } // Return the updated category
         );
 
