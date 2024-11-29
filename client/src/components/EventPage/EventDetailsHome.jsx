@@ -137,6 +137,12 @@ const EventDetailsHome = () => {
             {/* Location Description */}
             <Row className="mb-3">
               <Col>
+                <p><strong>Area:</strong> {event.area}</p>
+              </Col>
+            </Row>
+            {/* Location Description */}
+            <Row className="mb-3">
+              <Col>
                 <p><strong>Location Description:</strong> {event.location_description}</p>
               </Col>
             </Row>

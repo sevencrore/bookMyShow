@@ -378,6 +378,10 @@ const ListEvent = () => {
                       )?.name || "N/A"}
                     </p>
                     <p>
+                      <strong>Area:</strong>{" "}
+                      {selectedEvent.area}
+                    </p>
+                    <p>
                       <strong>Location:</strong>{" "}
                       {selectedEvent.location_description}
                     </p>

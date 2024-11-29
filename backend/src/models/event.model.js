@@ -11,7 +11,7 @@ const eventSchema = new mongoose.Schema({
     img3: { type: String, required: false },  // Optional
     bg_img: { type: String, required: false },  // Optional
     location_description: { type: String },  // Additional details about the location
-
+    area: { type: String, },
     // New Fields
     location_lat: { type: mongoose.Types.Decimal128 },  // Latitude of the event location
     location_lang: { type: mongoose.Types.Decimal128 },  // Longitude of the event location
