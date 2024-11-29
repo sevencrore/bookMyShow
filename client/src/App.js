@@ -51,6 +51,7 @@ import AddCoupon from './components/admin/AddCoupon';
 function App() {
 
   const [showModal, setShowModal] = useState(false);
+  const [showCity, setshowCity] = useState();
 
   function toggleLocationPickup(e) {
     let set = !showModal;
@@ -77,15 +78,31 @@ function App() {
   const app = initializeApp(firebaseConfig);
 
   const analytics = getAnalytics(app);
+
+  useEffect(() => {
+    // Check if selectedCityId exists in localStorage
+    const selectedCityId = localStorage.getItem('selectedCityId');
+    debugger;
+    if (selectedCityId) {
+      // If selectedCityId exists, set the modal visibility to false
+      setshowCity(false);
+    } else {
+      // If selectedCityId does not exist, show the modal
+      setshowCity(true);
+    }
+  }, []);
+
   return (
     <div className="App">
 
-      <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
-        <Modal.Body>
-          <LocationPicker handleClose={handleClose} />
-        </Modal.Body>
-        {/* <p className="red">View All Cities</p> */}
-      </Modal>
+      {showCity && (
+        <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Body>
+            <LocationPicker handleClose={handleClose} />
+          </Modal.Body>
+          {/* <p className="red">View All Cities</p> */}
+        </Modal>
+      )}
 
       <Navbar toggle={toggleLocationPickup} />
       <Switch>
@@ -124,8 +141,8 @@ function App() {
         <Route path="/terms-and-conditions"><TermsAndConditions /></Route>
         <Route path="/faq"><FAQ /></Route>
         <Route path="/Login_referral" component={Login_Ref} />
-        <Route path="/ReferAndEarn"><ReferAndEarn/></Route>
-        <Route path="/booking/payment"><Payment/></Route>
+        <Route path="/ReferAndEarn"><ReferAndEarn /></Route>
+        <Route path="/booking/payment"><Payment /></Route>
 
       </Switch>
       <Footer />
