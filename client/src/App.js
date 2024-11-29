@@ -95,14 +95,14 @@ function App() {
   return (
     <div className="App">
 
-      {showCity && (
+      {/* {showCity && ( */}
         <Modal size="xl" show={showModal} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Body>
             <LocationPicker handleClose={handleClose} />
           </Modal.Body>
           {/* <p className="red">View All Cities</p> */}
         </Modal>
-      )}
+      {/* )} */}
 
       <Navbar toggle={toggleLocationPickup} />
       <Switch>
