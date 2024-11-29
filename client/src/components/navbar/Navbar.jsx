@@ -100,7 +100,7 @@ export default function Navbar({ toggle }) {
                                         className="img-fluid"
                                         src={`${process.env.PUBLIC_URL}/down.png`}
                                         alt="Dropdown"
-                                        style={{ height: '20px' }}
+                                        style={{ height: '8px' }}
                                     />
                                 </p>
                             </div>
