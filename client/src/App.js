@@ -64,13 +64,13 @@ function App() {
 
 
   const firebaseConfig = {
-    apiKey: "AIzaSyALuLSKz7yNKbdk3t3kAHfs1ODnmygpdjQ",
-    authDomain: "bookmyshow-5a00b.firebaseapp.com",
-    projectId: "bookmyshow-5a00b",
-    storageBucket: "bookmyshow-5a00b.appspot.com",
-    messagingSenderId: "696353441992",
-    appId: "1:696353441992:web:3d682155c2f61541c77dfd",
-    measurementId: "G-MLVGY89LDF"
+    apiKey: "AIzaSyBEyQbWUzaIRLztGvsH0i_tsrGg9vegkGE",
+    authDomain: "partyjunction-13210.firebaseapp.com",
+    projectId: "partyjunction-13210",
+    storageBucket: "partyjunction-13210.firebasestorage.app",
+    messagingSenderId: "118295552864",
+    appId: "1:118295552864:web:4f5dafdd169154f100f405",
+    measurementId: "G-WZVWZGW7JS"
   };
 
 
