@@ -11,7 +11,7 @@ export default function Menubar() {
 
     useEffect(() => {
         // Fetch city details if city_id exists
-        if (city_id) {
+        if (!city_id) {
             fetch(`${process.env.REACT_APP_HOST}/city/`, { mode: 'cors' })
                 .then(res => res.json())
                 .then(data => {
