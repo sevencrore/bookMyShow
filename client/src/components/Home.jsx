@@ -32,6 +32,7 @@ function HomePage() {
         adaptiveHeight: false,
         autoplay: true,
         autoplaySpeed: 2599,
+        arrows: false
     };
 
     function handleClose() {
