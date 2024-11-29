@@ -7,13 +7,13 @@ export default function () {
 
         <div className="container-fluid footer">
 
-            <div className="flexed">
+            {/* <div className="flexed">
                 <img className="img" src={`${process.env.PUBLIC_URL}/vector.png`} />
                 <p className="footer-heading">List Your Show</p>
                 <p className="footer-sub">Got a show, event, activity or a great experience? Partner with us & get listed on PartyJunction</p>
                 <div className="grow"></div>
-                {/* <button className='btn btn-danger btn-red'>Contact Today</button> */}
-            </div>
+                <button className='btn btn-danger btn-red'>Contact Today</button>
+            </div> */}
 
 
             {/* <div className="footer-image-grid flexed">
@@ -31,18 +31,12 @@ export default function () {
             </div> */}
 
 
-            <div className="container-fluid space">
+            {/* <div className="container-fluid space">
                 <p className='heading-grey'>Top Events </p>
-
                 <p className='heading-grey2'>Pubs | DJ Nights | </p>
-
                 <br />
-                
-
-               
                 <p className='heading-grey'>HELP</p>
                 <p className='heading-grey2'>
-                
                 <Link to="/faq" className="text-primary mx-2">
                     FAQ
                 </Link>
@@ -55,9 +49,7 @@ export default function () {
                     Privacy Policy
                 </Link>
                 </p>
-                <br />
-                
-            </div>
+            </div> */}
 
 
             <div className="line-holder flexed">
